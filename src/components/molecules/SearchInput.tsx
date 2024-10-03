@@ -15,10 +15,7 @@ export const SearchInput = ({
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
-  };
-
-  const handleSearch = () => {
-    onSearch(query);
+    onSearch(event.target.value);
   };
 
   return (
@@ -30,7 +27,6 @@ export const SearchInput = ({
         onChange={handleInputChange}
         placeholder={placeholder}
       />
-      {/* <button onClick={handleSearch}>Search</button> */}
     </div>
   );
 };
