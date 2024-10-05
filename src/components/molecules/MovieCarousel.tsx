@@ -65,14 +65,11 @@ export const MovieCarousel: React.FC<MovieCarouselProps> = ({
             </span>
 
             {/* Movie Poster */}
-            <a
-              className="relative ml-auto hover:scale-105 duration-300 cursor-pointer"
-              href={movie.URL}
-            >
+            <a className="relative ml-auto" href={movie.URL}>
               <img
                 src={movie.posterUrl}
                 alt={movie.title}
-                className="w-40 object-cover rounded-lg"
+                className="w-40 object-cover hover:scale-105 duration-300 cursor-pointer rounded-lg"
               />
             </a>
           </div>
