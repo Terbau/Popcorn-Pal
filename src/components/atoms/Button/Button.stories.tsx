@@ -168,7 +168,7 @@ export const WithRightButtonAllSizes: Story = {
 
 export const AsLink: Story = {
   render: (props: ButtonProps) => (
-    <Button {...props} asChild>
+    <Button {...props} asChild className="w-fit">
       <a href="https://vg.no" target="_blank" rel="noreferrer">
         Click me to open a link
       </a>

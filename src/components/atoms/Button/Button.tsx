@@ -41,20 +41,24 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           className,
         )}
       >
-        {leftIcon && (
-          <span className={getIconSizeStyles(size, "left")}>{leftIcon}</span>
-        )}
-        {children}
-        {rightIcon && (
-          <span className={getIconSizeStyles(size, "right")}>{rightIcon}</span>
-        )}
+        <div className="flex flex-row items-center gap-1">
+          {leftIcon && (
+            <span className={getIconSizeStyles(size, "left")}>{leftIcon}</span>
+          )}
+          {children}
+          {rightIcon && (
+            <span className={getIconSizeStyles(size, "right")}>
+              {rightIcon}
+            </span>
+          )}
+        </div>
       </Comp>
     );
   },
 );
 
 export const buttonStyles = cva({
-  base: "flex flex-row items-center gap-1 rounded-md outline-none focus:ring-2",
+  base: "rounded-md outline-none focus:ring-2",
   variants: {
     variant: {
       primary: "text-slate-12",
@@ -73,7 +77,10 @@ export const buttonStyles = cva({
   },
 });
 
-const getIconSizeStyles = (size: VariantProps<typeof buttonStyles>["size"], iconAlignment: "right" | "left") => {
+const getIconSizeStyles = (
+  size: VariantProps<typeof buttonStyles>["size"],
+  iconAlignment: "right" | "left",
+) => {
   switch (size) {
     case "sm":
       return "[&>*]:w-4 [&>*]:h-4";
