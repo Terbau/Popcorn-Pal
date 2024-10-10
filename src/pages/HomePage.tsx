@@ -1,6 +1,6 @@
 import { MainLayout } from "../components/layouts/MainLayout";
 import { MovieCarousel } from "../components/molecules/MovieCarousel";
-import SlideShow from "../components/molecules/SlideShow";
+import { SlideShow } from "../components/molecules/SlideShow";
 
 export default function HomePage() {
   // Mock movie data
@@ -82,7 +82,7 @@ export default function HomePage() {
       <h1 className="text-white text-4xl font-semibold text-center">
         Home Page
       </h1>
-      <SlideShow></SlideShow>
+      <SlideShow />
       <div className=" flex items-center justify-center h-screen">
         <MovieCarousel
           movieList={mockMovies}
