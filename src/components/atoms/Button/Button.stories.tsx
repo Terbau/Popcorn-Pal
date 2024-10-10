@@ -148,6 +148,24 @@ export const WithBothIcons: Story = {
   ),
 };
 
+export const WithRightButtonAllSizes: Story = {
+  render: (props: ButtonProps) => (
+    <div className="flex flex-col gap-4">
+      {["sm", "md", "lg"].map((size) => (
+        <Button
+          key={size}
+          {...props}
+          size={size as "sm" | "md" | "lg"}
+          className="w-fit"
+          leftIcon={<Icon icon="fluent:settings-48-regular" />}
+        >
+          Click me
+        </Button>
+      ))}
+    </div>
+  ),
+};
+
 export const AsLink: Story = {
   render: (props: ButtonProps) => (
     <Button {...props} asChild>

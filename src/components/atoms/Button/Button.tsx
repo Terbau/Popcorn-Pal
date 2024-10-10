@@ -42,11 +42,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         )}
       >
         {leftIcon && (
-          <span className="[&>*]:w-6 [&>*]:h-6 mr-1 -ml-1">{leftIcon}</span>
+          <span className={getIconSizeStyles(size, "left")}>{leftIcon}</span>
         )}
         {children}
         {rightIcon && (
-          <span className="[&>*]:w-6 [&>*]:h-6 -mr-1 ml-1">{rightIcon}</span>
+          <span className={getIconSizeStyles(size, "right")}>{rightIcon}</span>
         )}
       </Comp>
     );
@@ -54,7 +54,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 export const buttonStyles = cva({
-  base: "flex flex-row items-center rounded-md outline-none focus:ring-2",
+  base: "flex flex-row items-center gap-1 rounded-md outline-none focus:ring-2",
   variants: {
     variant: {
       primary: "text-slate-12",
@@ -72,6 +72,19 @@ export const buttonStyles = cva({
     size: "md",
   },
 });
+
+const getIconSizeStyles = (size: VariantProps<typeof buttonStyles>["size"], iconAlignment: "right" | "left") => {
+  switch (size) {
+    case "sm":
+      return "[&>*]:w-4 [&>*]:h-4";
+    case "md":
+      return `[&>*]:w-6 [&>*]:h-6 ${iconAlignment === "left" ? "-ml-1" : "-mr-1"}`;
+    case "lg":
+      return `[&>*]:w-8 [&>*]:h-8 ${iconAlignment === "left" ? "-ml-2" : "-mr-2"}`;
+    default:
+      throw new Error("Invalid size");
+  }
+};
 
 const getColorStyles = (
   color: ButtonColor,
