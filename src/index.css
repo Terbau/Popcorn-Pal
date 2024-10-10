@@ -3,3 +3,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --color-brand-1: #0d0d19;
+    --color-brand-2: #151525;
+    --color-brand-3: #222047;
+    --color-brand-4: #2c2762;
+    --color-brand-5: #363071;
+    --color-brand-6: #403b7f;
+    --color-brand-7: #4d4893;
+    --color-brand-8: #5d58b2;
+    --color-brand-9: #6355d3;
+    --color-brand-10: #5751aa;
+    --color-brand-11: #abaaff;
+    --color-brand-12: #dddfff;
+  }
+
+  html {
+    @apply text-brand-12;
+  }
+}
