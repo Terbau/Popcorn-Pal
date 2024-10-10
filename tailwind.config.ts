@@ -35,15 +35,6 @@ export default {
     },
   ],
   theme: {
-    colors: {
-      slate: createColorScale("slate"),
-      blue: createColorScale("blue"),
-      red: createColorScale("red"),
-      green: createColorScale("green"),
-      indigo: createColorScale("indigo"),
-      gray: createColorScale("gray"),
-      brand: createCustomColorScale("brand"),
-    },
     extend: {
       backgroundColor: {
         primary: "#030d26",
@@ -51,6 +42,13 @@ export default {
       colors: {
         inherit: "inherit",
         current: "current",
+        slate: createColorScale("slate"),
+        blue: createColorScale("blue"),
+        red: createColorScale("red"),
+        green: createColorScale("green"),
+        indigo: createColorScale("indigo"),
+        gray: createColorScale("gray"),
+        brand: createCustomColorScale("brand"),
       },
     },
   },
