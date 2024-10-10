@@ -5,20 +5,19 @@ import { useParams } from "react-router-dom";
 import { movies } from "../lib/mock";
 
 export default function MovieDetailPage() {
-  const { movieId } = useParams(); // Use the correct parameter name
+  const { movieId } = useParams();
 
   useEffect(() => {
-    // Scroll to top when the component is mounted
     window.scrollTo(0, 0);
   }, []);
 
   if (!movieId) return <p>Not found 1</p>;
 
-  const parsedMovieId = Number.parseInt(movieId); // Parse the movieId to a number
-  if (isNaN(parsedMovieId)) return <p>Not found 2</p>; // Handle if it's not a number
+  const parsedMovieId = Number.parseInt(movieId);
+  if (isNaN(parsedMovieId)) return <p>Not found 2</p>;
 
   const movie = movies.find((movie) => movie.id === parsedMovieId);
-  if (!movie) return <p>Not found 3</p>; // Handle if no movie is found
+  if (!movie) return <p>Not found 3</p>;
 
   const [liked, setLiked] = useState(false);
 
@@ -45,7 +44,7 @@ export default function MovieDetailPage() {
                 icon="pajamas:star"
                 className="text-yellowdark-9 text-2xl"
               />
-              <p className=" text-xl text-white">{movie.rating} Rating</p>
+              <p className=" text-xl text-white">{movie.rating} / 10 Rating</p>
             </div>
             <div
               onClick={toggleLike}
@@ -65,7 +64,6 @@ export default function MovieDetailPage() {
 
         {/* Movie Poster and Description */}
         <section className="flex flex-col md:flex-row mt-4">
-          {/* Poster on the left */}
           <div className="shrink-0">
             <img
               src={movie.posterUrl}
