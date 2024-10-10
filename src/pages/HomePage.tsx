@@ -81,7 +81,7 @@ export default function HomePage() {
       <h1 className="text-white text-4xl font-semibold text-center">
         Home Page
       </h1>
-      <div id="testDiv" className=" flex items-center justify-center h-screen">
+      <div className=" flex items-center justify-center h-screen">
         <MovieCarousel
           movieList={mockMovies}
           componentHeader="Topp 10 filmer"

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { FC, useRef } from "react";
 
 interface Movie {
   id: number;
@@ -12,7 +12,7 @@ interface MovieCarouselProps {
   componentHeader: string;
 }
 
-export const MovieCarousel: React.FC<MovieCarouselProps> = ({
+export const MovieCarousel: FC<MovieCarouselProps> = ({
   movieList,
   componentHeader,
 }) => {
@@ -57,7 +57,7 @@ export const MovieCarousel: React.FC<MovieCarouselProps> = ({
         {movieList.map((movie, index) => (
           <div
             key={movie.id}
-            className=" flex-shrink-0 p-4 relative w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 snap-center"
+            className="shrink-0 p-4 relative w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 snap-center"
           >
             {/* Large Background Number */}
             <span className="text-9xl font-extrabold text-white drop-shadow-md absolute -top-4 left-0 z-10">
