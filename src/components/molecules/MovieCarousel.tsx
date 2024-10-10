@@ -55,7 +55,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
       {/* Left Scroll Button */}
       <button
         onClick={handleScrollLeft}
-        className="absolute left-4 top-1/2 transform -translate-y-1/3 text-white z-20 bg-green-9 pt-2 px-3 pb-3 rounded-full text-4xl hover:bg-green-7"
+        className="absolute left-4 top-1/2 transform -translate-y-1/3 text-white z-20 bg-brand-9 pt-2 px-3 pb-3 rounded-full text-4xl hover:bg-brand-7"
       >
         &#8249;
       </button>
@@ -90,7 +90,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
       {/* Right Scroll Button */}
       <button
         onClick={handleScrollRight}
-        className="absolute right-4 top-1/2 transform -translate-y-1/3 text-white z-20 bg-green-9 pt-2 px-3 pb-3  rounded-full text-4xl  hover:bg-green-7"
+        className="absolute right-4 top-1/2 transform -translate-y-1/3 text-white z-20 bg-brand-9 pt-2 px-3 pb-3  rounded-full text-4xl  hover:bg-brand-7"
       >
         &#8250;
       </button>
