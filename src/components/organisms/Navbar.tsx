@@ -28,14 +28,10 @@ export const Navbar = () => {
           onSearch={() => console.log("Search input change")}
         />
 
-        <Link to="/mylist" className="text-lg font-bold text-white font-roboto">
-          <Icon
-            icon="ooui:watchlist-rtl"
-            width="1.5em"
-            height="1.5em"
-            color="white"
-          />
-        </Link>
+        <Link
+          to="/mylist"
+          className="text-lg font-bold text-white font-roboto"
+        ></Link>
       </div>
     </nav>
   );

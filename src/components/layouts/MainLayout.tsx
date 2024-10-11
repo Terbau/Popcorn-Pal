@@ -17,7 +17,7 @@ export const MainLayout = ({
       <Navbar />
       <main
         className={clsx(
-          { "max-w-screen-lg mx-auto mt-32 mb-16": limitWidth },
+          { "max-w-screen-xl mx-auto mt-32 mb-16": limitWidth },
           "px-6"
         )}
       >
