@@ -21,7 +21,7 @@ export const SearchInput = ({
   return (
     <div className={className}>
       <input
-        className="font-bold text-lg py-1 px-3 bg-white rounded-lg"
+        className="font-bold text-lg py-1 px-3 bg-white rounded-lg font-roboto"
         type="text"
         value={query}
         onChange={handleInputChange}

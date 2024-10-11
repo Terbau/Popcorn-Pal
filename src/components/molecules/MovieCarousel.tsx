@@ -50,7 +50,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
 
   return (
     <div className="relative w-full overflow-hidden">
-      <h2 className="text-left text-3xl font-semibold underline text-white mb-4">
+      <h2 className="text-left text-3xl font-semibold underline text-white mb-4 mt-1">
         {componentHeader}
       </h2>
       {/* Left Scroll Button */}
@@ -60,10 +60,17 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
       >
         &#8249;
       </button>
+      {/* Right Scroll Button */}
+      <button
+        onClick={handleScrollRight}
+        className="absolute right-4 top-1/2 transform -translate-y-1/3 text-white z-20 bg-green-7 pt-2 px-3 pb-3  rounded-full text-4xl  hover:bg-green-9"
+      >
+        &#8250;
+      </button>
 
       {/* Scrollable Movie Container */}
       <div
-        className="flex overflow-x-auto w-full snap-x scroll-smooth"
+        className="flex overflow-x-auto w-full snap-x scroll-smooth pt-8 pl-12"
         ref={scrollContainerRef}
       >
         {movieList.map((movie, index) => (
