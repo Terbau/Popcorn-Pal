@@ -1,4 +1,4 @@
-import { Movie } from "../components/molecules/MovieCarousel";
+import type { Movie } from "./types";
 
 export const movies: Movie[] = [
   {

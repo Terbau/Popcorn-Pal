@@ -1,23 +1,6 @@
-import { FC, useRef } from "react";
-interface Comment {
-  user: string;
-  comment: string;
-  date: string;
-  id: number;
-}
-export interface Movie {
-  id: number;
-  title: string;
-  description: string;
-  releaseDate: string;
-  genre: string[];
-  rating: number;
-  director: string;
-  cast: string[];
-  runtime: string;
-  posterUrl: string;
-  comments: Comment[];
-}
+import { type FC, useRef } from "react";
+import type { Movie } from "../../lib/types";
+import { Link } from "react-router-dom";
 
 interface MovieCarouselProps {
   movieList: Movie[];
@@ -57,6 +40,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
       <button
         onClick={handleScrollLeft}
         className="absolute left-4 top-1/2 transform -translate-y-1/3 text-white z-20 bg-brand-9 pt-2 px-3 pb-3 rounded-full text-4xl hover:bg-brand-7"
+        type="button"
       >
         &#8249;
       </button>
@@ -84,13 +68,13 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
             </span>
 
             {/* Movie Poster */}
-            <a className="relative ml-auto" href={`#/movie/${movie.id}`}>
+            <Link className="relative ml-auto" to={`/movie/${movie.id}`}>
               <img
                 src={movie.posterUrl}
                 alt={movie.title}
                 className="w-40 object-cover hover:scale-105 duration-300 cursor-pointer rounded-lg"
               />
-            </a>
+            </Link>
           </div>
         ))}
       </div>
@@ -99,6 +83,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
       <button
         onClick={handleScrollRight}
         className="absolute right-4 top-1/2 transform -translate-y-1/3 text-white z-20 bg-brand-9 pt-2 px-3 pb-3  rounded-full text-4xl  hover:bg-brand-7"
+        type="button"
       >
         &#8250;
       </button>
