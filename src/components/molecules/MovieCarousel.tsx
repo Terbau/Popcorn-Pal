@@ -50,7 +50,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
 
   return (
     <div className="relative w-full overflow-hidden">
-      <h2 className="text-left text-3xl font-semibold underline text-white mb-4">
+      <h2 className="text-left text-3xl font-semibold underline text-white mb-4 mt-1">
         {componentHeader}
       </h2>
       {/* Left Scroll Button */}

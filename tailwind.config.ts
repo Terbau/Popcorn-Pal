@@ -50,6 +50,10 @@ export default {
         gray: createColorScale("gray"),
         brand: createCustomColorScale("brand"),
       },
+      fontFamily: {
+        playfair: ["Playfair Display", "serif"],
+        roboto: ["Roboto", "sans-serif"],
+      },
     },
   },
   plugins: [tailwindcssRadixColors],

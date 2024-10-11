@@ -6,11 +6,10 @@ import { movies } from "../lib/mock";
 export default function HomePage() {
   return (
     <MainLayout>
-      <h1 className="text-white text-4xl font-semibold text-center">
-        Home Page
-      </h1>
-      <SlideShow />
-      <div className=" flex items-center justify-center h-screen">
+      <div className="w-full">
+        <SlideShow />{" "}
+      </div>
+      <div className=" flex items-center justify-center">
         <MovieCarousel movieList={movies} componentHeader="Topp 10 filmer" />
       </div>
     </MainLayout>
