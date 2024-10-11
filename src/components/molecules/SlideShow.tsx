@@ -10,22 +10,22 @@ export function SlideShow() {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()]);
 
   const slides = [
-    { image: MeanGirls, text: "Mean Girls", rating: "8.0", year: "2004" },
-    { image: NoteBook, text: "The Notebook", rating: "7.9", year: "2007" },
-    { image: Twilight, text: "Twilight", rating: "5.2", year: "2017" },
+    { id: 1, image: MeanGirls, text: "Mean Girls", rating: "8.0", year: "2004" },
+    { id: 2, image: NoteBook, text: "The Notebook", rating: "7.9", year: "2007" },
+    { id: 3, image: Twilight, text: "Twilight", rating: "5.2", year: "2017" },
   ];
 
   return (
     <div className="overflow-hidden" ref={emblaRef}>
       <div className="flex">
         {slides.map((slide, index) => (
-          <div className="relative flex-shrink-0 w-full mb-6" key={index}>
+          <div className="relative flex-shrink-0 w-full h-[32rem]"key={slide.id}>
             <img
               src={slide.image}
               alt={`Slide ${index + 1}`}
-              className="w-full object-cover"
+              className="w-full object-cover h-[32rem]"
             />
-            <div className="absolute flex items-end z-10 bottom-0 left-0 bg-gradient-to-b from-transparent to-black text-white p-2 text-4xl w-full font-roboto">
+            <div className="absolute flex items-end z-10 bottom-0 left-0 bg-gradient-to-b from-transparent to-black text-white p-6 text-4xl w-full font-roboto">
               <div className="pl-2">
                 <p className="font-bold text-4xl">{slide.text}</p>
                 <div className="flex items-center space-x-2">

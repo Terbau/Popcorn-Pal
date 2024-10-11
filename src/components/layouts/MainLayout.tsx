@@ -5,11 +5,13 @@ import "@fontsource/playfair-display";
 
 interface MainLayoutProps {
   limitWidth?: boolean;
+  includePadding?: boolean;
   children: ReactNode;
 }
 
 export const MainLayout = ({
   limitWidth = true,
+  includePadding = true,
   children,
 }: MainLayoutProps) => {
   return (
@@ -17,8 +19,8 @@ export const MainLayout = ({
       <Navbar />
       <main
         className={clsx(
-          { "max-w-screen-xl mx-auto mt-32 mb-16": limitWidth },
-          "px-6"
+          { "max-w-screen-lg mx-auto mt-32 mb-16": limitWidth },
+          { "px-6": includePadding },
         )}
       >
         {children}
