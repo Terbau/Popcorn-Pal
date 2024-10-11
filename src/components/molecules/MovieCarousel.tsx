@@ -48,22 +48,23 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
       <button
         onClick={handleScrollRight}
         className="absolute right-4 top-1/2 transform -translate-y-1/3 text-white z-20 bg-green-7 pt-2 px-3 pb-3  rounded-full text-4xl  hover:bg-green-9"
+        type="button"
       >
         &#8250;
       </button>
 
       {/* Scrollable Movie Container */}
       <div
-        className="flex overflow-x-auto w-full snap-x scroll-smooth pt-8 pl-12"
+        className="flex gap-6 md:gap-12 overflow-x-auto w-full snap-x scroll-smooth pt-8"
         ref={scrollContainerRef}
       >
         {movieList.map((movie, index) => (
           <div
             key={movie.id}
-            className="shrink-0 p-4 relative w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 snap-center"
+            className="shrink-0 p-4 relative snap-center"
           >
             {/* Large Background Number */}
-            <span className="text-9xl font-extrabold text-white drop-shadow-md absolute -top-4 left-0 z-10">
+            <span className="text-8xl md:text-9xl font-extrabold text-white drop-shadow-md absolute -top-4 left-0 z-10">
               {index + 1}
             </span>
 
@@ -72,7 +73,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
               <img
                 src={movie.posterUrl}
                 alt={movie.title}
-                className="w-40 object-cover hover:scale-105 duration-300 cursor-pointer rounded-lg"
+                className="w-32 md:w-40 object-cover hover:scale-105 duration-300 cursor-pointer rounded-lg"
               />
             </Link>
           </div>

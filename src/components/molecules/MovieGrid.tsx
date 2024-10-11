@@ -7,7 +7,7 @@ interface MovieGridProps {
 
 export const MovieGrid = ({ movies }: MovieGridProps) => {
   return (
-    <ul className="flex flex-wrap gap-8 justify-center">
+    <ul className="grid grid-cols-3 sm:grid-4 md:grid-cols-6 gap-8 w-full">
       {movies.map((movie) => (
         <li key={movie.id}>
           <Link to={`/movie/${movie.id}`}>
