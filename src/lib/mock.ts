@@ -1,4 +1,6 @@
-export const movies = [
+import { Movie } from "../components/molecules/MovieCarousel";
+
+export const movies: Movie[] = [
   {
     id: 1,
     title: "Inception",
@@ -23,11 +25,13 @@ export const movies = [
       "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_QL75_UX280_CR0,0,280,414_.jpg",
     comments: [
       {
+        id: 1,
         user: "Ola Nordmann",
         comment: "A mind-bending journey through dreams. Nolan is a genius!",
         date: "18-07-2024",
       },
       {
+        id: 2,
         user: "Ole Nordmann",
         comment: "Complex, thought-provoking, and visually stunning.",
         date: "20-07-2024",
@@ -58,12 +62,14 @@ export const movies = [
       "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_QL75_UX280_CR0,0,280,414_.jpg",
     comments: [
       {
+        id: 3,
         user: "Ola Nordmann",
         comment:
           "Heath Ledger's Joker is unforgettable. Best superhero movie ever!",
         date: "20-07-2024",
       },
       {
+        id: 4,
         user: "Kari Nordmann",
         comment:
           "A brilliant performance by the entire cast. The pacing and story were top-notch.",
@@ -95,12 +101,14 @@ export const movies = [
       "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_QL75_UX280_CR0,0,280,414_.jpg",
     comments: [
       {
+        id: 5,
         user: "AstronomyFan123",
         comment:
           "A visually stunning film with a thought-provoking story. Nolan does it again!",
         date: "09-11-2024",
       },
       {
+        id: 6,
         user: "SpaceLover456",
         comment:
           "Beautiful and emotional. The science might be complex, but the human story is universal.",
@@ -129,12 +137,14 @@ export const movies = [
       "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_QL75_UX280_CR0,3,280,414_.jpg",
     comments: [
       {
+        id: 7,
         user: "TechGuru123",
         comment:
           "An absolute game changer in sci-fi cinema. The action sequences still hold up today!",
         date: "02-04-2024",
       },
       {
+        id: 8,
         user: "PhilosophyBuff",
         comment:
           "A deep, philosophical journey wrapped in a cyberpunk action thriller. It’s mind-blowing!",
@@ -165,12 +175,14 @@ export const movies = [
       "https://m.media-amazon.com/images/M/MV5BMDliMmNhNDEtODUyOS00MjNlLTgxODEtN2U3NzIxMGVkZTA1L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_QL75_UX280_CR0,0,280,414_.jpg",
     comments: [
       {
+        id: 9,
         user: "HistoryBuff",
         comment:
           "A powerful epic with incredible performances. Russell Crowe was born to play Maximus.",
         date: "07-05-2024",
       },
       {
+        id: 10,
         user: "ActionFan99",
         comment:
           "The fight scenes are amazing! Gladiator is a timeless classic.",
@@ -201,12 +213,14 @@ export const movies = [
       "https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_QL75_UX280_CR0,3,280,414_.jpg",
     comments: [
       {
+        id: 11,
         user: "MovieFan456",
         comment:
           "One of the most powerful films of all time. A story about hope and perseverance.",
         date: "15-10-2024",
       },
       {
+        id: 12,
         user: "FilmBuff2024",
         comment:
           "An emotional journey with amazing performances by Robbins and Freeman.",
@@ -238,12 +252,14 @@ export const movies = [
       "https://m.media-amazon.com/images/M/MV5BNzA5ZDNlZWMtM2NhNS00NDJjLTk4NDItYTRmY2EwMWZlMTY3XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_QL75_UX280_CR0,0,280,414_.jpg",
     comments: [
       {
+        id: 13,
         user: "TolkienFan",
         comment:
           "An epic conclusion to one of the greatest trilogies of all time. A visual and emotional masterpiece.",
         date: "19-12-2024",
       },
       {
+        id: 14,
         user: "FantasyLover123",
         comment:
           "The perfect ending to an incredible journey. The battles, the emotions, everything was perfect.",
@@ -272,12 +288,14 @@ export const movies = [
       "https://m.media-amazon.com/images/M/MV5BOTgyOGQ1NDItNGU3Ny00MjU3LTg2YWEtNmEyYjBiMjI1Y2M5XkEyXkFqcGc@._V1_QL75_UX280_CR0,3,280,414_.jpg",
     comments: [
       {
+        id: 15,
         user: "PhilosophyFan",
         comment:
           "A dark and thought-provoking exploration of identity and consumerism. One of Fincher's best.",
         date: "17-10-2024",
       },
       {
+        id: 16,
         user: "MovieBuff2024",
         comment:
           "Brad Pitt and Edward Norton are phenomenal in this psychological thriller. A cult classic for a reason.",
@@ -306,12 +324,14 @@ export const movies = [
       "https://m.media-amazon.com/images/M/MV5BNDYwNzVjMTItZmU5YS00YjQ5LTljYjgtMjY2NDVmYWMyNWFmXkEyXkFqcGc@._V1_QL75_UY414_CR3,0,280,414_.jpg",
     comments: [
       {
+        id: 17,
         user: "LifeIsLikeABoxOfChocolates",
         comment:
           "A heartwarming and emotional journey. Tom Hanks delivers a performance for the ages.",
         date: "08-07-2024",
       },
       {
+        id: 19,
         user: "MovieLover123",
         comment:
           "Forrest Gump is both touching and funny, with a beautiful message about life and love.",
@@ -343,12 +363,14 @@ export const movies = [
       "https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_QL75_UY414_CR2,0,280,414_.jpg",
     comments: [
       {
+        id: 20,
         user: "FilmBuff456",
         comment:
           "A masterpiece of modern cinema. Tarantino's script and direction are unparalleled.",
         date: "16-10-2024",
       },
       {
+        id: 21,
         user: "Cinephile2024",
         comment:
           "Incredible performances, iconic dialogues, and a brilliant non-linear storyline.",

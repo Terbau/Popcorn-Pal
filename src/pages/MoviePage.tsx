@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { movies } from "../lib/mock";
 
-export default function MovieDetailPage() {
+export default function MoviePage() {
   const { movieId } = useParams();
 
   useEffect(() => {
@@ -74,8 +74,8 @@ export default function MovieDetailPage() {
 
           <section>
             <aside className="w-1/3 shrink-0 bg-brand-3 h-fit rounded-xl max-w-60 float-right p-2 ml-4 mb-4 space-y-4">
-              {items.map(({ label, text }, index) => (
-                <p key={index} className="text-sm text-gray-500">
+              {items.map(({ label, text }) => (
+                <p key={label} className="text-sm text-gray-500">
                   <strong>{label}:</strong> {text}
                 </p>
               ))}
@@ -92,8 +92,8 @@ export default function MovieDetailPage() {
           <h2 className="text-2xl font-semibold mb-4 text-brand-11">
             Comments
           </h2>
-          {movie.comments.map((comment, index) => (
-            <div key={index} className="mb-4 p-4 bg-brand-4 rounded-lg">
+          {movie.comments.map((comment) => (
+            <div key={comment.id} className="mb-4 p-4 bg-brand-4 rounded-lg">
               <p className="text-lg font-semibold">{comment.user}</p>
               <p className="text-gray-700">{comment.comment}</p>
               <p className="text-sm text-gray-500">{comment.date}</p>

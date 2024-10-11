@@ -5,7 +5,7 @@ import ApolloClient, {
 } from "apollo-boost";
 import { ApolloProvider as BeforeApolloProvider } from "@apollo/react-hooks";
 import HomePage from "./pages/HomePage";
-import MovieDetailPage from "./pages/MovieDetailPage";
+import MovieDetailPage from "./pages/MoviePage";
 
 const cache = new InMemoryCache({});
 

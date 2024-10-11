@@ -1,6 +1,11 @@
 import { FC, useRef } from "react";
-
-interface Movie {
+interface Comment {
+  user: string;
+  comment: string;
+  date: string;
+  id: number;
+}
+export interface Movie {
   id: number;
   title: string;
   description: string;
@@ -11,11 +16,7 @@ interface Movie {
   cast: string[];
   runtime: string;
   posterUrl: string;
-  comments: {
-    user: string;
-    comment: string;
-    date: string;
-  }[];
+  comments: Comment[];
 }
 
 interface MovieCarouselProps {
