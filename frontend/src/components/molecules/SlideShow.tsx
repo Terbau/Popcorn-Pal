@@ -19,13 +19,13 @@ export function SlideShow() {
     <div className="overflow-hidden" ref={emblaRef}>
       <div className="flex">
         {slides.map((slide, index) => (
-          <div className="relative flex-shrink-0 w-full h-[32rem]"key={slide.id}>
+          <div className="relative flex-shrink-0 w-full h-[28rem]"key={slide.id}>
             <img
               src={slide.image}
               alt={`Slide ${index + 1}`}
               className="w-full object-cover h-[32rem]"
             />
-            <div className="absolute flex items-end z-10 bottom-0 left-0 bg-gradient-to-b from-transparent to-black text-white p-6 text-4xl w-full font-roboto">
+            <div className="absolute flex items-end z-10 bottom-0 left-0 bg-gradient-to-b from-transparent to-primary h-full text-white p-6 text-4xl w-full font-roboto">
               <div className="pl-2">
                 <p className="font-bold text-4xl">{slide.text}</p>
                 <div className="flex items-center space-x-2">

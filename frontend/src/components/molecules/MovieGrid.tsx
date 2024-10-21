@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import type { Movie } from "../../lib/types";
+import type { Movie } from "../../__generated__/types";
 
 interface MovieGridProps {
   movies: Movie[];

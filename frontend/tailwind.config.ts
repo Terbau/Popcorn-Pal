@@ -21,7 +21,6 @@ const createCustomColorScale = (name: string) => {
 
   // the default color should be the third step on the scale
   entries.push(["DEFAULT", `var(--color-${name}-3)`]);
-  console.log(Object.fromEntries(entries));
   return Object.fromEntries(entries);
 };
 
@@ -36,10 +35,8 @@ export default {
   ],
   theme: {
     extend: {
-      backgroundColor: {
-        primary: "#030d26",
-      },
       colors: {
+        primary: "#030d26",
         inherit: "inherit",
         current: "current",
         slate: createColorScale("slate"),

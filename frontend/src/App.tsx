@@ -1,34 +1,24 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
-import ApolloClient, {
-  InMemoryCache,
-  type NormalizedCacheObject,
-} from "apollo-boost";
-import { ApolloProvider as BeforeApolloProvider } from "@apollo/react-hooks";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+
 import HomePage from "./pages/HomePage";
 import MovieDetailPage from "./pages/MoviePage";
+import { Layout } from "./components/layouts/Layout";
 
-const cache = new InMemoryCache({});
-
-const client = new ApolloClient<NormalizedCacheObject>({
+const client = new ApolloClient({
   uri: "http://localhost:4000",
-  cache: cache,
-  clientState: {
-    defaults: {},
-  },
+  cache: new InMemoryCache(),
 });
-
-// This is a workaround for typescript screaming at our faces because of apollo boost
-// not configuring types properly
-// biome-ignore lint/suspicious/noExplicitAny: <hopelessly bad typescript support from apollo boost>
-const ApolloProvider = BeforeApolloProvider as any;
 
 function App() {
   return (
     <ApolloProvider client={client}>
       <HashRouter>
         <Routes>
-          <Route path="/" Component={HomePage} />
-          <Route path="/movie/:movieId" Component={MovieDetailPage} />
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="/movie/:movieId" element={<MovieDetailPage />} />
+          </Route>
         </Routes>
       </HashRouter>
     </ApolloProvider>
