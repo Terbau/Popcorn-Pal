@@ -2,7 +2,7 @@
 
 ## Description
 
-Popcorn Pal is a website designed to help you decide which movie or series to watch. It offers information on the top 10 ranked films and provides options to filter by genre. When you select a movie, you’ll see details on its rating, duration, and a brief description of its content. If you're having trouble deciding, you can use the "random" button for a suggestion.
+Popcorn Pal is a website designed to help you decide which movie or series to watch. It offers information on the top 10 ranked films and provides options to filter by genres. When you select a movie, you’ll see details on its rating, duration, and a brief description of its content. If you're having trouble deciding, you can use the "random" button for a suggestion.
 
 ## Developer Information
 

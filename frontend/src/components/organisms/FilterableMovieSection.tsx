@@ -3,11 +3,14 @@ import {
   FilterBar,
   type FilterBarItem,
 } from "../molecules/FilterBar/FilterBar";
-import { movies } from "../../lib/mock";
 import { MovieGrid } from "../molecules/MovieGrid";
 import type { Movie } from "../../lib/types";
 
-export const FilterableMovieSection = () => {
+interface FilterableMovieSectionProps {
+  movies: Movie[];
+}
+
+export const FilterableMovieSection = ({ movies }: FilterableMovieSectionProps) => {
   const [filters, setFilters] = useState<FilterBarItem[]>([
     { label: "Adventure", value: "Adventure", isSelected: false },
     { label: "Action", value: "Action", isSelected: false },
@@ -34,11 +37,11 @@ export const FilterableMovieSection = () => {
       />
       <MovieGrid
         movies={movies.filter((movie: Movie) =>
-          movie.genre.some((genre) => {
+          movie.genres.some((genres) => {
             return filters.some(
-              (filter) => filter.isSelected && filter.value === genre,
+              (filter) => filter.isSelected && filter.value === genres
             );
-          }),
+          })
         )}
       />
     </section>

@@ -10,6 +10,7 @@ import MovieDetailPage from "./pages/MoviePage";
 const cache = new InMemoryCache({});
 
 const client = new ApolloClient<NormalizedCacheObject>({
+  uri: "http://localhost:4000",
   cache: cache,
   clientState: {
     defaults: {},

@@ -24,7 +24,7 @@ export default function MoviePage() {
   const items = [
     { label: "Director", text: movie.director },
     { label: "Runtime", text: movie.runtime },
-    { label: "Genre", text: movie.genre.join(", ") },
+    { label: "genres", text: movie.genres.join(", ") },
     { label: "Cast", text: movie.cast.join(", ") },
   ];
 
@@ -95,7 +95,7 @@ export default function MoviePage() {
           {movie.comments.map((comment) => (
             <div key={comment.id} className="mb-4 p-4 bg-brand-4 rounded-lg">
               <p className="text-lg font-semibold">{comment.user}</p>
-              <p className="text-gray-700">{comment.comment}</p>
+              <p className="text-gray-700">{comment.content}</p>
               <p className="text-sm text-gray-500">{comment.date}</p>
             </div>
           ))}
