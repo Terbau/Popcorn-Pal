@@ -1,0 +1,25 @@
+type Comment {
+  id: Int!
+  user: String
+  content: String
+  date: String
+}
+
+type Movie {
+  id: Int!
+  title: String!
+  posterUrl: String!
+  description: String
+  releaseDate: String
+  genres: [String]
+  rating: Float
+  director: String
+  cast: [String]
+  runtime: String
+  comments: [Comment!]
+}
+
+type Query {
+  movies: [Movie!]
+  movie(id: Int!): Movie
+}

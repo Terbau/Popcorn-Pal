@@ -2,7 +2,7 @@
 
 ## Description
 
-Popcorn Pal is a website designed to help you decide which movie or series to watch. It offers information on the top 10 ranked films and provides options to filter by genre. When you select a movie, you’ll see details on its rating, duration, and a brief description of its content. If you're having trouble deciding, you can use the "random" button for a suggestion.
+Popcorn Pal is a website designed to help you decide which movie or series to watch. It offers information on the top 10 ranked films and provides options to filter by genres. When you select a movie, you’ll see details on its rating, duration, and a brief description of its content. If you're having trouble deciding, you can use the "random" button for a suggestion.
 
 ## Developer Information
 
@@ -20,18 +20,12 @@ Node.js v22.5+
 npm v10.8+.
 ```
 
-## Installation
+## Installation and running the project
 
-```
-npm install
-```
+This project is split into two separate subprojects, `frontend` and `backend`. These are individual packages that must be run from their respective folders. Follow their README's for more instructions on how to install and run each of them.
 
-## Running the application
-
-```
-npm run dev
-
-```
+- [Frontend Instructions](./frontend/README.md)  
+- [Backend Instructions](./backend/README.md)
 
 ## Decisions made so far during the project
 
