@@ -7,7 +7,10 @@
     "lint:fix": "eslint --fix .",
     "compile": "tsc && cpx src/**/*.graphql dist/",
     "start": "npm run compile && cpx src/**/*.graphql dist/ && node ./dist/index.js",
-    "generate": "graphql-codegen && cp -r ./src/__generated__ ../frontend/src/__generated__"
+    "generate": "graphql-codegen && cp -r ./src/__generated__ ../frontend/src/__generated__",
+    "migrate": "dotenv -e .env -- node --loader ts-node/esm --experimental-specifier-resolution=node ./tools/migrator/index.ts",
+    "migrate-down": "dotenv -e .env -- node --loader ts-node/esm --experimental-specifier-resolution=node ./tools/migrator/index.ts -- down",
+    "migrate-down-all": "dotenv -e .env -- node --loader ts-node/esm --experimental-specifier-resolution=node ./tools/migrator/index.ts -- down-all"
   },
   "keywords": [],
   "author": "",
@@ -16,14 +19,20 @@
   "type": "module",
   "dependencies": {
     "@apollo/server": "^4.11.0",
-    "graphql": "^16.9.0"
+    "commander": "^12.1.0",
+    "dotenv-cli": "^7.4.2",
+    "graphql": "^16.9.0",
+    "kysely": "^0.27.4",
+    "pg": "^8.13.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
     "@graphql-codegen/cli": "^5.0.3",
-    "@types/node": "^22.7.7",
+    "@types/node": "^22.8.1",
+    "@types/pg": "^8.11.10",
     "cpx": "^1.5.0",
     "eslint": "^9.13.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.11.0"
   }
