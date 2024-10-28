@@ -9,5 +9,5 @@
     "esModuleInterop": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.graphql"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.graphql", "tools/**/*.ts"],
 }
