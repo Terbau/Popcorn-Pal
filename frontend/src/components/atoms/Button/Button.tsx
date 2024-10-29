@@ -58,7 +58,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 export const buttonStyles = cva({
-  base: "rounded-md outline-none focus:ring-2",
+  base: "rounded-md outline-none cursor-pointer focus:ring-2",
   variants: {
     variant: {
       primary: "text-slate-12",

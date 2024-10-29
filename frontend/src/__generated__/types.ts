@@ -37,13 +37,58 @@ export type Movie = {
   title: Scalars['String']['output'];
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  signIn?: Maybe<User>;
+  signOut: Scalars['Boolean']['output'];
+  signUp?: Maybe<User>;
+};
+
+
+export type MutationSignInArgs = {
+  input: SignInInput;
+};
+
+
+export type MutationSignUpArgs = {
+  input: SignUpInput;
+};
+
 export type Query = {
   __typename?: 'Query';
+  getUser?: Maybe<User>;
   movie?: Maybe<Movie>;
   movies?: Maybe<Array<Movie>>;
 };
 
 
+export type QueryGetUserArgs = {
+  id?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type QueryMovieArgs = {
   id: Scalars['Int']['input'];
+};
+
+export type SignInInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+export type SignUpInput = {
+  email: Scalars['String']['input'];
+  firstName: Scalars['String']['input'];
+  lastName: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+export type User = {
+  __typename?: 'User';
+  createdAt?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  firstName?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  lastName?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
 };

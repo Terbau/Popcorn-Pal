@@ -5,9 +5,9 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "compile": "tsc && cpx src/**/*.graphql dist/",
-    "start": "npm run compile && cpx src/**/*.graphql dist/ && node ./dist/index.js",
-    "generate": "graphql-codegen && cp -r ./src/__generated__ ../frontend/src/__generated__",
+    "compile": "tsc && cpx src/**/*.graphql dist/src/",
+    "start": "dotenv -e .env -- sh -c 'npm run compile && node ./dist/src/index.js'",
+    "generate": "graphql-codegen && rm -rf ../frontend/src/__generated__ && cp -r ./src/__generated__ ../frontend/src/__generated__",
     "migrate": "dotenv -e .env -- node --loader ts-node/esm --experimental-specifier-resolution=node ./tools/migrator/index.ts",
     "migrate-down": "dotenv -e .env -- node --loader ts-node/esm --experimental-specifier-resolution=node ./tools/migrator/index.ts -- down",
     "migrate-down-all": "dotenv -e .env -- node --loader ts-node/esm --experimental-specifier-resolution=node ./tools/migrator/index.ts -- down-all"
@@ -19,15 +19,24 @@
   "type": "module",
   "dependencies": {
     "@apollo/server": "^4.11.0",
+    "@node-rs/argon2": "^2.0.0",
+    "@oslojs/crypto": "^1.0.1",
+    "@oslojs/encoding": "^1.1.0",
     "commander": "^12.1.0",
+    "cookie": "^1.0.1",
+    "cors": "^2.8.5",
     "dotenv-cli": "^7.4.2",
+    "express": "^4.21.1",
     "graphql": "^16.9.0",
+    "http": "^0.0.1-security",
     "kysely": "^0.27.4",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
     "@graphql-codegen/cli": "^5.0.3",
+    "@types/cors": "^2.8.17",
     "@types/node": "^22.8.1",
     "@types/pg": "^8.11.10",
     "cpx": "^1.5.0",

@@ -4,8 +4,19 @@ import { Button } from "../atoms/Button/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import "@fontsource/playfair-display"; // Importerer Playfair Display fonten
 import "@fontsource/roboto"; // Importerer Roboto fonten
+import { gql, useMutation } from "@apollo/client";
+import { useAuth } from "../../lib/context/authContext";
+
+const SIGN_OUT = gql`
+  mutation SignOut {
+    signOut
+  }
+`;
 
 export const Navbar = () => {
+  const [logout] = useMutation(SIGN_OUT);
+  const { currentUser } = useAuth();
+
   return (
     <nav className="fixed bg-brand-3 w-full h-20 flex flex-row px-5 py-2 z-50 items-center gap-12 font-roboto">
       <div className="flex items-center space-x-4 font-playfair">
@@ -27,6 +38,19 @@ export const Navbar = () => {
           className="ml-auto hidden md:block"
           onSearch={() => console.log("Search input change")}
         />
+
+        {currentUser ? (
+          <>
+            <span>Logged in as: {currentUser?.email}</span>
+            <Button asChild variant="secondary" onClick={() => logout()}>
+              Sign Out
+            </Button>
+          </>
+        ) : (
+          <Button asChild variant="secondary">
+            <Link to="/signin">Sign In</Link>
+          </Button>
+        )}
       </div>
     </nav>
   );
