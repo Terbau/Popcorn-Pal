@@ -134,14 +134,14 @@ export const convertMovie = (obj: ImdbRawLookupResultEntry): ImdbItem => {
       movieMeterRank: obj.title.movieMeterCurrentRank,
       votes: obj.starbar.votes,
     },
-    creators: obj.title.credits.director.map((d) => ({
+    creators: obj.title.credits.director?.map((d) => ({
       id: d.href.split("/")[2],
       name: d.name,
-    })),
-    stars: obj.title.credits.star.map((s) => ({
+    })) ?? [],
+    stars: obj.title.credits.star?.map((s) => ({
       id: s.href.split("/")[2],
       name: s.name,
-    })),
+    })) ?? [],
     poster: convertPoster(obj.title.poster),
     type: "movie",
   };
@@ -160,7 +160,7 @@ export const convertSeries = (obj: ImdbRawLookupResultEntry): ImdbItem => {
     yearReleased: yearReleased ? Number.parseInt(yearReleased) : null,
     yearEnded: yearEnded ? Number.parseInt(yearEnded) : null,
     releasedAt: new Date(obj.title.metadata.release),
-    numberOfEpisodes: obj.title.metadata.numberOfEpisodes,
+    numberOfEpisodes: obj.title.metadata.numberOfEpisodes ?? 0,
     genres: obj.title.metadata.genres,
     certificate: obj.title.metadata.certificate,
     stats: {
@@ -168,14 +168,14 @@ export const convertSeries = (obj: ImdbRawLookupResultEntry): ImdbItem => {
       movieMeterRank: obj.title.movieMeterCurrentRank,
       votes: obj.starbar.votes,
     },
-    creators: obj.title.credits.creator.map((d) => ({
+    creators: obj.title.credits.creator?.map((d) => ({
       id: d.href.split("/")[2],
       name: d.name,
-    })),
-    stars: obj.title.credits.star.map((s) => ({
+    })) ?? [],
+    stars: obj.title.credits.star?.map((s) => ({
       id: s.href.split("/")[2],
       name: s.name,
-    })),
+    })) ?? [],
     poster: convertPoster(obj.title.poster),
     type: "series",
   };

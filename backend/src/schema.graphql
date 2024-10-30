@@ -19,7 +19,35 @@ type Movie {
   comments: [Comment!]
 }
 
+type User {
+  id: String!
+  email: String
+  firstName: String
+  lastName: String
+  createdAt: String
+  updatedAt: String
+}
+
 type Query {
   movies: [Movie!]
   movie(id: Int!): Movie
+  getUser(id: String): User
+}
+
+input SignUpInput {
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  signUp(input: SignUpInput!): User
+  signIn(input: SignInInput!): User
+  signOut: Boolean!
 }

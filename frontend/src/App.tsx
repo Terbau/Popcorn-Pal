@@ -1,27 +1,66 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+  ApolloLink,
+  concat,
+} from "@apollo/client";
 
 import HomePage from "./pages/HomePage";
 import MovieDetailPage from "./pages/MoviePage";
 import { Layout } from "./components/layouts/Layout";
+import SignUpPage from "./pages/SignUpPage";
+import SignInPage from "./pages/SignInPage";
+import { AuthProvider } from "./lib/context/authContext";
+
+import { sessionVar } from "./lib/reactiveVars";
+
+const link = new HttpLink({
+  uri: "http://localhost:4000",
+  credentials: "include",
+});
+
+// Middleware to update sessionVar with the session cookie
+const middleware = new ApolloLink((operation, forward) => {
+  return forward(operation).map((response) => {
+    const cookies = document.cookie.split("; ");
+    const sessionCookie = cookies.find((cookie) =>
+      cookie.startsWith("session="),
+    );
+
+    const sessionValue = sessionCookie
+      ? sessionCookie.split("=")[1]
+      : undefined;
+
+    sessionVar(sessionValue);
+
+    return response;
+  });
+});
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000",
   cache: new InMemoryCache(),
+  link: concat(middleware, link),
 });
 
 function App() {
   return (
-    <ApolloProvider client={client}>
+    <AuthProvider>
       <HashRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="/movie/:movieId" element={<MovieDetailPage />} />
-          </Route>
-        </Routes>
+        <ApolloProvider client={client}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<HomePage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/signin" element={<SignInPage />} />
+              <Route path="/movie/:movieId" element={<MovieDetailPage />} />
+            </Route>
+          </Routes>
+        </ApolloProvider>
       </HashRouter>
-    </ApolloProvider>
+    </AuthProvider>
   );
 }
 
