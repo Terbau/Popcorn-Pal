@@ -28,11 +28,18 @@ type User {
   updatedAt: String
 }
 
+type SearchResult {
+  movies: [Movie!]
+  externalMovies: [Movie!]
+  totalResults: Int
+}
+
 type Query {
   movies: [Movie!]
   movie(id: Int!): Movie
   getUser(id: String): User
   randomMovie: Movie!
+  searchMovies(query: String!): SearchResult
 }
 
 input SignUpInput {

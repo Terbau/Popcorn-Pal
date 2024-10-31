@@ -22,6 +22,7 @@ import { randomMovie } from "./resolvers/queries/randomMovie.js"
 import { signUp } from "./resolvers/mutations/signUp.js";
 import { signIn } from "./resolvers/mutations/signIn.js";
 import { signOut } from "./resolvers/mutations/signOut.js";
+import { searchMovies } from "./resolvers/queries/searchMovies.js";
 
 const typeDefs = readFileSync(
   join(dirname(fileURLToPath(import.meta.url)), "schema.graphql"),
@@ -34,6 +35,7 @@ const resolvers: { Query: RemappedQuery; Mutation: RemappedMutation } = {
     movie,
     getUser,
     randomMovie,
+    searchMovies,
   },
   Mutation: {
     signUp,

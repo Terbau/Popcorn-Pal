@@ -60,6 +60,7 @@ export type Query = {
   movie?: Maybe<Movie>;
   movies?: Maybe<Array<Movie>>;
   randomMovie: Movie;
+  searchMovies?: Maybe<SearchResult>;
 };
 
 
@@ -70,6 +71,18 @@ export type QueryGetUserArgs = {
 
 export type QueryMovieArgs = {
   id: Scalars['Int']['input'];
+};
+
+
+export type QuerySearchMoviesArgs = {
+  query: Scalars['String']['input'];
+};
+
+export type SearchResult = {
+  __typename?: 'SearchResult';
+  externalMovies?: Maybe<Array<Movie>>;
+  movies?: Maybe<Array<Movie>>;
+  totalResults?: Maybe<Scalars['Int']['output']>;
 };
 
 export type SignInInput = {
