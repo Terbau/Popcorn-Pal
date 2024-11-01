@@ -5,6 +5,7 @@ import { useAuth } from "../../lib/context/authContext";
 import { useCallback, useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
 import type { Query } from "../../__generated__/types";
+import { Footer } from "../molecules/Footer";
 
 const GET_CURRENT_USER = gql`
   query GetCurrentUser {
@@ -55,7 +56,7 @@ export const Layout = () => {
         updatedAt: new Date(data.getUser.updatedAt ?? 0),
       });
     },
-    [setCurrentUser],
+    [setCurrentUser]
   );
 
   useEffect(() => {
@@ -71,10 +72,10 @@ export const Layout = () => {
   return (
     <div className="w-full bg-primary min-h-screen flex flex-col font-roboto">
       <Navbar />
-      <main className="mt-20 mb-16">
+      <main className="mt-20 mb-16 flex-grow">
         <Outlet />
       </main>
-      {/* Footer goes here */}
+      <Footer />
     </div>
   );
 };
