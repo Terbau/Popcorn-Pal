@@ -59,6 +59,7 @@ export type Query = {
   getUser?: Maybe<User>;
   movie?: Maybe<Movie>;
   movies?: Maybe<Array<Movie>>;
+  randomMovie: Movie;
 };
 
 

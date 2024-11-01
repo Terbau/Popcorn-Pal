@@ -32,6 +32,7 @@ type Query {
   movies: [Movie!]
   movie(id: Int!): Movie
   getUser(id: String): User
+  randomMovie: Movie!
 }
 
 input SignUpInput {
