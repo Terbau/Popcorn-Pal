@@ -16,7 +16,7 @@ import type { StartStandaloneServerOptions } from "@apollo/server/standalone";
 import cors from "cors";
 import express from "express";
 import { getUser } from "./resolvers/queries/getUser.js";
-import { randomMovie } from "./resolvers/queries/randomMovie.js"
+import { randomMovie } from "./resolvers/queries/randomMovie.js";
 import { signUp } from "./resolvers/mutations/signUp.js";
 import { signIn } from "./resolvers/mutations/signIn.js";
 import { signOut } from "./resolvers/mutations/signOut.js";
@@ -97,7 +97,7 @@ export async function startStandaloneServer<TContext extends BaseContext>(
     expressMiddleware(server, { context }),
   );
 
-  const listenOptions = options?.listen ?? { port: 4000 };
+  const listenOptions = options?.listen ?? { port: 3001 };
   // Wait for server to start listening
   await new Promise<void>((resolve) => {
     httpServer.listen(listenOptions, resolve);
@@ -107,9 +107,9 @@ export async function startStandaloneServer<TContext extends BaseContext>(
 }
 
 const { url } = await startStandaloneServer(server, {
-  listen: { port: 4000 },
+  listen: { host: "0.0.0.0", port: 3001 },
   cors: {
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "http://it2810-21.idi.ntnu.no"],
     credentials: true,
   },
   context: async ({ req, res }) => {

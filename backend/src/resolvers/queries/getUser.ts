@@ -1,4 +1,5 @@
 import { db } from "../../db/index.js";
+import { throwNotAuthenticatedError } from "../../errors.js";
 import type { RemappedQuery } from "../../types";
 import type { User } from "../../types/user.js";
 
@@ -9,7 +10,7 @@ export const getUser: RemappedQuery["getUser"] = async (
 ): Promise<User> => {
   if (!id) {
     if (!user) {
-      throw new Error("Not authenticated");
+      return throwNotAuthenticatedError();
     }
 
     return user;
