@@ -7,6 +7,7 @@ import {
 import { sha256 } from "@oslojs/crypto/sha2";
 import type { Session, SessionValidationResult } from "../types/auth";
 import { db } from "../db/index.js";
+import crypto from "node:crypto";
 
 export const generateSessionToken = (): string => {
   const bytes = new Uint8Array(20);
