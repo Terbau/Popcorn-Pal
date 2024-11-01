@@ -29,7 +29,6 @@ export default function HomePage() {
     top10Movies: GetMovies;
   }>(GET_MOVIES);
 
-  if (loading || !data) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
@@ -38,11 +37,15 @@ export default function HomePage() {
       <div className="max-w-screen-xl mx-auto px-6 mb-16">
         <div className="flex items-center justify-center mt-12 mb-24">
           <MovieCarousel
-            movieList={data.top10Movies ?? []}
+            movieList={data?.top10Movies ?? []}
+            isLoading={loading}
             label="Topp 10 filmer"
           />
         </div>
-        <FilterableMovieSection movies={data.allMovies ?? []} />
+        <FilterableMovieSection
+          movies={data?.allMovies ?? []}
+          isLoading={loading}
+        />
       </div>
     </>
   );

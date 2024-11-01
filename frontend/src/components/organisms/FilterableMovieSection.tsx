@@ -8,10 +8,12 @@ import type { Movie } from "../../__generated__/types";
 
 interface FilterableMovieSectionProps {
   movies: Movie[];
+  isLoading?: boolean;
 }
 
 export const FilterableMovieSection = ({
   movies,
+  isLoading,
 }: FilterableMovieSectionProps) => {
   const [filters, setFilters] = useState<FilterBarItem[]>([
     { label: "Adventure", value: "Adventure", isSelected: false },
@@ -45,6 +47,7 @@ export const FilterableMovieSection = ({
             );
           }),
         )}
+        isLoading={isLoading}
       />
     </section>
   );

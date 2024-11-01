@@ -18,7 +18,11 @@ import { AuthProvider } from "./lib/context/authContext";
 import { sessionVar } from "./lib/reactiveVars";
 
 const link = new HttpLink({
-  uri: "http://localhost:4000",
+  // check if in production
+  uri:
+    import.meta.env.VITE_NODE_ENV === "development"
+      ? "http://localhost:3001"
+      : "http://it2810-21.idi.ntnu.no:3001",
   credentials: "include",
 });
 
