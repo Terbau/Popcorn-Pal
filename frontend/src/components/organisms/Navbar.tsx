@@ -8,6 +8,7 @@ import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import { useAuth } from "../../lib/context/authContext";
 import { Query } from "../../__generated__/types";
 import { LoadingButton } from "../molecules/LoadingButton/LoadingButton";
+import { useState } from "react";
 
 const SIGN_OUT = gql`
   mutation SignOut {
@@ -25,20 +26,23 @@ const RANDOM_MOVIE = gql`
 
 export const Navbar = () => {
   const navigate = useNavigate();
-
+  const [isLoading, setLoading] = useState(false);
   const [logout] = useMutation(SIGN_OUT);
   const { currentUser } = useAuth();
-  const [fetchRandomMovie, { loading }] = useLazyQuery<
+  const [fetchRandomMovie] = useLazyQuery<
     Pick<Query, "randomMovie">
   >(RANDOM_MOVIE, {
     fetchPolicy: "no-cache",
   });
 
   const handleRandomMovie = async () => {
+    setLoading(true);
     const { data } = await fetchRandomMovie();
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     if (data?.randomMovie) {
       navigate(`/movie/${data.randomMovie.id}`);
     }
+    setLoading(false);
   };
 
   return (
@@ -55,9 +59,9 @@ export const Navbar = () => {
 
       <div className="ml-auto flex flex-row items-center gap-4">
         <LoadingButton
-          isLoading={loading}
+          isLoading={isLoading}
           leftIcon={<Icon icon="mynaui:play-solid" />}
-          onClick={handleRandomMovie}
+          onClick={!isLoading ? handleRandomMovie : undefined}
         >
           Random Movie
         </LoadingButton>
