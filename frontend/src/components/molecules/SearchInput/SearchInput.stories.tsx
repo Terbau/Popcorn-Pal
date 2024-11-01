@@ -14,9 +14,12 @@ type Story = StoryObj<typeof SearchInput>;
 
 export const DefaultRender = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [query, setQuery] = useState("");
   let timeout: NodeJS.Timeout | undefined = undefined;
 
-  const handleChange = () => {
+  const handleChange = (query: string) => {
+    setQuery(query);
+
     if (timeout) {
       clearTimeout(timeout);
     }
@@ -25,7 +28,13 @@ export const DefaultRender = () => {
     timeout = setTimeout(() => setIsLoading(false), 2000);
   };
 
-  return <SearchInput isLoading={isLoading} onChange={handleChange} />;
+  return (
+    <SearchInput
+      isLoading={isLoading}
+      query={query}
+      onQueryChange={handleChange}
+    />
+  );
 };
 
 export const Default: Story = {

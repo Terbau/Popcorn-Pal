@@ -3,6 +3,7 @@ import { cn, transformAndResizeImageUrl } from "../../lib/utils";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import type { SearchMovie } from "../../__generated__/types";
+import { MovieImage } from "./MovieImage/MovieImage";
 
 interface SearchResultDropdownProps extends HTMLAttributes<HTMLDivElement> {
   searchResults: SearchMovie[];
@@ -61,10 +62,9 @@ export const SearchResultDropdown = ({
           {results.map((result) => (
             <li key={result.id} className="relative">
               <Link to={`/movie/${result.id}`} onClick={() => onClose?.()}>
-                <img
+                <MovieImage
                   src={result.posterUrl ?? ""}
                   alt={result.title}
-                  className="h-44 aspect-[2/3]"
                 />
               </Link>
             </li>

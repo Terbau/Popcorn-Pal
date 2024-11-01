@@ -86,11 +86,11 @@ export default function MoviePage() {
 
       {/* Movie Poster and Description */}
       <section className="flex flex-col md:flex-row mt-4">
-        <div className="shrink-0">
+        <div className="shrink-0 h-96 aspect-[2/3] rounded-lg overflow-hidden shadow-lg">
           <img
             src={movie.posterUrl ?? ""}
             alt={movie.title}
-            className="rounded-lg shadow-lg shrink-0"
+            className="h-full object-cover"
           />
         </div>
 
@@ -113,6 +113,7 @@ export default function MoviePage() {
       <section className="mt-8">
         <h2 className="text-2xl font-semibold mb-4 text-brand-11">Comments</h2>
         <ul>
+          {/* Makes a comback for leveranse 3 */}
           {/* {movie.comments?.map((comment) => (
             <li
               key={comment.id}
