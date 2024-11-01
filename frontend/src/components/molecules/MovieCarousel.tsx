@@ -47,7 +47,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({ movieList, label }) => {
         <ul
           className={cn(
             "flex gap-6 md:gap-12 overflow-x-auto overflow-y-visible w-full h-full snap-x scroll-smooth",
-            { "pt-8": !!label },
+            { "pt-8": !!label }
           )}
           ref={scrollContainerRef}
         >
@@ -76,15 +76,6 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({ movieList, label }) => {
           ))}
         </ul>
       </div>
-
-      {/* Right Scroll Button */}
-      <button
-        onClick={handleScrollRight}
-        className="absolute right-4 top-1/2 transform -translate-y-1/3 text-white z-20 bg-brand-9 pt-2 px-3 pb-3  rounded-full text-4xl  hover:bg-brand-7"
-        type="button"
-      >
-        &#8250;
-      </button>
     </div>
   );
 };
