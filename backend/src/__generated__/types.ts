@@ -12,29 +12,39 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  Date: { input: any; output: any; }
 };
 
 export type Comment = {
   __typename?: 'Comment';
-  content?: Maybe<Scalars['String']['output']>;
-  date?: Maybe<Scalars['String']['output']>;
-  id: Scalars['Int']['output'];
-  user?: Maybe<Scalars['String']['output']>;
+  content: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['Date']['output']>;
+  id: Scalars['ID']['output'];
+  movieId: Scalars['ID']['output'];
+  updatedAt?: Maybe<Scalars['Date']['output']>;
+  userId: Scalars['ID']['output'];
 };
 
 export type Movie = {
   __typename?: 'Movie';
-  cast?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  comments?: Maybe<Array<Comment>>;
-  description?: Maybe<Scalars['String']['output']>;
-  director?: Maybe<Scalars['String']['output']>;
-  genres?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  id: Scalars['Int']['output'];
-  posterUrl: Scalars['String']['output'];
-  rating?: Maybe<Scalars['Float']['output']>;
-  releaseDate?: Maybe<Scalars['String']['output']>;
-  runtime?: Maybe<Scalars['String']['output']>;
+  certificate?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
+  creators?: Maybe<Array<Scalars['String']['output']>>;
+  externalMovieMeterRank?: Maybe<Scalars['Int']['output']>;
+  externalRating?: Maybe<Scalars['Float']['output']>;
+  externalVotes?: Maybe<Scalars['Int']['output']>;
+  genres?: Maybe<Array<Scalars['String']['output']>>;
+  id: Scalars['ID']['output'];
+  plot?: Maybe<Scalars['String']['output']>;
+  posterHeight?: Maybe<Scalars['Int']['output']>;
+  posterUrl?: Maybe<Scalars['String']['output']>;
+  posterWidth?: Maybe<Scalars['Int']['output']>;
+  releasedAt?: Maybe<Scalars['Date']['output']>;
+  runtime?: Maybe<Scalars['Int']['output']>;
+  stars?: Maybe<Array<Scalars['String']['output']>>;
   title: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['Date']['output']>;
+  yearReleased?: Maybe<Scalars['Int']['output']>;
 };
 
 export type Mutation = {
@@ -56,21 +66,29 @@ export type MutationSignUpArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getMovie?: Maybe<Movie>;
+  getMovies?: Maybe<Array<Movie>>;
   getUser?: Maybe<User>;
-  movie?: Maybe<Movie>;
-  movies?: Maybe<Array<Movie>>;
   randomMovie: Movie;
   searchMovies?: Maybe<SearchResult>;
 };
 
 
-export type QueryGetUserArgs = {
-  id?: InputMaybe<Scalars['String']['input']>;
+export type QueryGetMovieArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
-export type QueryMovieArgs = {
-  id: Scalars['Int']['input'];
+export type QueryGetMoviesArgs = {
+  orderBy?: InputMaybe<Scalars['String']['input']>;
+  orderDirection?: InputMaybe<Scalars['String']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryGetUserArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
@@ -78,10 +96,21 @@ export type QuerySearchMoviesArgs = {
   query: Scalars['String']['input'];
 };
 
+export type SearchMovie = {
+  __typename?: 'SearchMovie';
+  externalRating?: Maybe<Scalars['Float']['output']>;
+  id: Scalars['ID']['output'];
+  posterHeight?: Maybe<Scalars['Int']['output']>;
+  posterUrl?: Maybe<Scalars['String']['output']>;
+  posterWidth?: Maybe<Scalars['Int']['output']>;
+  title: Scalars['String']['output'];
+  yearReleased?: Maybe<Scalars['Int']['output']>;
+};
+
 export type SearchResult = {
   __typename?: 'SearchResult';
-  externalMovies?: Maybe<Array<Movie>>;
-  movies?: Maybe<Array<Movie>>;
+  externalMovies?: Maybe<Array<SearchMovie>>;
+  movies?: Maybe<Array<SearchMovie>>;
   totalResults?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -99,10 +128,10 @@ export type SignUpInput = {
 
 export type User = {
   __typename?: 'User';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   firstName?: Maybe<Scalars['String']['output']>;
-  id: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };

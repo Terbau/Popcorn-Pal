@@ -6,17 +6,28 @@ import type { Query } from "../__generated__/types";
 
 const GET_MOVIES = gql`
   query GetMovies {
-    movies {
+    allMovies: getMovies {
       id
       title
       genres
       posterUrl
     }
+
+    top10Movies: getMovies(pageSize: 10, orderBy: "externalRating", orderDirection: "desc") {
+      id
+      title
+      posterUrl
+    }
   }
 `;
 
+type GetMovies = Pick<Query, "getMovies">["getMovies"];
+
 export default function HomePage() {
-  const { data, loading, error } = useQuery<Pick<Query, "movies">>(GET_MOVIES);
+  const { data, loading, error } = useQuery<{
+    allMovies: GetMovies;
+    top10Movies: GetMovies;
+  }>(GET_MOVIES);
 
   if (loading || !data) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -26,9 +37,12 @@ export default function HomePage() {
       <SlideShow />
       <div className="max-w-screen-xl mx-auto px-6 mb-16">
         <div className="flex items-center justify-center mt-12 mb-24">
-          <MovieCarousel movieList={data.movies ?? []} label="Topp 10 filmer" />
+          <MovieCarousel
+            movieList={data.top10Movies ?? []}
+            label="Topp 10 filmer"
+          />
         </div>
-        <FilterableMovieSection movies={data.movies ?? []} />
+        <FilterableMovieSection movies={data.allMovies ?? []} />
       </div>
     </>
   );

@@ -16,23 +16,29 @@ import type { StartStandaloneServerOptions } from "@apollo/server/standalone";
 import cors from "cors";
 import express from "express";
 import { getUser } from "./resolvers/queries/getUser.js";
-import { movies } from "./resolvers/queries/movies.js";
-import { movie } from "./resolvers/queries/movie.js";
 import { randomMovie } from "./resolvers/queries/randomMovie.js"
 import { signUp } from "./resolvers/mutations/signUp.js";
 import { signIn } from "./resolvers/mutations/signIn.js";
 import { signOut } from "./resolvers/mutations/signOut.js";
 import { searchMovies } from "./resolvers/queries/searchMovies.js";
+import { dateScalar } from "./resolvers/scalars/date.js";
+import type { GraphQLScalarType } from "graphql";
+import { getMovies } from "./resolvers/queries/getMovies.js";
+import { getMovie } from "./resolvers/queries/getMovie.js";
 
 const typeDefs = readFileSync(
   join(dirname(fileURLToPath(import.meta.url)), "schema.graphql"),
   "utf8",
 );
 
-const resolvers: { Query: RemappedQuery; Mutation: RemappedMutation } = {
+const resolvers: {
+  Query: RemappedQuery;
+  Mutation: RemappedMutation;
+  Date: GraphQLScalarType;
+} = {
   Query: {
-    movies,
-    movie,
+    getMovies,
+    getMovie,
     getUser,
     randomMovie,
     searchMovies,
@@ -42,6 +48,7 @@ const resolvers: { Query: RemappedQuery; Mutation: RemappedMutation } = {
     signIn,
     signOut,
   },
+  Date: dateScalar,
 };
 
 const server = new ApolloServer<MyContext>({

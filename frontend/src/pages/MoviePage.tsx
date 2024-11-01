@@ -5,23 +5,19 @@ import { gql, useQuery } from "@apollo/client";
 import type { Query } from "../__generated__/types";
 
 const GET_MOVIE = gql`
-  query GetMovie($id: Int!) {
-    movie(id: $id) {
+  query GetMovie($id: ID!) {
+    getMovie(id: $id) {
       id
       title
-      rating
-      director
+      plot
       runtime
+      creators
       genres
-      cast
-      description
+      stars
       posterUrl
-      comments {
-        id
-        user
-        content
-        date
-      }
+      posterHeight
+      posterWidth
+      externalRating
     }
   }
 `;
@@ -34,26 +30,25 @@ export default function MoviePage() {
     window.scrollTo(0, 0);
   }, []);
 
-  const parsedMovieId = Number.parseInt(movieId ?? "");
-
-  const { data, loading, error } = useQuery<Pick<Query, "movie">>(GET_MOVIE, {
-    variables: { id: parsedMovieId },
-    skip: !parsedMovieId,
-  });
-
-  if (Number.isNaN(parsedMovieId)) return <p>Not found</p>;
+  const { data, loading, error } = useQuery<Pick<Query, "getMovie">>(
+    GET_MOVIE,
+    {
+      variables: { id: movieId },
+      skip: !movieId,
+    },
+  );
 
   if (loading || !data) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const movie = data.movie;
+  const movie = data.getMovie;
   if (!movie) return <p>Not found</p>;
 
   const items = [
-    { label: "Director", text: movie.director },
+    { label: "Director", text: movie.creators?.join(", ") },
     { label: "Runtime", text: movie.runtime },
     { label: "Genres", text: movie.genres?.join(", ") },
-    { label: "Cast", text: movie.cast?.join(", ") },
+    { label: "Cast", text: movie.stars?.join(", ") },
   ];
 
   const toggleLike = () => {
@@ -68,7 +63,9 @@ export default function MoviePage() {
         <div className="flex flex-row justify-between gap-10 items-center">
           <div className=" flex items-center justify-center gap-2">
             <Icon icon="pajamas:star" className="text-yellowdark-9 text-2xl" />
-            <p className=" text-xl text-white">{movie.rating} / 10 Rating</p>
+            <p className=" text-xl text-white">
+              {movie.externalRating} / 10 Rating
+            </p>
           </div>
           <button
             type="button"
@@ -91,7 +88,7 @@ export default function MoviePage() {
       <section className="flex flex-col md:flex-row mt-4">
         <div className="shrink-0">
           <img
-            src={movie.posterUrl}
+            src={movie.posterUrl ?? ""}
             alt={movie.title}
             className="rounded-lg shadow-lg shrink-0"
           />
@@ -108,7 +105,7 @@ export default function MoviePage() {
           <h2 className="font-medium mt-2 md:pl-4 text-xl text-brand-11">
             Description
           </h2>
-          <p className="mt-2 md:pl-4">{movie.description}</p>
+          <p className="mt-2 md:pl-4">{movie.plot}</p>
         </section>
       </section>
 
@@ -116,7 +113,7 @@ export default function MoviePage() {
       <section className="mt-8">
         <h2 className="text-2xl font-semibold mb-4 text-brand-11">Comments</h2>
         <ul>
-          {movie.comments?.map((comment) => (
+          {/* {movie.comments?.map((comment) => (
             <li
               key={comment.id}
               className="mb-4 p-4 bg-brand-3 rounded-lg border border-brand-6"
@@ -125,7 +122,7 @@ export default function MoviePage() {
               <p className="text-gray-700">{comment.content}</p>
               <p className="text-sm text-gray-500">{comment.date}</p>
             </li>
-          ))}
+          ))} */}
         </ul>
       </section>
     </div>
