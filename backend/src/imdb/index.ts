@@ -4,7 +4,7 @@ import type {
   ImdbRawSearchResult,
   ImdbSearchResultEntry,
 } from "./types";
-import { convertMovie, convertSeries } from "./utils";
+import { convertMovie, convertSeries } from "./utils.js";
 
 export async function getItemsByIds(ids: string[]): Promise<ImdbLookupResult> {
   if (ids.length === 0) {

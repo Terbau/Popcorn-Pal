@@ -114,10 +114,10 @@ export interface ImdbItem {
   id: string;
   title: string;
   plot: string;
-  runtime: number;
+  runtime?: number;
   yearReleased: number | null;
   yearEnded: number | null;
-  releasedAt: Date;
+  releasedAt: Date | null;
   numberOfEpisodes: number;
   genres: string[];
   certificate: string;

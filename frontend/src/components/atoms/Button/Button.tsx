@@ -58,7 +58,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 export const buttonStyles = cva({
-  base: "rounded-md outline-none cursor-pointer focus:ring-2",
+  base: "rounded-md outline-none cursor-pointer focus-within:ring-2 [&>*]:outline-none",
   variants: {
     variant: {
       primary: "text-slate-12",
@@ -101,11 +101,11 @@ const getColorStyles = (
   if (disabled) {
     switch (variant) {
       case "primary":
-        return "bg-gray-7 text-gray-9 cursor-not-allowed focus:ring-0";
+        return "bg-gray-7 text-gray-9 cursor-not-allowed focus-within:ring-0";
       case "secondary":
-        return "text-gray-8 bg-gray-5 border border-gray-7 cursor-not-allowed focus:ring-0";
+        return "text-gray-8 bg-gray-5 border border-gray-7 cursor-not-allowed focus-within:ring-0";
       case "tertiary":
-        return "text-gray-8 cursor-not-allowed focus:ring-0";
+        return "text-gray-8 cursor-not-allowed focus-within:ring-0";
       default:
         throw new Error("Invalid variant");
     }
@@ -113,11 +113,11 @@ const getColorStyles = (
 
   switch (variant) {
     case "primary":
-      return `bg-${color}-9 hover:bg-${color}-10 focus:ring-${color}-7 focus:ring-offset-2`;
+      return `bg-${color}-9 hover:bg-${color}-10 focus-within:ring-${color}-7 focus-within:ring-offset-2`;
     case "secondary":
-      return `text-${color}-11 bg-${color}-3 border border-${color}-7 hover:border-${color}-8 focus:ring-${color}-7`;
+      return `text-${color}-11 bg-${color}-3 border border-${color}-7 hover:border-${color}-8 focus-within:ring-${color}-7`;
     case "tertiary":
-      return `text-${color}-9 hover:text-${color}-10 focus:ring-${color}-7`;
+      return `text-${color}-9 hover:text-${color}-10 focus-within:ring-${color}-7`;
     default:
       throw new Error("Invalid variant");
   }

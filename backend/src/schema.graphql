@@ -1,38 +1,71 @@
-type Comment {
-  id: Int!
-  user: String
-  content: String
-  date: String
-}
-
-type Movie {
-  id: Int!
-  title: String!
-  posterUrl: String!
-  description: String
-  releaseDate: String
-  genres: [String]
-  rating: Float
-  director: String
-  cast: [String]
-  runtime: String
-  comments: [Comment!]
-}
+scalar Date
 
 type User {
-  id: String!
+  id: ID!
   email: String
   firstName: String
   lastName: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
+}
+
+type Comment {
+  id: ID!
+  userId: ID!
+  movieId: ID!
+  content: String!
+  createdAt: Date
+  updatedAt: Date
+}
+
+type Movie {
+  id: ID!
+  title: String!
+  plot: String
+  runtime: Int
+  yearReleased: Int
+  releasedAt: Date
+  certificate: String
+  externalRating: Float
+  externalMovieMeterRank: Int
+  externalVotes: Int
+  posterUrl: String
+  posterHeight: Int
+  posterWidth: Int
+  createdAt: Date
+  updatedAt: Date
+  creators: [String!]
+  genres: [String!]
+  stars: [String!]
+}
+
+type SearchMovie {
+  id: ID!
+  title: String!
+  yearReleased: Int
+  posterUrl: String
+  posterHeight: Int
+  posterWidth: Int
+  externalRating: Float
+}
+
+type SearchResult {
+  movies: [SearchMovie!]
+  externalMovies: [SearchMovie!]
+  totalResults: Int
 }
 
 type Query {
-  movies: [Movie!]
-  movie(id: Int!): Movie
-  getUser(id: String): User
+  getMovies(
+    page: Int
+    pageSize: Int
+    orderBy: String
+    orderDirection: String
+  ): [Movie!]
+  getMovie(id: ID!): Movie
   randomMovie: Movie!
+  getUser(id: ID): User
+  searchMovies(query: String!): SearchResult
 }
 
 input SignUpInput {

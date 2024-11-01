@@ -116,7 +116,8 @@ const convertImage = (image?: ImdbImageData): ImdbImageData | null => {
 };
 
 export const convertMovie = (obj: ImdbRawLookupResultEntry): ImdbItem => {
-  const [yearReleased, yearEnded] = obj.title.primary.year;
+  const [yearReleased, yearEnded] = obj.title.primary.year ?? [null, null];
+  const releasedAt = obj.title.metadata.release
 
   const movie: ImdbItem = {
     id: obj.title.id,
@@ -125,7 +126,7 @@ export const convertMovie = (obj: ImdbRawLookupResultEntry): ImdbItem => {
     runtime: obj.title.metadata.runtime,
     yearReleased: yearReleased ? Number.parseInt(yearReleased) : null,
     yearEnded: yearEnded ? Number.parseInt(yearEnded) : null,
-    releasedAt: new Date(obj.title.metadata.release),
+    releasedAt: releasedAt ? new Date(obj.title.metadata.release) : null,
     genres: obj.title.metadata.genres,
     numberOfEpisodes: 1,
     certificate: obj.title.metadata.certificate,
