@@ -18,6 +18,7 @@ import express from "express";
 import { getUser } from "./resolvers/queries/getUser.js";
 import { movies } from "./resolvers/queries/movies.js";
 import { movie } from "./resolvers/queries/movie.js";
+import { randomMovie } from "./resolvers/queries/randomMovie.js"
 import { signUp } from "./resolvers/mutations/signUp.js";
 import { signIn } from "./resolvers/mutations/signIn.js";
 import { signOut } from "./resolvers/mutations/signOut.js";
@@ -32,6 +33,7 @@ const resolvers: { Query: RemappedQuery; Mutation: RemappedMutation } = {
     movies,
     movie,
     getUser,
+    randomMovie,
   },
   Mutation: {
     signUp,
