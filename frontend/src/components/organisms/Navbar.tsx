@@ -19,12 +19,15 @@ export const Navbar = () => {
 
   return (
     <nav className="fixed bg-brand-3 w-full h-20 flex flex-row px-5 py-2 z-50 items-center gap-12 font-roboto">
-      <div className="flex items-center space-x-4 font-playfair">
+      <Link
+        className="flex items-center space-x-4 font-playfair cursor-pointer hover:scale-105 transition duration-200"
+        to={"/"}
+      >
         <Icon icon="emojione:popcorn" width="4em" height="4em" />
         <p className="text-4xl hidden md:block font-bold text-purple-500 drop-shadow-[0_0_10px_rgba(128,90,213,0.8)]">
           POPCORN PAL
         </p>
-      </div>
+      </Link>
 
       <div className="ml-auto flex flex-row items-center gap-4">
         <Button>
