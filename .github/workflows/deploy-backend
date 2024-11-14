@@ -1,0 +1,38 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up environment variables
+      run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+
+    - name: Install dependencies
+      working-directory: ./backend
+      run: npm install
+
+    - name: Compile the backend project
+      working-directory: ./backend
+      run: npm run compile
+
+    - name: Stop and delete previous pm2 processes
+      run: |
+        pm2 stop backend || true
+        pm2 delete backend || true
+
+    - name: Start the backend using pm2
+      run: |
+        pm2 start ./dist/src/index.js --name "backend" --port 3001
+        pm2 save
