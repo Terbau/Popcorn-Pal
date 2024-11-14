@@ -33,6 +33,7 @@ jobs:
         pm2 delete backend || true
 
     - name: Start the backend using pm2
+      working-directory: ./backend
       run: |
         pm2 start ./dist/src/index.js --name "backend" -- --port 3001
         pm2 save
