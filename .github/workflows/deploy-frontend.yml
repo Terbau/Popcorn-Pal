@@ -21,6 +21,10 @@ jobs:
         npm install
         npm run build
 
+    - name: Create target directory if not exists
+      run: |
+        mkdir -p /var/www/html/project2
+
     - name: Clear previous build
       run: |
         rm -rf /var/www/html/project2/*
