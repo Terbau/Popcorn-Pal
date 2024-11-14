@@ -1,0 +1,29 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install dependencies and build
+      working-directory: ./frontend
+      run: |
+        npm ci
+        npm run build
+
+    - name: Clear previous build
+      run: |
+        rm -rf /var/www/html/project2/*
+
+    - name: Copy new build to target directory
+      run: |
+        cp -r frontend/dist/* /var/www/html/project2/
