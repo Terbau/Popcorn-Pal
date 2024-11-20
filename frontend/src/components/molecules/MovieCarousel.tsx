@@ -38,7 +38,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full" data-cy="top10-movies">
       {label && (
         <h2 className="text-left text-3xl font-semibold underline text-white mb-4 mt-1">
           {label}
@@ -48,7 +48,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
       {/* Scrollable Movie Container */}
       <div className="relative w-full h-[19rem]">
         <div className="h-full w-full absolute flex flex-row items-center justify-between">
-          <ScrollButton direction="left" onClick={handleScrollLeft} />
+          <ScrollButton direction="left" onClick={handleScrollLeft}  data-cy="next-button" />
           <ScrollButton direction="right" onClick={handleScrollRight} />
         </div>
         <ul

@@ -35,6 +35,7 @@ export const FilterBar = ({
               "rounded-full py-1 px-2 text-sm md:text-base whitespace-nowrap text-brand-11 outline-none focus:ring-2 focus:ring-brand-9",
               item.isSelected && "outline outline-brand-9",
             )}
+            data-cy={`filter-${item.value}`} // Dynamically add data-cy based on value
           >
             {item.label}
           </button>

@@ -44,7 +44,7 @@ export default function SignInPage() {
           navigate("/");
         }
       },
-    },
+    }
   );
 
   const onSubmit = (data: FormData) => {
@@ -59,11 +59,12 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="max-w-screen-md p-6 mx-auto">
-      <h1 className="text-2xl font-bold mb-8">Sign In</h1>
+    <div className="max-w-screen-md p-6 mx-auto" data-cy="sign-in-page">
+      <h1 className="text-2xl font-bold mb-8" data-cy="page-title">Sign In</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full flex flex-col gap-4"
+        data-cy="sign-in-form"
       >
         <TextInput
           {...register("email", { required: "Email is required" })}
@@ -71,6 +72,7 @@ export default function SignInPage() {
           placeholder="Email"
           errorMessage={errors.email?.message}
           aria-invalid={errors.email ? "true" : "false"}
+          data-cy="email-input"
         />
         <TextInput
           {...register("password", { required: "Password is required" })}
@@ -79,18 +81,24 @@ export default function SignInPage() {
           type="password"
           errorMessage={errors.password?.message}
           aria-invalid={errors.password ? "true" : "false"}
+          data-cy="password-input"
         />
 
-        <Link to="/signup" className="text-blue-11 text-sm mt-3">
+        <Link to="/signup" className="text-blue-11 text-sm mt-3" data-cy="signup-link">
           Don't have an account? Sign up here
         </Link>
 
-        <LoadingButton type="submit" isLoading={loading}>
+        <LoadingButton
+          type="submit"
+          isLoading={loading}
+          data-cy="sign-in-button"
+        >
           Sign In
         </LoadingButton>
 
-        {error && <p className="text-red-11 text-sm">{error.message}</p>}
+        {error && <p className="text-red-11 text-sm" data-cy="error-message">{error.message}</p>}
       </form>
     </div>
   );
 }
+
