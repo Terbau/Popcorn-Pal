@@ -33,9 +33,15 @@ export const FilterableMovieSection = ({
   };
 
   return (
-    <section className="w-full flex flex-col gap-8">
+    <section
+      className="w-full flex flex-col gap-8"
+      data-cy="filterable-movie-section"
+    >
       <FilterBar
-        items={filters}
+        items={filters.map((filter) => ({
+          ...filter,
+          "data-cy": `filter-${filter.value}`,
+        }))}
         onItemClick={handleItemClick}
         className="mx-auto"
       />
@@ -43,9 +49,9 @@ export const FilterableMovieSection = ({
         movies={movies.filter((movie: Movie) =>
           movie?.genres?.some((genres) => {
             return filters.some(
-              (filter) => filter.isSelected && filter.value === genres,
+              (filter) => filter.isSelected && filter.value === genres
             );
-          }),
+          })
         )}
         isLoading={isLoading}
       />

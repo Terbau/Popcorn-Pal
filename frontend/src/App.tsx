@@ -21,8 +21,8 @@ const link = new HttpLink({
   // check if in production
   uri:
     import.meta.env.VITE_NODE_ENV === "development"
-      ? "http://localhost:3001"
-      : "http://it2810-21.idi.ntnu.no:3001",
+      ? "http://localhost:3001/graphql"
+      : "http://it2810-21.idi.ntnu.no:3001/graphql",
   credentials: "include",
 });
 
@@ -31,7 +31,7 @@ const middleware = new ApolloLink((operation, forward) => {
   return forward(operation).map((response) => {
     const cookies = document.cookie.split("; ");
     const sessionCookie = cookies.find((cookie) =>
-      cookie.startsWith("session="),
+      cookie.startsWith("session=")
     );
 
     const sessionValue = sessionCookie

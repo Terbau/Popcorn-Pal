@@ -64,3 +64,31 @@ To address sorting functionality .....
 
 
 ```
+
+
+
+
+## How to Test
+
+First we need to start the Frontend
+Open a terminal, navigate to the frontend directory, and start the development server by running the following commands:
+arduino
+```
+cd frontend
+npm run dev
+```
+
+
+Open a second terminal, navigate to the backend directory, and start the backend server with these commands:
+```
+cd backend
+npm start
+```
+
+
+Open a third terminal, return to the frontend directory, and execute the Cypress tests using:
+```
+cd frontend
+npm run cy:run
+```
+
