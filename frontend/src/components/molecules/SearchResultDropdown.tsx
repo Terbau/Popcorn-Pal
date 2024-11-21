@@ -4,27 +4,27 @@ import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import type { SearchMovie } from "../../__generated__/types";
 import { MovieImage } from "./MovieImage/MovieImage";
+import { ScrollArea } from "./ScrollArea/ScrollArea";
+import { LoadingButton } from "./LoadingButton/LoadingButton";
 
 interface SearchResultDropdownProps extends HTMLAttributes<HTMLDivElement> {
   searchResults: SearchMovie[];
-  externalSearchResults: SearchMovie[];
+  isLoading?: boolean;
+  canFetchMore?: boolean;
   onClose?: () => void;
+  onFetchMore?: () => void;
 }
 
 export const SearchResultDropdown = ({
   searchResults,
-  externalSearchResults,
+  isLoading = false,
+  canFetchMore = false,
   onClose,
+  onFetchMore,
   className,
   ...props
 }: SearchResultDropdownProps) => {
-  const results: (SearchMovie & { isExternal?: boolean })[] = [
-    ...searchResults,
-    ...externalSearchResults.map((result) => ({
-      ...result,
-      isExternal: true,
-    })),
-  ].map((result) => ({
+  const results: SearchMovie[] = searchResults.map((result) => ({
     ...result,
     posterUrl: transformAndResizeImageUrl(
       result.posterUrl ?? "",
@@ -35,42 +35,45 @@ export const SearchResultDropdown = ({
   }));
 
   return (
-    <div className={cn("w-full h-screen flex flex-col", className)} {...props}>
-      <div className="bg-brand-2 p-4">
-        <div className="flex flex-row justify-between mb-2">
-          <span className="font-semibold text-lg">
-            Loaded {results.length} results...
-          </span>
-          <div className="flex flex-row items-center gap-6">
-            <Link
-              to="/search"
-              className="text-sm text-brand-11 hover:text-brand-12"
-            >
-              Advanced search &rarr;
-            </Link>
-            <button type="button">
-              <Icon
-                icon="iconamoon:close"
-                className="h-8 w-8 text-brand-11 hover:text-brand-12"
-                onClick={onClose}
-              />
-            </button>
-          </div>
-        </div>
-
-        <ul className="flex flex-row gap-12 overflow-x-auto p-4">
-          {results.map((result) => (
-            <li key={result.id} className="relative">
-              <Link to={`/movie/${result.id}`} onClick={() => onClose?.()}>
-                <MovieImage
-                  src={result.posterUrl ?? ""}
-                  alt={result.title}
+    <div className={cn("w-full flex flex-col h-screen", className)} {...props}>
+      <ScrollArea orientation="vertical">
+        <div className="bg-brand-2 p-4 h-full flex flex-col items-center pb-28">
+          <div className="flex flex-row justify-between mb-2 w-full">
+            <span className="font-semibold text-lg">
+              Showing {results.length} results
+            </span>
+            <div className="flex flex-row items-center gap-6">
+              <button type="button">
+                <Icon
+                  icon="iconamoon:close"
+                  className="h-8 w-8 text-brand-11 hover:text-brand-12"
+                  onClick={onClose}
                 />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+              </button>
+            </div>
+          </div>
+
+          <ul className="gap-6 md:gap-12 p-4 w-full grid grid-cols-[repeat(auto-fit,minmax(7rem,1fr))] md:grid-cols-[repeat(auto-fit,minmax(160px,1fr))]">
+            {results.map((result) => (
+              <li key={result.id} className="relative mx-auto">
+                <Link to={`/movie/${result.id}`} onClick={() => onClose?.()}>
+                  <MovieImage src={result.posterUrl ?? ""} alt={result.title} />
+                </Link>
+              </li>
+            ))}
+          </ul>
+          {canFetchMore && searchResults.length > 0 && (
+            <LoadingButton
+              className="mt-8 w-fit"
+              variant="secondary"
+              isLoading={isLoading}
+              onClick={() => onFetchMore?.()}
+            >
+              Load more
+            </LoadingButton>
+          )}
+        </div>
+      </ScrollArea>
       <button
         type="button"
         onClick={onClose}

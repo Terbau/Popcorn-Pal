@@ -29,7 +29,7 @@ export default {
   safelist: [
     {
       pattern:
-        /(text|bg|border|ring)-(slate|blue|red|green|indigo|brand|gray)-([2-9]|1[0-2]?)/,
+        /(text|bg|border|ring)-(slate|blue|red|green|indigo|brand|gray|yellow)-([2-9]|1[0-2]?)/,
       variants: ["focus", "hover", "active"],
     },
   ],
@@ -46,6 +46,7 @@ export default {
         indigo: createColorScale("indigo"),
         gray: createColorScale("gray"),
         brand: createCustomColorScale("brand"),
+        yellow: createColorScale("yellow"),
       },
       fontFamily: {
         playfair: ["Playfair Display", "serif"],

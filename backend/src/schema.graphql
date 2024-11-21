@@ -47,12 +47,13 @@ type SearchMovie {
   posterHeight: Int
   posterWidth: Int
   externalRating: Float
+  similarity: Float
 }
 
 type SearchResult {
   movies: [SearchMovie!]
-  externalMovies: [SearchMovie!]
   totalResults: Int
+  nextPage: Int
 }
 
 type Query {
@@ -65,7 +66,7 @@ type Query {
   getMovie(id: ID!): Movie
   randomMovie: Movie!
   getUser(id: ID): User
-  searchMovies(query: String!): SearchResult
+  searchMovies(query: String!, page: Int, pageSize: Int): SearchResult
 }
 
 input SignUpInput {

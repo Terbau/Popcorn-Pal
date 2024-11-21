@@ -1,54 +1,82 @@
 import type { RemappedQuery } from "../../types";
-import { db } from "../../db/index.js";
 import type { SearchResult } from "../../__generated__/types";
 import { searchImdb } from "../../imdb/index.js";
-import { upsertMoviesByMovieIds } from "../../functions.js";
-import type { ImdbSearchResultEntry } from "../../imdb/types";
+import {
+  fetchSearchResults,
+  fetchTotalSearchResults,
+  upsertMoviesByMovieIds,
+} from "../../functions.js";
+import { z } from "zod";
 
-const AMOUNT_SEARCH_RESULTS = 10;
+const MINIMUM_MOVIES_BEFORE_EXTERNAL_SEARCH = 5;
+const MINIMUM_MOVIES_SIMILARITY_THRESHOLD_FOR_EXTERNAL_FETCH = 0.25;
+
+// Adjust if we want to not show any movies that are not similar to the search query
+// 0-1, 0 being not similar at all, 1 being exactly the same
+const MINIMUM_SIMILARITY = 0.05;
+
+const SearchMoviesSchema = z.object({
+  query: z.string(),
+  page: z.number().int().min(0).optional().default(0),
+  pageSize: z.number().int().min(0).optional().default(30),
+});
 
 export const searchMovies: RemappedQuery["searchMovies"] = async (
   _,
-  { query },
+  { query, page, pageSize },
 ): Promise<SearchResult> => {
-  let externalMovieSearchResults: ImdbSearchResultEntry[] = [];
+  const {
+    query: validatedQuery,
+    page: validatedPage,
+    pageSize: validatedPageSize,
+  } = SearchMoviesSchema.parse({ query, page, pageSize });
 
-  const searchResults = await db
-    .selectFrom("movie")
-    .selectAll()
-    .where("title", "ilike", `%${query}%`)
-    .limit(AMOUNT_SEARCH_RESULTS)
-    .execute();
+  const limit = validatedPageSize;
+  const offset = validatedPage * validatedPageSize;
 
-  if (searchResults.length < AMOUNT_SEARCH_RESULTS) {
-    externalMovieSearchResults = await searchImdb(query);
-    externalMovieSearchResults = externalMovieSearchResults.filter(
-      (movie) => movie.image?.imageUrl !== undefined && movie.type === "movie",
-    );
+  let searchResults = await fetchSearchResults(
+    validatedQuery,
+    limit,
+    offset,
+    MINIMUM_SIMILARITY,
+  );
 
-    // upsert movies in the background
-    upsertMoviesByMovieIds(externalMovieSearchResults.map((movie) => movie.id));
+  if (validatedPage === 0) {
+    const moviesAmountAboveThreshold = searchResults.filter(
+      (movie) =>
+        (movie.similarity ?? 0) >
+        MINIMUM_MOVIES_SIMILARITY_THRESHOLD_FOR_EXTERNAL_FETCH,
+    ).length;
+    if (moviesAmountAboveThreshold < MINIMUM_MOVIES_BEFORE_EXTERNAL_SEARCH) {
+      const externalMovieSearchResults = await searchImdb(validatedQuery);
+      // upsert movies to the database
+      await upsertMoviesByMovieIds(
+        externalMovieSearchResults
+          .filter(
+            (movie) =>
+              movie.image?.imageUrl !== undefined && movie.type === "movie",
+          )
+          .map((movie) => movie.id),
+      );
+
+      // refetch the search results as we now might have different results form our database
+      searchResults = await fetchSearchResults(
+        validatedQuery,
+        limit,
+        offset,
+        MINIMUM_SIMILARITY,
+      );
+    }
   }
 
-  const externalMovies = externalMovieSearchResults
-    .filter(
-      (movie) =>
-        !searchResults.some((searchMovie) => searchMovie.id === movie.id),
-    )
-    .slice(0, AMOUNT_SEARCH_RESULTS - searchResults.length)
-    .map((movie) => ({
-      id: movie.id,
-      title: movie.title,
-      yearReleased: movie.yearReleased,
-      posterUrl: movie.image?.imageUrl,
-      posterHeight: movie.image?.height,
-      posterWidth: movie.image?.width,
-      externalRating: movie.rank,
-    }));
+  const totalResults = await fetchTotalSearchResults(
+    validatedQuery,
+    MINIMUM_SIMILARITY,
+  );
 
   return {
     movies: searchResults,
-    externalMovies: externalMovies,
-    totalResults: searchResults.length + externalMovies.length,
+    totalResults,
+    nextPage: offset + limit < totalResults ? validatedPage + 1 : null,
   };
 };

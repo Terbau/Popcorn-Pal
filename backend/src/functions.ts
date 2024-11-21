@@ -2,9 +2,55 @@ import { sql } from "kysely";
 import { db } from "./db/index.js";
 import { getItemsByIds } from "./imdb/index.js";
 import type { Creator, Genre, Movie, Star } from "./types/movie.js";
+import type { SearchMovie } from "./__generated__/types.js";
 
-export const moviesOrderOptions = ["title", "externalRating", "runtime", "yearReleased"] as const;
-type MoviesOrderOptions = typeof moviesOrderOptions[number];
+export const moviesOrderOptions = [
+  "title",
+  "externalRating",
+  "runtime",
+  "yearReleased",
+] as const;
+type MoviesOrderOptions = (typeof moviesOrderOptions)[number];
+
+export const fetchSearchResults = async (
+  query: string,
+  limit: number,
+  offset: number,
+  minSimilarity = 0.25,
+): Promise<SearchMovie[]> => {
+  return await db
+    .selectFrom((eb) =>
+      eb
+        .selectFrom("movie")
+        .selectAll()
+        .select(sql<number>`SIMILARITY(title, ${query})`.as("similarity"))
+        .as("subquery"),
+    )
+    .selectAll("subquery")
+    .orderBy("similarity", "desc")
+    .where("similarity", ">=", minSimilarity)
+    .limit(limit)
+    .offset(offset)
+    .execute();
+};
+
+export const fetchTotalSearchResults = async (
+  query: string,
+  minSimilarity = 0.25,
+): Promise<number> => {
+  const totalResults = await db
+    .selectFrom((eb) =>
+      eb
+        .selectFrom("movie")
+        .select(sql<number>`SIMILARITY(title, ${query})`.as("similarity"))
+        .as("subquery"),
+    )
+    .select(sql<number>`COUNT(*)`.as("total"))
+    .where("similarity", ">=", minSimilarity)
+    .executeTakeFirst();
+
+  return totalResults?.total ?? 0;
+};
 
 export const fetchMovies = async (
   ids?: string[],
