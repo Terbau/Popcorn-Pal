@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { CommentSchema } from "./comment";
 
 export const GenreSchema = z.object({
   id: z.string(),

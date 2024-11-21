@@ -12,7 +12,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  Date: { input: any; output: any; }
+  Date: { input: Date; output: Date; }
 };
 
 export type Comment = {
@@ -93,6 +93,8 @@ export type QueryGetUserArgs = {
 
 
 export type QuerySearchMoviesArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
   query: Scalars['String']['input'];
 };
 
@@ -103,14 +105,15 @@ export type SearchMovie = {
   posterHeight?: Maybe<Scalars['Int']['output']>;
   posterUrl?: Maybe<Scalars['String']['output']>;
   posterWidth?: Maybe<Scalars['Int']['output']>;
+  similarity?: Maybe<Scalars['Float']['output']>;
   title: Scalars['String']['output'];
   yearReleased?: Maybe<Scalars['Int']['output']>;
 };
 
 export type SearchResult = {
   __typename?: 'SearchResult';
-  externalMovies?: Maybe<Array<SearchMovie>>;
   movies?: Maybe<Array<SearchMovie>>;
+  nextPage?: Maybe<Scalars['Int']['output']>;
   totalResults?: Maybe<Scalars['Int']['output']>;
 };
 

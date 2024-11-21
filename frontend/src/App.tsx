@@ -45,7 +45,24 @@ const middleware = new ApolloLink((operation, forward) => {
 });
 
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          searchMovies: {
+            keyArgs: ["query"],
+            // what to do when merging fetchMore data
+            merge(existing, incoming) {
+              return {
+                ...incoming,
+                movies: [...(existing?.movies ?? []), ...incoming.movies],
+              };
+            },
+          },
+        },
+      },
+    },
+  }),
   link: concat(middleware, link),
 });
 

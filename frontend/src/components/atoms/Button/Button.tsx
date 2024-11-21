@@ -3,7 +3,13 @@ import { Slot } from "@radix-ui/react-slot";
 import { cn } from "../../../lib/utils";
 import { cva, type VariantProps } from "cva";
 
-export type ButtonColor = "brand" | "slate" | "red" | "blue" | "green";
+export type ButtonColor =
+  | "brand"
+  | "slate"
+  | "red"
+  | "blue"
+  | "green"
+  | "yellow";
 
 export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
@@ -93,15 +99,21 @@ const getIconSizeStyles = (
   }
 };
 
+const colorsToOverrideText: ButtonColor[] = ["yellow"] as const;
+
 const getColorStyles = (
   color: ButtonColor,
   variant: VariantProps<typeof buttonStyles>["variant"],
   disabled = false,
 ) => {
+  const overriddenTextColor = colorsToOverrideText.includes(color)
+    ? "text-slate-2"
+    : "";
+
   if (disabled) {
     switch (variant) {
       case "primary":
-        return "bg-gray-7 text-gray-9 cursor-not-allowed focus-within:ring-0";
+        return `bg-gray-7 text-gray-9 cursor-not-allowed focus-within:ring-0 ${overriddenTextColor}`;
       case "secondary":
         return "text-gray-8 bg-gray-5 border border-gray-7 cursor-not-allowed focus-within:ring-0";
       case "tertiary":
@@ -113,7 +125,7 @@ const getColorStyles = (
 
   switch (variant) {
     case "primary":
-      return `bg-${color}-9 hover:bg-${color}-10 focus-within:ring-${color}-7 focus-within:ring-offset-2`;
+      return `bg-${color}-9 hover:bg-${color}-10 focus-within:ring-${color}-7 focus-within:ring-offset-2 ${overriddenTextColor}`;
     case "secondary":
       return `text-${color}-11 bg-${color}-3 border border-${color}-7 hover:border-${color}-8 focus-within:ring-${color}-7`;
     case "tertiary":
