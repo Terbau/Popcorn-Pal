@@ -15,15 +15,19 @@ type ScrollAreaProps = RadixScrollArea.ScrollAreaProps &
   };
 
 export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
-  ({
-    orientation,
-    className,
-    children,
-    viewportRef,
-    ...props
-  }: ScrollAreaProps) => {
+  (
+    {
+      orientation,
+      className,
+      children,
+      viewportRef,
+      ...props
+    }: ScrollAreaProps,
+    ref,
+  ) => {
     return (
       <RadixScrollArea.Root
+        ref={ref}
         className={cn("overflow-hidden", className)}
         {...props}
       >

@@ -39,7 +39,7 @@ export default function HomePage() {
           <MovieCarousel
             movieList={data?.top10Movies ?? []}
             isLoading={loading}
-            label="Top 10"
+            label="Top Movies"
           />
         </div>
         <FilterableMovieSection

@@ -1,5 +1,5 @@
 import type { ImgHTMLAttributes } from "react";
-import { cn } from "../../../lib/utils";
+import { cn, transformAndResizeImageUrl } from "../../../lib/utils";
 import { Badge, type BadgeProps } from "../../atoms/Badge/Badge";
 
 interface MovieImageProps extends ImgHTMLAttributes<HTMLImageElement> {
@@ -15,6 +15,11 @@ export const MovieImage = ({
   className,
   ...props
 }: MovieImageProps) => {
+  // Transform and resize the image URL in order to reduce the image size.
+  // This is done to improve the performance of the application as well as to
+  // minimize the environmental impact of serving large images.
+  const transformedSrc = transformAndResizeImageUrl(src, 264);
+
   return (
     <div
       className={cn(
@@ -27,7 +32,12 @@ export const MovieImage = ({
       )}
       <div className="overflow-hidden rounded-lg h-full">
         {/* biome-ignore lint/a11y/useAltText: <alt clearly defined> */}
-        <img src={src} alt={alt} className="h-full object-cover" {...props} />
+        <img
+          src={transformedSrc}
+          alt={alt}
+          className="h-full object-cover"
+          {...props}
+        />
       </div>
     </div>
   );

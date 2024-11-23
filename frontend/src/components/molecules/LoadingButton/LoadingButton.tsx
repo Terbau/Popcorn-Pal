@@ -1,21 +1,37 @@
-import { Button, type ButtonProps } from "../../atoms/Button/Button";
-import { Spinner } from "../../atoms/Spinner/Spinner";
+import { forwardRef } from "react";
+import {
+  Button,
+  ButtonLeftIcon,
+  type ButtonProps,
+} from "../../atoms/Button/Button";
 
 export interface LoadingButtonProps extends ButtonProps {
   isLoading: boolean;
   shouldDisableWhenLoading?: boolean;
 }
 
-export const LoadingButton = ({
-  isLoading = false,
-  shouldDisableWhenLoading = true,
-  ...props
-}: LoadingButtonProps) => {
-  return (
-    <Button
-      {...props}
-      disabled={shouldDisableWhenLoading && isLoading}
-      leftIcon={isLoading && <Spinner />}
-    />
-  );
-};
+export const LoadingButton = forwardRef<HTMLButtonElement, LoadingButtonProps>(
+  (
+    {
+      isLoading = false,
+      shouldDisableWhenLoading = true,
+      disabled,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <Button
+        {...props}
+        ref={ref}
+        disabled={disabled || (shouldDisableWhenLoading && isLoading)}
+      >
+        {isLoading && (
+          <ButtonLeftIcon icon="prime:spinner" className="animate-spin" />
+        )}
+        {children}
+      </Button>
+    );
+  },
+);

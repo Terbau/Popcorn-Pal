@@ -1,7 +1,13 @@
-import { forwardRef, type ReactNode, type ButtonHTMLAttributes } from "react";
+import {
+  forwardRef,
+  type ButtonHTMLAttributes,
+  createContext,
+  useContext,
+} from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "../../../lib/utils";
 import { cva, type VariantProps } from "cva";
+import { Icon, type IconProps } from "@iconify/react/dist/iconify.js";
 
 export type ButtonColor =
   | "brand"
@@ -15,19 +21,26 @@ export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonStyles> {
   color?: ButtonColor;
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
   asChild?: boolean;
 }
 
+// Make use of a context here in order for other components such as ButtonLeftIcon and
+// ButtonRightIcon to know the size of the parent button.
+const ButtonContext = createContext<
+  { size: VariantProps<typeof buttonStyles>["size"] } | undefined
+>(undefined);
+
+// This previously had a prop leftIcon and rightIcon, but it was removed as asChild
+// requires only one child. The new solution uses another component pattern that is more
+// like how Radix UI components are built. This way, the Button component can be used
+// with a single child, and the ButtonLeftIcon and ButtonRightIcon components can be used
+// as children of the Button component.
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       color = "brand",
       variant = "primary",
       size = "md",
-      leftIcon,
-      rightIcon,
       asChild,
       disabled,
       children,
@@ -38,33 +51,60 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const Comp = asChild ? Slot : "button";
     return (
-      <Comp
-        ref={ref}
-        {...props}
-        className={cn(
-          buttonStyles({ variant, size }),
-          color && getColorStyles(color, variant, disabled),
-          className,
-        )}
-      >
-        <div className="flex flex-row items-center gap-1">
-          {leftIcon && (
-            <span className={getIconSizeStyles(size, "left")}>{leftIcon}</span>
+      <ButtonContext.Provider value={{ size }}>
+        <Comp
+          ref={ref}
+          disabled={disabled}
+          {...props}
+          className={cn(
+            buttonStyles({ variant, size }),
+            color && getColorStyles(color, variant, disabled),
+            className,
           )}
+        >
           {children}
-          {rightIcon && (
-            <span className={getIconSizeStyles(size, "right")}>
-              {rightIcon}
-            </span>
-          )}
-        </div>
-      </Comp>
+        </Comp>
+      </ButtonContext.Provider>
+    );
+  },
+);
+
+interface ButtonIconProps extends IconProps {
+  size?: VariantProps<typeof buttonStyles>["size"];
+}
+
+export const ButtonLeftIcon = forwardRef<SVGSVGElement, ButtonIconProps>(
+  ({ size: sizeProp, className, ...props }, ref) => {
+    const context = useContext(ButtonContext);
+    const size = sizeProp ?? context?.size ?? "md";
+
+    return (
+      <Icon
+        className={cn(getIconSizeStyles(size, "left"), className)}
+        {...props}
+        ref={ref}
+      />
+    );
+  },
+);
+
+export const ButtonRightIcon = forwardRef<SVGSVGElement, ButtonIconProps>(
+  ({ size: sizeProp, className, ...props }, ref) => {
+    const context = useContext(ButtonContext);
+    const size = sizeProp ?? context?.size ?? "md";
+
+    return (
+      <Icon
+        className={cn(getIconSizeStyles(size, "right"), className)}
+        {...props}
+        ref={ref}
+      />
     );
   },
 );
 
 export const buttonStyles = cva({
-  base: "rounded-md outline-none cursor-pointer focus-within:ring-2 [&>*]:outline-none",
+  base: "rounded-md outline-none cursor-pointer focus-within:ring-2 [&>*]:outline-none flex flex-row items-center gap-1",
   variants: {
     variant: {
       primary: "text-slate-12",
@@ -89,11 +129,11 @@ const getIconSizeStyles = (
 ) => {
   switch (size) {
     case "sm":
-      return "[&>*]:w-4 [&>*]:h-4";
+      return "w-4 h-4";
     case "md":
-      return `[&>*]:w-6 [&>*]:h-6 ${iconAlignment === "left" ? "-ml-1" : "-mr-1"}`;
+      return `w-6 h-6 ${iconAlignment === "left" ? "-ml-1" : "-mr-1"}`;
     case "lg":
-      return `[&>*]:w-8 [&>*]:h-8 ${iconAlignment === "left" ? "-ml-2" : "-mr-2"}`;
+      return `w-8 h-8 ${iconAlignment === "left" ? "-ml-2" : "-mr-2"}`;
     default:
       throw new Error("Invalid size");
   }

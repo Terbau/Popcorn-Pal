@@ -37,6 +37,7 @@ export const signIn: RemappedMutation["signIn"] = async (
     email: user.email,
     firstName: user.firstName,
     lastName: user.lastName,
+    avatarUrl: user.avatarUrl,
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
   };

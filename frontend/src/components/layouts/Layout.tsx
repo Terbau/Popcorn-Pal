@@ -6,6 +6,9 @@ import { useCallback, useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
 import type { Query } from "../../__generated__/types";
 import { Footer } from "../molecules/Footer";
+import { Bounce, ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const GET_CURRENT_USER = gql`
   query GetCurrentUser {
@@ -14,6 +17,7 @@ const GET_CURRENT_USER = gql`
       email
       firstName
       lastName
+      avatarUrl
       createdAt
       updatedAt
     }
@@ -22,10 +26,11 @@ const GET_CURRENT_USER = gql`
 
 export const constructUser = (data: Query["getUser"]) => {
   return {
-    id: data?.id,
+    id: data?.id ?? "",
     email: data?.email ?? "",
     firstName: data?.firstName ?? "",
     lastName: data?.lastName ?? "",
+    avatarUrl: data?.avatarUrl ?? "",
     createdAt: new Date(data?.createdAt ?? 0),
     updatedAt: new Date(data?.updatedAt ?? 0),
   };
@@ -52,11 +57,12 @@ export const Layout = () => {
         email: data.getUser.email ?? "",
         firstName: data.getUser.firstName ?? "",
         lastName: data.getUser.lastName ?? "",
+        avatarUrl: data.getUser.avatarUrl ?? "",
         createdAt: new Date(data.getUser.createdAt ?? 0),
         updatedAt: new Date(data.getUser.updatedAt ?? 0),
       });
     },
-    [setCurrentUser]
+    [setCurrentUser],
   );
 
   useEffect(() => {
@@ -76,6 +82,19 @@ export const Layout = () => {
         <Outlet />
       </main>
       <Footer />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Bounce}
+      />
     </div>
   );
 };

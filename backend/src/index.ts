@@ -7,9 +7,10 @@ import { validateSessionToken } from "./auth/session.js";
 import type { MyContext, RemappedMutation, RemappedQuery } from "./types.js";
 import { setSessionTokenCookie } from "./auth/utils.js";
 
-import { createServer, type Server } from "node:http";
+import { createServer } from "node:http";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { expressMiddleware } from "@apollo/server/express4";
+import { GraphQLUpload, graphqlUploadExpress } from "graphql-upload-minimal";
 import cors from "cors";
 import express from "express";
 import { getUser } from "./resolvers/queries/getUser.js";
@@ -22,17 +23,22 @@ import { dateScalar } from "./resolvers/scalars/date.js";
 import type { GraphQLScalarType } from "graphql";
 import { getMovies } from "./resolvers/queries/getMovies.js";
 import { getMovie } from "./resolvers/queries/getMovie.js";
+import { updateUser } from "./resolvers/mutations/updateUser.js";
+
+const FILE_UPLOAD_MAX_SIZE = 1 * 1024 * 1024;
 
 const typeDefs = readFileSync(
   join(dirname(fileURLToPath(import.meta.url)), "schema.graphql"),
-  "utf8"
+  "utf8",
 );
 
 const resolvers: {
+  Upload: typeof GraphQLUpload;
   Query: RemappedQuery;
   Mutation: RemappedMutation;
   Date: GraphQLScalarType;
 } = {
+  Upload: GraphQLUpload,
   Query: {
     getMovies,
     getMovie,
@@ -44,6 +50,7 @@ const resolvers: {
     signUp,
     signIn,
     signOut,
+    updateUser,
   },
   Date: dateScalar,
 };
@@ -67,13 +74,14 @@ const startServer = async () => {
       origin: ["http://localhost:5173", "http://it2810-21.idi.ntnu.no"],
       credentials: true,
     }),
-    express.json({ limit: "50mb" })
+    express.json({ limit: "50mb" }),
   );
 
   await server.start();
 
   app.use(
     "/graphql",
+    graphqlUploadExpress({ maxFileSize: FILE_UPLOAD_MAX_SIZE, maxFiles: 1 }),
     expressMiddleware(server, {
       context: async ({ req, res }) => {
         const cookies = req.headers.cookie
@@ -91,12 +99,12 @@ const startServer = async () => {
           setSessionTokenCookie(
             res,
             token,
-            sessionValidationResult.session.expiresAt
+            sessionValidationResult.session.expiresAt,
           );
         }
         return { ...sessionValidationResult, res };
       },
-    })
+    }),
   );
 
   app.listen(3001, () => {

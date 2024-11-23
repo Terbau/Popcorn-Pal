@@ -1,10 +1,12 @@
 scalar Date
+scalar Upload
 
 type User {
   id: ID!
   email: String
   firstName: String
   lastName: String
+  avatarUrl: String
   createdAt: Date
   updatedAt: Date
 }
@@ -81,8 +83,16 @@ input SignInInput {
   password: String!
 }
 
+input UpdateUserInput {
+  firstName: String
+  lastName: String
+  email: String
+  avatarFile: Upload
+}
+
 type Mutation {
   signUp(input: SignUpInput!): User
   signIn(input: SignInInput!): User
   signOut: Boolean!
+  updateUser(input: UpdateUserInput!): User
 }

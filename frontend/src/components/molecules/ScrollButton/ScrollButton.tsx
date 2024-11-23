@@ -18,7 +18,7 @@ export const ScrollButton = ({
   return (
     <button
       className={cn(
-        "text-white z-20 h-14 w-14 rounded-full text-5xl bg-black/80 shrink-0 flex items-center justify-center hover:bg-black/90",
+        "text-white z-10 h-14 w-14 rounded-full text-5xl bg-black/80 shrink-0 flex items-center justify-center hover:bg-black/90",
         className,
       )}
       type="button"

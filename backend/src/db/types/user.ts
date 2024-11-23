@@ -8,4 +8,5 @@ export interface User {
   password: string;
   createdAt: Generated<Date>;
   updatedAt: Generated<Date>;
+  avatarUrl: string | null;
 }
