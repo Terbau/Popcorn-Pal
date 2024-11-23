@@ -8,6 +8,7 @@ export const RawUserSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   password: z.string(),
+  avatarUrl: z.string().nullable(),
 });
 
 export const UserSchema = RawUserSchema.omit({
@@ -19,6 +20,16 @@ export const UserSignUpInputSchema = RawUserSchema.pick({
   firstName: true,
   lastName: true,
   password: true,
+});
+
+export const UserUpdateInputSchema = RawUserSchema.pick({
+  email: true,
+  firstName: true,
+  lastName: true,
 })
+  .extend({
+    avatarFile: z.any().optional(),
+  })
+  .partial();
 
 export type User = z.infer<typeof UserSchema>;

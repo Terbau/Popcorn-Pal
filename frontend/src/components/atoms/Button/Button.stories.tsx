@@ -1,6 +1,11 @@
-import { Button, type ButtonProps, type ButtonColor } from "./Button";
+import {
+  Button,
+  type ButtonProps,
+  type ButtonColor,
+  ButtonLeftIcon,
+  ButtonRightIcon,
+} from "./Button";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Icon } from "@iconify/react";
 
 const meta: Meta<typeof Button> = {
   title: "Components/Button",
@@ -122,7 +127,8 @@ export const AllVariantsDisabled: Story = {
 
 export const WithLeftIcon: Story = {
   render: (props: ButtonProps) => (
-    <Button {...props} leftIcon={<Icon icon="fluent:settings-48-regular" />}>
+    <Button {...props}>
+      <ButtonLeftIcon icon="fluent:settings-48-regular" />
       Click me
     </Button>
   ),
@@ -130,7 +136,8 @@ export const WithLeftIcon: Story = {
 
 export const WithRightIcon: Story = {
   render: (props: ButtonProps) => (
-    <Button {...props} rightIcon={<Icon icon="fluent:settings-48-regular" />}>
+    <Button {...props}>
+      <ButtonRightIcon icon="fluent:settings-48-regular" />
       Click me
     </Button>
   ),
@@ -138,17 +145,15 @@ export const WithRightIcon: Story = {
 
 export const WithBothIcons: Story = {
   render: (props: ButtonProps) => (
-    <Button
-      {...props}
-      leftIcon={<Icon icon="fluent:settings-48-regular" />}
-      rightIcon={<Icon icon="fluent:settings-48-regular" />}
-    >
+    <Button {...props}>
+      <ButtonLeftIcon icon="fluent:settings-48-regular" />
       Click me
+      <ButtonRightIcon icon="fluent:settings-48-regular" />
     </Button>
   ),
 };
 
-export const WithRightButtonAllSizes: Story = {
+export const WithRightIconAllSizes: Story = {
   render: (props: ButtonProps) => (
     <div className="flex flex-col gap-4">
       {["sm", "md", "lg"].map((size) => (
@@ -157,8 +162,8 @@ export const WithRightButtonAllSizes: Story = {
           {...props}
           size={size as "sm" | "md" | "lg"}
           className="w-fit"
-          leftIcon={<Icon icon="fluent:settings-48-regular" />}
         >
+          <ButtonRightIcon icon="fluent:settings-48-regular" />
           Click me
         </Button>
       ))}
@@ -170,6 +175,17 @@ export const AsLink: Story = {
   render: (props: ButtonProps) => (
     <Button {...props} asChild className="w-fit">
       <a href="https://vg.no" target="_blank" rel="noreferrer">
+        Click me to open a link
+      </a>
+    </Button>
+  ),
+};
+
+export const AsLinkWithLeftIcon: Story = {
+  render: (props: ButtonProps) => (
+    <Button {...props} asChild>
+      <a href="https://vg.no" target="_blank" rel="noreferrer">
+        <ButtonLeftIcon icon="fluent:settings-48-regular" />
         Click me to open a link
       </a>
     </Button>

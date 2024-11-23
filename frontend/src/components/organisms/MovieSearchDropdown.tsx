@@ -119,6 +119,7 @@ export const MovieSearchDropdown = () => {
           hidden: !searchResultDropdownIsOpen,
         })}
         searchResults={searchResultData?.movies ?? []}
+        totalSearchResults={searchResultData?.totalResults ?? 0}
         isLoading={isLoadingMore}
         canFetchMore={searchResultData?.nextPage !== null}
         onClose={() => setSearchResultDropdownIsOpen(false)}

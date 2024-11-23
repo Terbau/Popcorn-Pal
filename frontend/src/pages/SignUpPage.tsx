@@ -97,6 +97,7 @@ export default function SignUpPage() {
           {...register("email", { required: "Email is required" })}
           label="Email"
           placeholder="Email"
+          type="email"
           errorMessage={errors.email?.message}
           aria-invalid={errors.email ? "true" : "false"}
         />
@@ -119,8 +120,11 @@ export default function SignUpPage() {
           aria-invalid={errors.confirmPassword ? "true" : "false"}
         />
 
-        <Link to="/signin" className="text-blue-11 text-sm mt-3">
-          Already have an account? Sign in here
+        <Link
+          to="/signin"
+          className="text-blue-11 text-sm mt-3 hover:text-blue-10"
+        >
+          Already have an account? Click here to sign in.
         </Link>
 
         <LoadingButton type="submit" isLoading={loading}>

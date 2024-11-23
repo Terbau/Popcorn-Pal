@@ -1,11 +1,35 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import type { MutableRefObject, Ref, RefCallback } from "react";
+import { twMerge } from "tailwind-merge";
 
-export type NoUndefinedField<T> = { [P in keyof T]-?: NoUndefinedField<NonNullable<T[P]>> };
+export type NoUndefinedField<T> = {
+  [P in keyof T]-?: NoUndefinedField<NonNullable<T[P]>>;
+};
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
+
+export function useCombinedRefs<T>(...refs: Ref<T>[]): RefCallback<T> {
+  return (element: T) => {
+    for (const ref of refs) {
+      if (typeof ref === "function") {
+        ref(element);
+      } else if (ref) {
+        (ref as MutableRefObject<T | null>).current = element;
+      }
+    }
+  };
+}
+
+export const createInitials = (
+  firstName?: string | null,
+  lastName?: string | null,
+): string => {
+  const firstInitial = firstName?.charAt(0) ?? "";
+  const lastInitial = lastName?.charAt(0) ?? "";
+  return `${firstInitial}${lastInitial}`.toUpperCase();
+};
 
 export const transformImageUrl = (
   url: string,
@@ -20,11 +44,24 @@ export const transformImageUrl = (
 
 export const transformAndResizeImageUrl = (
   url: string,
-  width: number,
-  height: number,
   targetWidth: number,
+  width?: number,
+  height?: number,
 ): string => {
-  const targetHeight = Math.round((height / width) * targetWidth);
+  let oldWidth = width;
+  let oldHeight = height;
+
+  const found = url.match(/_UX\d+_.*,\d,(\d+),(\d+)/);
+  if (found) {
+    oldWidth = Number.parseInt(found[1], 10);
+    oldHeight = Number.parseInt(found[2], 10);
+  }
+
+  if (!oldWidth || !oldHeight) {
+    throw new Error("Could not find width and height");
+  }
+
+  const targetHeight = Math.round((oldHeight / oldWidth) * targetWidth);
   return transformImageUrl(url, targetWidth, targetHeight);
 };
 
@@ -36,7 +73,7 @@ export const createSrcSet = (
 ): string => {
   const srcSet = targetWidths.map(
     (targetWidth) =>
-      `${transformAndResizeImageUrl(url, width, height, targetWidth)} ${targetWidth}w`,
+      `${transformAndResizeImageUrl(url, targetWidth, width, height)} ${targetWidth}w`,
   );
   return srcSet.join(", ");
 };

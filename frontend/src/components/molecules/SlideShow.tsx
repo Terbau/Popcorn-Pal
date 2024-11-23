@@ -25,7 +25,7 @@ export function SlideShow() {
               alt={`Slide ${index + 1}`}
               className="w-full object-cover h-[32rem]"
             />
-            <div className="absolute flex items-end z-10 bottom-0 left-0 bg-gradient-to-b from-transparent to-primary h-full text-white p-6 text-4xl w-full font-roboto">
+            <div className="absolute flex items-end bottom-0 left-0 bg-gradient-to-b from-transparent to-primary h-full text-white p-6 text-4xl w-full font-roboto">
               <div className="pl-2">
                 <p className="font-bold text-4xl">{slide.text}</p>
                 <div className="flex items-center space-x-2">

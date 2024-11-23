@@ -44,7 +44,7 @@ export default function SignInPage() {
           navigate("/");
         }
       },
-    }
+    },
   );
 
   const onSubmit = (data: FormData) => {
@@ -60,7 +60,9 @@ export default function SignInPage() {
 
   return (
     <div className="max-w-screen-md p-6 mx-auto" data-cy="sign-in-page">
-      <h1 className="text-2xl font-bold mb-8" data-cy="page-title">Sign In</h1>
+      <h1 className="text-2xl font-bold mb-8" data-cy="page-title">
+        Sign In
+      </h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full flex flex-col gap-4"
@@ -70,6 +72,7 @@ export default function SignInPage() {
           {...register("email", { required: "Email is required" })}
           label="Email"
           placeholder="Email"
+          type="email"
           errorMessage={errors.email?.message}
           aria-invalid={errors.email ? "true" : "false"}
           data-cy="email-input"
@@ -84,8 +87,12 @@ export default function SignInPage() {
           data-cy="password-input"
         />
 
-        <Link to="/signup" className="text-blue-11 text-sm mt-3" data-cy="signup-link">
-          Don't have an account? Sign up here
+        <Link
+          to="/signup"
+          className="text-blue-11 text-sm mt-3 hover:text-blue-10"
+          data-cy="signup-link"
+        >
+          Don't have an account? Click here to sign up.
         </Link>
 
         <LoadingButton
@@ -96,9 +103,12 @@ export default function SignInPage() {
           Sign In
         </LoadingButton>
 
-        {error && <p className="text-red-11 text-sm" data-cy="error-message">{error.message}</p>}
+        {error && (
+          <p className="text-red-11 text-sm" data-cy="error-message">
+            {error.message}
+          </p>
+        )}
       </form>
     </div>
   );
 }
-

@@ -13,6 +13,7 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   Date: { input: Date; output: Date; }
+  Upload: { input: any; output: any; }
 };
 
 export type Comment = {
@@ -52,6 +53,7 @@ export type Mutation = {
   signIn?: Maybe<User>;
   signOut: Scalars['Boolean']['output'];
   signUp?: Maybe<User>;
+  updateUser?: Maybe<User>;
 };
 
 
@@ -62,6 +64,11 @@ export type MutationSignInArgs = {
 
 export type MutationSignUpArgs = {
   input: SignUpInput;
+};
+
+
+export type MutationUpdateUserArgs = {
+  input: UpdateUserInput;
 };
 
 export type Query = {
@@ -129,8 +136,16 @@ export type SignUpInput = {
   password: Scalars['String']['input'];
 };
 
+export type UpdateUserInput = {
+  avatarFile?: InputMaybe<Scalars['Upload']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  lastName?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type User = {
   __typename?: 'User';
+  avatarUrl?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['Date']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   firstName?: Maybe<Scalars['String']['output']>;
