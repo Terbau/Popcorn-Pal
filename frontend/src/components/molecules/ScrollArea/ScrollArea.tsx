@@ -40,7 +40,7 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
         <RadixScrollArea.Scrollbar
           orientation={orientation}
           className={cn(
-            "flex select-none touch-none p-0.5 transition duration-[160ms] ease-out",
+            "flex select-none touch-none p-0.5 transition duration-150 ease-out",
             orientation === "horizontal" ? "h-2 flex-col" : "w-2 flex-row",
           )}
         >
