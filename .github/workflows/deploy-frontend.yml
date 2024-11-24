@@ -16,10 +16,14 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: "20.11.1"
+
     - name: Install dependencies and build
       working-directory: ./frontend
       run: |
-        rm -rf node_modules package-lock.json
         npm install
         npm run build
 
