@@ -123,6 +123,7 @@ export const upsertMoviesByMovieIds = async (
       posterUrl: movie.poster?.url ?? "",
       posterHeight: movie.poster?.height ?? 0,
       posterWidth: movie.poster?.width ?? 0,
+      showcaseOnHomePage: false,
       updatedAt: new Date(),
     });
 

@@ -18,6 +18,16 @@ const GET_MOVIES = gql`
       title
       posterUrl
     }
+
+    featuredMovies: getFeaturedMovies {
+      id
+      title
+      yearReleased
+      externalRating
+      landscapePosterUrl
+      landscapePosterHeight
+      landscapePosterWidth
+    }
   }
 `;
 
@@ -27,13 +37,14 @@ export default function HomePage() {
   const { data, loading, error } = useQuery<{
     allMovies: GetMovies;
     top10Movies: GetMovies;
+    featuredMovies: GetMovies;
   }>(GET_MOVIES);
 
   if (error) return <p>Error: {error.message}</p>;
 
   return (
     <>
-      <SlideShow />
+      <SlideShow movies={data?.featuredMovies ?? []} />
       <div className="max-w-screen-xl mx-auto w-[90vw] mb-16">
         <div className="flex items-center justify-center mt-12 mb-4 sm:mb-24">
           <MovieCarousel

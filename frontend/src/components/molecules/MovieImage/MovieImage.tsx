@@ -6,12 +6,14 @@ interface MovieImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   alt: string;
   badgeProps?: BadgeProps;
+  hasHoverEffect?: boolean;
 }
 
 export const MovieImage = ({
   src,
   alt,
   badgeProps,
+  hasHoverEffect = true,
   className,
   ...props
 }: MovieImageProps) => {
@@ -23,7 +25,8 @@ export const MovieImage = ({
   return (
     <div
       className={cn(
-        "h-[10.5rem] md:h-60 aspect-[2/3] shrink-0 hover:scale-105 duration-300 rounded-lg relative",
+        "h-[10.5rem] md:h-60 aspect-[2/3] shrink-0 rounded-lg relative",
+        { "hover:scale-105 duration-300": hasHoverEffect },
         className,
       )}
     >

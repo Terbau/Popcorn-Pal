@@ -13,15 +13,15 @@ import { useState } from "react";
 import { EditProfileModal } from "../../organisms/EditProfileModal";
 import { createInitials } from "../../../lib/utils";
 
-interface ProfileDropdownProps extends RadixDropdownMenu.DropdownMenuProps {}
-
 const SIGN_OUT = gql`
   mutation SignOut {
     signOut
   }
 `;
 
-export const ProfileDropdown = ({ ...props }: ProfileDropdownProps) => {
+export const ProfileDropdown = ({
+  ...props
+}: RadixDropdownMenu.DropdownMenuProps) => {
   const { currentUser } = useAuth();
 
   const [editProfileIsOpen, setEditProfileIsOpen] = useState(false);

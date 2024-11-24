@@ -44,6 +44,10 @@ export interface Movie {
   posterUrl: string;
   posterHeight: number;
   posterWidth: number;
+  landscapePosterUrl: string | null;
+  landscapePosterHeight: number | null;
+  landscapePosterWidth: number | null;
+  showcaseOnHomePage: boolean; // currently this must be set manually to be true
   createdAt: Generated<Date>;
   updatedAt: Generated<Date>;
 }

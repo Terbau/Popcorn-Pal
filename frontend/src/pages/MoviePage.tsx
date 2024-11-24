@@ -1,8 +1,12 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import type { Query } from "../__generated__/types";
+import { MovieImage } from "../components/molecules/MovieImage/MovieImage";
+import { transformAndResizeImageUrl } from "../lib/utils";
+import { Badge, type BadgeProps } from "../components/atoms/Badge/Badge";
+import { LoadingPageSpinner } from "../components/atoms/Spinner/LoadingPageSpinner";
+import { ToggleBadge } from "../components/molecules/ToggleBadge/ToggleBadge";
 
 const GET_MOVIE = gql`
   query GetMovie($id: ID!) {
@@ -14,9 +18,13 @@ const GET_MOVIE = gql`
       creators
       genres
       stars
+      yearReleased
       posterUrl
       posterHeight
       posterWidth
+      landscapePosterUrl
+      landscapePosterHeight
+      landscapePosterWidth
       externalRating
     }
   }
@@ -38,97 +46,105 @@ export default function MoviePage() {
     },
   );
 
-  if (loading || !data) return <p>Loading...</p>;
+  const movie = data?.getMovie;
+
+  const ratingAndBadgeComponents = useCallback(
+    (size: BadgeProps["size"]) => (
+      <div className="flex gap-2 justify-end items-center">
+        <Badge color="slate" variant="secondary" size={size}>
+          Rate
+        </Badge>
+        <ToggleBadge
+          pressed={liked}
+          onPressedChange={setLiked}
+          size={size}
+          variant="secondary"
+          color="red"
+        >
+          {liked ? "Liked" : "Like"}
+        </ToggleBadge>
+        <Badge color="yellow" variant="secondary" size={size} asChild>
+          <Link to={`https://www.imdb.com/title/${movie?.id}/`} target="_blank">
+            {movie?.externalRating ?? "N/A"}
+            <span className="mx-1.5">•</span>
+            IMDb
+          </Link>
+        </Badge>
+      </div>
+    ),
+    [movie?.externalRating, movie?.id, liked],
+  );
+
+  if (loading) return <LoadingPageSpinner />;
   if (error) return <p>Error: {error.message}</p>;
 
-  const movie = data.getMovie;
-  if (!movie) return <p>Not found</p>;
+  if (!movie)
+    return <p className="flex justify-center text-2xl mt-6">Movie not found</p>;
 
-  const items = [
-    { label: "Director", text: movie.creators?.join(", ") },
-    { label: "Runtime", text: movie.runtime },
-    { label: "Genres", text: movie.genres?.join(", ") },
-    { label: "Cast", text: movie.stars?.join(", ") },
-  ];
-
-  const toggleLike = () => {
-    setLiked(!liked);
-  };
+  const landscapePosterUrl = movie.landscapePosterUrl
+    ? transformAndResizeImageUrl(
+        movie.landscapePosterUrl,
+        1920, // Resize image to 1280 width to save bandwidth
+        movie.landscapePosterWidth ?? 0,
+        movie.landscapePosterHeight ?? 0,
+      )
+    : null;
 
   return (
-    <div className="container mx-auto p-4 mt-6 text-white">
-      {/* Movie Title and Rating */}
-      <section
-        className="flex justify-between items-center"
-        data-cy="movie-header"
-      >
-        <h1 className="text-5xl font-medium" data-cy="movie-title">
-          {movie.title}
-        </h1>
-        <div
-          className="flex flex-row justify-between gap-10 items-center"
-          data-cy="movie-rating-and-favorite"
-        >
-          <div
-            className="flex items-center justify-center gap-2"
-            data-cy="movie-rating"
-          >
-            <Icon icon="pajamas:star" className="text-yellowdark-9 text-2xl" />
-            <p className="text-xl text-white">
-              {movie.externalRating} / 10 Rating
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={toggleLike}
-            className="flex items-center hover:bg-brand-4 hover:bg-opacity-20 cursor-pointer p-2 rounded-xl justify-center gap-2"
-            data-cy="favorite-button"
-          >
-            <span className="text-red-9 text-3xl">
-              {liked ? (
-                <Icon icon="weui:like-filled" />
-              ) : (
-                <Icon icon="weui:like-outlined" />
-              )}
-            </span>
-            <p className="text-xl">Favorite</p>
-          </button>
-        </div>
-      </section>
-
-      {/* Movie Poster and Description */}
-      <section className="flex flex-col md:flex-row mt-4" data-cy="movie-details">
-        <div
-          className="shrink-0 h-96 aspect-[2/3] rounded-lg overflow-hidden shadow-lg"
-          data-cy="movie-poster"
-        >
+    <div className="max-w-screen-lg w-[90vw] mx-auto mt-8 md:mt-16 rounded-lg overflow-hidden">
+      <div className="w-full bg-brand-2 h-32 md:h-56 overflow-hidden relative">
+        {landscapePosterUrl && (
           <img
-            src={movie.posterUrl ?? ""}
-            alt={movie.title}
-            className="h-full object-cover"
+            src={landscapePosterUrl}
+            alt={`${movie.title} landscape poster`}
+            className="h-full w-full object-cover"
           />
+        )}
+        <div className="flex sm:hidden gap-x-4 gap-y-1 flex-row text-sm sm:text-base absolute bottom-3 right-6">
+          {ratingAndBadgeComponents("sm")}
         </div>
-
-        <section>
-          <aside
-            className="w-1/3 shrink-0 bg-brand-3 h-fit rounded-xl max-w-60 float-right p-4 ml-4 mb-4 space-y-4 border border-brand-5"
-            data-cy="movie-metadata"
-          >
-            {items.map(({ label, text }) => (
-              <p key={label} className="text-sm text-gray-500" data-cy={`metadata-${label}`}>
-                <strong>{label}:</strong> {text}
-              </p>
-            ))}
-          </aside>
-          <h2 className="font-medium mt-2 md:pl-4 text-xl text-brand-11" data-cy="description-title">
-        Description
-          </h2>
-          <p className="mt-2 md:pl-4" data-cy="movie-description">
-            {movie.plot}
-          </p>
+      </div>
+      <div className="bg-brand-3 relative flex flex-col pb-6 md:pb-12">
+        <div className="flex flex-row gap-4 sm:gap-8 w-full h-24 md:h-36 px-4 sm:px-10">
+          <MovieImage
+            src={movie.posterUrl ?? ""}
+            alt={`${movie.title} poster`}
+            hasHoverEffect={false}
+            className="-translate-y-1/2"
+          />
+          <div className="flex flex-row gap-4 w-full h-fit pt-6 items-center">
+            <ul className="flex flex-row gap-2 items-start overflow-x-auto w-full h-fit py-2">
+              {movie.genres?.map((genre) => (
+                <Badge
+                  key={genre}
+                  color="slate"
+                  variant="secondary"
+                  size="sm"
+                  asChild
+                >
+                  <li className="w-fit h-fit whitespace-nowrap">{genre}</li>
+                </Badge>
+              ))}
+            </ul>
+            <div className="ml-auto hidden sm:flex gap-x-4 gap-y-1 flex-row text-sm sm:text-base">
+              {ratingAndBadgeComponents("md")}
+            </div>
+          </div>
+        </div>
+        <section className="px-5 sm:px-12 grid gap-4 grid-cols-[2fr]">
+          <section>
+            <div className="flex flex-row gap-2 items-center">
+              <h1 className="text-2xl md:text-3xl font-semibold w-fit">
+                {movie.title}
+              </h1>
+              <span className="text-sm text-brand-11 grow">
+                ({movie.yearReleased})
+              </span>
+            </div>
+            <p className="mt-1">{movie.plot}</p>
+          </section>
         </section>
-      </section>
+      </div>
     </div>
-
   );
 }
