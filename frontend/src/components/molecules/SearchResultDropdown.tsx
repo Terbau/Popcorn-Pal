@@ -12,6 +12,7 @@ interface SearchResultDropdownProps extends HTMLAttributes<HTMLDivElement> {
   totalSearchResults: number;
   isLoading?: boolean;
   canFetchMore?: boolean;
+  isMobile?: boolean;
   onClose?: () => void;
   onFetchMore?: () => void;
 }
@@ -21,20 +22,41 @@ export const SearchResultDropdown = ({
   totalSearchResults,
   isLoading = false,
   canFetchMore = false,
+  isMobile = false,
   onClose,
   onFetchMore,
   className,
   ...props
 }: SearchResultDropdownProps) => {
   return (
-    <div className={cn("w-full flex flex-col h-screen", className)} {...props}>
+    <div
+      className={cn(
+        "w-full flex flex-col",
+        { "h-screen": !isMobile },
+        { "h-[calc(100vh-5.5rem)]": isMobile },
+        className,
+      )}
+      {...props}
+    >
       <ScrollArea orientation="vertical">
-        <div className="bg-brand-2 p-4 h-full flex flex-col items-center pb-28">
+        <div
+          className={cn(
+            "h-full flex flex-col items-center",
+            {
+              "p-4 bg-brand-2 pb-28": !isMobile,
+            },
+            { "pb-12": isMobile },
+          )}
+        >
           <div className="flex flex-row justify-between mb-2 w-full">
-            <span className="font-semibold text-lg">
+            <span
+              className={cn("font-semibold sm:text-lg", {
+                "w-full text-center": isMobile,
+              })}
+            >
               Showing {searchResults.length} / {totalSearchResults} results
             </span>
-            <div className="flex flex-row items-center gap-6">
+            {!isMobile && (
               <button type="button">
                 <Icon
                   icon="iconamoon:close"
@@ -42,7 +64,7 @@ export const SearchResultDropdown = ({
                   onClick={onClose}
                 />
               </button>
-            </div>
+            )}
           </div>
 
           <ul className="gap-6 md:gap-12 p-4 w-full grid grid-cols-[repeat(auto-fit,minmax(7rem,1fr))] md:grid-cols-[repeat(auto-fit,minmax(160px,1fr))]">

@@ -41,7 +41,7 @@ export const SearchInput = ({
         placeholder={placeholder}
         {...props}
       />
-      <span className="ml-auto h-full">
+      <span className="ml-auto h-full flex justify-center items-center">
         {isLoading ? (
           <Spinner />
         ) : hasRemoveButton && query.length > 1 ? (

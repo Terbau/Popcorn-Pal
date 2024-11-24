@@ -46,6 +46,7 @@ export const ProfileDropdown = ({ ...props }: ProfileDropdownProps) => {
           fallback={initials}
           className="cursor-pointer"
           size="md"
+          overrideSizeChange
         />
       </RadixDropdownMenu.Trigger>
       <RadixDropdownMenu.Portal>

@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from "react";
+import { forwardRef, type HTMLAttributes } from "react";
 import { cn } from "../../../lib/utils";
 import { cva, type VariantProps } from "cva";
 
@@ -16,24 +16,24 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   variant?: "primary" | "secondary";
 }
 
-export const Badge = ({
-  color = "brand",
-  size = "md",
-  variant = "primary",
-  className,
-  ...props
-}: BadgeProps) => {
-  return (
-    <span
-      {...props}
-      className={cn(
-        badgeStyles({ variant, size }),
-        color && getColorStyles(color, variant),
-        className,
-      )}
-    />
-  );
-};
+export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
+  (
+    { color = "brand", size = "md", variant = "primary", className, ...props },
+    ref,
+  ) => {
+    return (
+      <span
+        ref={ref}
+        className={cn(
+          badgeStyles({ variant, size }),
+          color && getColorStyles(color, variant),
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
+);
 
 export const badgeStyles = cva({
   base: "rounded-full",

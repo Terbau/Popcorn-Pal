@@ -11,7 +11,7 @@ interface MovieGridProps {
 export const MovieGrid = ({ movies, isLoading = false }: MovieGridProps) => {
   return (
     <ul
-      className="grid grid-cols-3 sm:grid-4 md:grid-cols-6 gap-8 w-full"
+      className="grid place-items-center grid-cols-[repeat(auto-fit,minmax(7rem,1fr))] md:grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-8 w-full overflow-hidden"
       data-cy="movie-grid"
     >
       {isLoading
