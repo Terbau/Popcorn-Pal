@@ -1,6 +1,7 @@
 import { forwardRef, type HTMLAttributes } from "react";
 import { cn } from "../../../lib/utils";
 import { cva, type VariantProps } from "cva";
+import { Slot } from "@radix-ui/react-slot";
 
 export type BadgeColor =
   | "brand"
@@ -14,15 +15,25 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   color?: BadgeColor;
   size?: "sm" | "md" | "lg";
   variant?: "primary" | "secondary";
+  asChild?: boolean;
 }
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   (
-    { color = "brand", size = "md", variant = "primary", className, ...props },
+    {
+      color = "brand",
+      size = "md",
+      variant = "primary",
+      asChild = false,
+      className,
+      ...props
+    },
     ref,
   ) => {
+    const Comp = asChild ? Slot : "span";
+
     return (
-      <span
+      <Comp
         ref={ref}
         className={cn(
           badgeStyles({ variant, size }),
@@ -36,7 +47,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
 );
 
 export const badgeStyles = cva({
-  base: "rounded-full",
+  base: "rounded-full h-fit",
   variants: {
     variant: {
       primary: "text-slate-12",

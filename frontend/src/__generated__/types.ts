@@ -36,12 +36,16 @@ export type Movie = {
   externalVotes?: Maybe<Scalars['Int']['output']>;
   genres?: Maybe<Array<Scalars['String']['output']>>;
   id: Scalars['ID']['output'];
+  landscapePosterHeight?: Maybe<Scalars['Int']['output']>;
+  landscapePosterUrl?: Maybe<Scalars['String']['output']>;
+  landscapePosterWidth?: Maybe<Scalars['Int']['output']>;
   plot?: Maybe<Scalars['String']['output']>;
   posterHeight?: Maybe<Scalars['Int']['output']>;
   posterUrl?: Maybe<Scalars['String']['output']>;
   posterWidth?: Maybe<Scalars['Int']['output']>;
   releasedAt?: Maybe<Scalars['Date']['output']>;
   runtime?: Maybe<Scalars['Int']['output']>;
+  showcaseOnHomePage?: Maybe<Scalars['Boolean']['output']>;
   stars?: Maybe<Array<Scalars['String']['output']>>;
   title: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['Date']['output']>;
@@ -73,6 +77,7 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getFeaturedMovies?: Maybe<Array<Movie>>;
   getMovie?: Maybe<Movie>;
   getMovies?: Maybe<Array<Movie>>;
   getUser?: Maybe<User>;

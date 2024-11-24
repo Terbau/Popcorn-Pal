@@ -24,6 +24,7 @@ import type { GraphQLScalarType } from "graphql";
 import { getMovies } from "./resolvers/queries/getMovies.js";
 import { getMovie } from "./resolvers/queries/getMovie.js";
 import { updateUser } from "./resolvers/mutations/updateUser.js";
+import { getFeaturedMovies } from "./resolvers/queries/getFeaturedMovies.js";
 
 const FILE_UPLOAD_MAX_SIZE = 1 * 1024 * 1024;
 
@@ -42,6 +43,7 @@ const resolvers: {
   Query: {
     getMovies,
     getMovie,
+    getFeaturedMovies,
     getUser,
     randomMovie,
     searchMovies,

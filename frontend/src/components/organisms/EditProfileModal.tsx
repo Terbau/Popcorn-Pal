@@ -58,15 +58,13 @@ const EDIT_PROFILE_MUTATION = gql`
   }
 `;
 
-interface EditProfileModalProps extends ModalProps {}
-
 export const EditProfileModal = ({
   title = "Edit Profile",
   description = "Edit your profile information. Leaving fields blank will not change them.",
   open,
   onOpenChange,
   ...props
-}: EditProfileModalProps) => {
+}: ModalProps) => {
   const { currentUser, setCurrentUser } = useAuth();
   const [hasClickedRemoveAvatarButton, setHasClickedRemoveAvatarButton] =
     useState(false);

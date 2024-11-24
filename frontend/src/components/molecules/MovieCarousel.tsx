@@ -65,33 +65,33 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
           >
             {isLoading
               ? Array.from({ length: 5 }).map((_, index) => (
-                  // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
-                  <li key={index} className="shrink-0 p-4">
-                    <MovieImageSkeleton />
-                  </li>
-                ))
+                // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
+                <li key={index} className="shrink-0 p-4">
+                  <MovieImageSkeleton />
+                </li>
+              ))
               : movieList.map((movie, index) => (
-                  <li
-                    key={movie.id}
-                    className="shrink-0 p-4 relative snap-center h-full"
-                  >
-                    {/* Large Background Number */}
-                    <span className="text-8xl sm:text-9xl font-extrabold text-white drop-shadow-md absolute -top-6 sm:-top-8 left-0 z-10">
-                      {index + 1}
-                    </span>
+                <li
+                  key={movie.id}
+                  className="shrink-0 p-4 relative snap-center h-full"
+                >
+                  {/* Large Background Number */}
+                  <span className="text-8xl sm:text-9xl font-extrabold text-white drop-shadow-md absolute -top-6 sm:-top-8 left-0 z-10">
+                    {index + 1}
+                  </span>
 
-                    {/* Movie Poster */}
-                    <Link
-                      className="relative ml-auto h-full"
-                      to={`/movie/${movie.id}`}
-                    >
-                      <MovieImage
-                        src={movie.posterUrl ?? ""}
-                        alt={movie.title}
-                      />
-                    </Link>
-                  </li>
-                ))}
+                  {/* Movie Poster */}
+                  <Link
+                    className="relative ml-auto h-full"
+                    to={`/movie/${movie.id}`}
+                  >
+                    <MovieImage
+                      src={movie.posterUrl ?? ""}
+                      alt={movie.title}
+                    />
+                  </Link>
+                </li>
+              ))}
           </ul>
         </ScrollArea>
       </div>

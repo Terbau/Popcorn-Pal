@@ -1,4 +1,5 @@
 import type {
+  ImdbImageLookupImageData,
   ImdbLookupResult,
   ImdbRawLookupResult,
   ImdbRawSearchResult,
@@ -63,4 +64,73 @@ export async function searchImdb(
     }));
 
   return entries;
+}
+
+export async function fetchMovieImages(
+  movieId: string,
+): Promise<ImdbImageLookupImageData[]> {
+  const response = await fetch(`https://imdb.com/title/${movieId}/mediaindex/`);
+
+  const rawText = await response.text();
+  const matches = rawText.match(
+    /"all_images":{"total":(\d+),"pageInfo":{"hasNextPage":(\w+),"endCursor":"(\w+=*)","__typename":"PageInfo"},"edges":(\[.*?\]),"facets"/,
+  );
+  if (!matches) {
+    throw new Error("Failed to parse images");
+  }
+
+  const total = Number.parseInt(matches[1]);
+  const hasNextPage = matches[2] === "true";
+  const endCursor = matches[3];
+  let edges = JSON.parse(matches[4]);
+
+  if (hasNextPage) {
+    // The page always includes 50 images at max
+    const imagesToFetch = total - 50;
+
+    const params = new URLSearchParams({
+      operationName: "TitleMediaIndexPagination",
+      variables: JSON.stringify({
+        after: endCursor,
+        const: movieId,
+        filter: { galleryConstraints: {}, nameConstraints: {} },
+        first: imagesToFetch,
+        firstFacets: 0,
+        inIframeLinkContext: {
+          business: "consumer",
+          isInIframe: true,
+          returnUrl: "https://www.imdb.com/close_me",
+        },
+        locale: "en-US",
+        notInIframeLinkContext: {
+          business: "consumer",
+          isInIframe: false,
+          returnUrl: "https://www.imdb.com/",
+        },
+        originalTitleText: false,
+      }),
+      extensions: JSON.stringify({
+        persistedQuery: {
+          sha256Hash:
+            "e03a2b4d4986f47d6e3e5ead8721f7441c2557c167c52d05302bbb93bab47c3d",
+          version: 1,
+        },
+      }),
+    });
+    const newResponse = await fetch(
+      `https://caching.graphql.imdb.com/?${params}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    const newData = await newResponse.json();
+    const newEdges = newData.data.title.images.edges;
+
+    // add newEdges to edges
+    edges = edges.concat(newEdges);
+  }
+
+  return edges;
 }

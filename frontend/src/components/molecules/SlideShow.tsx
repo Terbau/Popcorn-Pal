@@ -1,29 +1,43 @@
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import MeanGirls from "../../assets/MeanGirls.jpg";
-import NoteBook from "../../assets/The-notebook-banner.jpeg";
-import Twilight from "../../assets/5df38c0b498e1fe8464e4413-1713649621457.jpeg";
 import { Icon } from "@iconify/react";
 import { Button } from "../atoms/Button/Button";
+import type { Movie } from "../../__generated__/types";
+import { transformAndResizeImageUrl } from "../../lib/utils";
+import { Link } from "react-router-dom";
 
-export function SlideShow() {
+interface SlideShowProps {
+  movies: Movie[];
+}
+
+export const SlideShow = ({ movies }: SlideShowProps) => {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()]);
 
-  const slides = [
-    { id: 1, image: MeanGirls, text: "Mean Girls", rating: "8.0", year: "2004" },
-    { id: 2, image: NoteBook, text: "The Notebook", rating: "7.9", year: "2007" },
-    { id: 3, image: Twilight, text: "Twilight", rating: "5.2", year: "2017" },
-  ];
+  const movieSlides = movies.map((movie) => ({
+    id: movie.id,
+    image: transformAndResizeImageUrl(
+      movie.landscapePosterUrl ?? "",
+      1920,
+      movie.landscapePosterWidth ?? undefined,
+      movie.landscapePosterHeight ?? undefined,
+    ),
+    text: movie.title,
+    rating: movie.externalRating,
+    year: movie.yearReleased,
+  }));
 
   return (
     <div className="overflow-hidden" ref={emblaRef}>
       <div className="flex">
-        {slides.map((slide, index) => (
-          <div className="relative flex-shrink-0 w-full h-[28rem]"key={slide.id}>
+        {movieSlides.map((slide, index) => (
+          <div
+            className="relative flex-shrink-0 w-full h-[28rem]"
+            key={slide.id}
+          >
             <img
               src={slide.image}
               alt={`Slide ${index + 1}`}
-              className="w-full object-cover h-[32rem]"
+              className="w-full object-cover h-[44rem]"
             />
             <div className="absolute flex items-end bottom-0 left-0 bg-gradient-to-b from-transparent to-primary h-full text-white p-6 text-4xl w-full font-roboto">
               <div className="pl-2">
@@ -45,8 +59,8 @@ export function SlideShow() {
                   />
                   <p className="text-xl pt-2">{slide.year}</p>
                 </div>
-                <Button className="pl-10 pr-10 flex items-center">
-                  <p>Read more</p>
+                <Button className="pl-10 pr-10 flex items-center w-fit" asChild>
+                  <Link to={`/movie/${slide.id}`}>Read more</Link>
                 </Button>
               </div>
             </div>
@@ -55,4 +69,4 @@ export function SlideShow() {
       </div>
     </div>
   );
-}
+};

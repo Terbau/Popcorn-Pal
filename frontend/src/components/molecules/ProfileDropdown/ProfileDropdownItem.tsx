@@ -3,18 +3,17 @@ import {
   type DropdownMenuItemProps,
 } from "@radix-ui/react-dropdown-menu";
 import { cn } from "../../../lib/utils";
-import { forwardRef, type ReactNode } from "react";
+import { forwardRef } from "react";
 import { Icon, type IconProps } from "@iconify/react/dist/iconify.js";
 
 interface ProfileDropdownItemProps extends DropdownMenuItemProps {
-  icon?: ReactNode;
   href?: string;
 }
 
 export const ProfileDropdownItem = forwardRef<
   HTMLDivElement,
   ProfileDropdownItemProps
->(({ icon, className, children, ...props }, ref) => {
+>(({ className, children, ...props }, ref) => {
   return (
     <DropdownMenuItem
       className={cn(

@@ -1,3 +1,16 @@
+export interface ImdbImageLookupImageData {
+  position: number;
+  node: {
+    id: string;
+    caption: {
+      plainText: string;
+    }
+    height: number;
+    width: number;
+    url: string;
+  }
+}
+
 export interface ImdbImageData {
   height: number;
   imageUrl: string;
