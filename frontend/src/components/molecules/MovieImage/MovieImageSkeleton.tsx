@@ -8,7 +8,7 @@ export const MovieImageSkeleton = ({
   return (
     <div
       className={cn(
-        "h-60 w-40 shrink-0 rounded-lg bg-slate-3 animate-pulse",
+        "h-[10.5rem] w-28 md:h-60 md:w-40 shrink-0 rounded-lg bg-slate-3 animate-pulse",
         className,
       )}
       {...props}

@@ -34,8 +34,8 @@ export default function HomePage() {
   return (
     <>
       <SlideShow />
-      <div className="max-w-screen-xl mx-auto px-6 mb-16">
-        <div className="flex items-center justify-center mt-12 mb-24">
+      <div className="max-w-screen-xl mx-auto w-[90vw] mb-16">
+        <div className="flex items-center justify-center mt-12 mb-4 sm:mb-24">
           <MovieCarousel
             movieList={data?.top10Movies ?? []}
             isLoading={loading}

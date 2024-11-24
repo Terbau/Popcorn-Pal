@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
-import tailwindcssRadixColors from "tailwindcss-radix-colors";
+import tailwindcssRadixColorsPlugin from "tailwindcss-radix-colors";
+import tailwindcssAnimatePlugin from "tailwindcss-animate";
 import * as colors from "@radix-ui/colors";
 
 const createColorScale = (name: string) => {
@@ -35,6 +36,10 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        xss: "375px",
+        xs: "425px",
+      },
       colors: {
         primary: "#030d26",
         inherit: "inherit",
@@ -54,5 +59,5 @@ export default {
       },
     },
   },
-  plugins: [tailwindcssRadixColors],
+  plugins: [tailwindcssRadixColorsPlugin, tailwindcssAnimatePlugin],
 } satisfies Config;

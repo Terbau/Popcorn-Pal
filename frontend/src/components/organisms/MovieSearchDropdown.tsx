@@ -4,6 +4,7 @@ import { SearchResultDropdown } from "../molecules/SearchResultDropdown";
 import type { Query } from "../../__generated__/types";
 import { gql, useLazyQuery } from "@apollo/client";
 import { cn } from "../../lib/utils";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const SEARCH_MOVIES = gql`
   query SearchMovies($query: String!, $page: Int!, $pageSize: Int!) {
@@ -24,7 +25,15 @@ const SEARCH_MOVIES = gql`
   }
 `;
 
-export const MovieSearchDropdown = () => {
+interface MovieSearchDropdownProps {
+  isMobile?: boolean;
+  onMobileOverlayClose?: () => void;
+}
+
+export const MovieSearchDropdown = ({
+  isMobile,
+  onMobileOverlayClose,
+}: MovieSearchDropdownProps) => {
   const [isTimeoutActive, setIsTimeoutActive] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
@@ -44,9 +53,6 @@ export const MovieSearchDropdown = () => {
       setSearchResultDropdownIsOpen(true);
     },
   });
-
-  // const searchResultData =
-  //   searchQuery.length > 1 ? data?.searchMovies : undefined;
 
   // Only allow a search every 300ms
   const handleQueryChange = (query: string) => {
@@ -104,24 +110,40 @@ export const MovieSearchDropdown = () => {
 
   return (
     <>
-      <SearchInput
-        className="ml-auto"
-        query={searchQuery}
-        onFocus={() =>
-          (searchResultData?.movies?.length ?? 0) > 0 &&
-          setSearchResultDropdownIsOpen(true)
-        }
-        onQueryChange={(query) => handleQueryChange(query)}
-        isLoading={loading || isTimeoutActive}
-      />
+      <div className="flex flex-row gap-3">
+        {isMobile && (
+          <button
+            type="button"
+            className="shrink-0"
+            onClick={onMobileOverlayClose}
+          >
+            <Icon icon="ion:chevron-back-sharp" className="h-6 w-6" />
+          </button>
+        )}
+        <SearchInput
+          className={cn({ "ml-auto": !isMobile }, { grow: isMobile })}
+          query={searchQuery}
+          onFocus={() =>
+            (searchResultData?.movies?.length ?? 0) > 0 &&
+            setSearchResultDropdownIsOpen(true)
+          }
+          onQueryChange={(query) => handleQueryChange(query)}
+          isLoading={loading || isTimeoutActive}
+        />
+      </div>
       <SearchResultDropdown
-        className={cn("absolute top-full left-0", {
-          hidden: !searchResultDropdownIsOpen,
-        })}
+        className={cn(
+          { "absolute top-full left-0": !isMobile },
+          { "mt-6": isMobile },
+          {
+            hidden: !searchResultDropdownIsOpen,
+          },
+        )}
         searchResults={searchResultData?.movies ?? []}
         totalSearchResults={searchResultData?.totalResults ?? 0}
         isLoading={isLoadingMore}
         canFetchMore={searchResultData?.nextPage !== null}
+        isMobile={isMobile}
         onClose={() => setSearchResultDropdownIsOpen(false)}
         onFetchMore={() => setCurrentPage((prev) => prev + 1)}
       />

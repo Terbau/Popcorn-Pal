@@ -7,10 +7,34 @@ export interface AvatarProps extends RadixAvatar.AvatarProps {
   alt?: string;
   fallback: string;
   size: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
+  overrideSizeChange?: boolean;
 }
 
 export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
-  ({ src, alt, fallback, size = "md", className, children, ...props }, ref) => {
+  (
+    {
+      src,
+      alt,
+      fallback,
+      size = "md",
+      overrideSizeChange = false,
+      className,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    const originalHeightWidth = {
+      sm: "h-8 w-8",
+      md: "h-10 w-10",
+      lg: "h-12 w-12",
+      xl: "h-16 w-16",
+      "2xl": "h-20 w-20",
+      "3xl": "h-24 w-24",
+      "4xl": "h-32 w-32",
+      "5xl": "h-40 w-40",
+    }[size];
+
     const heightWidth = {
       sm: "h-4 w-4 md:h-8 md:w-8",
       md: "h-6 w-6 md:h-10 md:w-10",
@@ -39,7 +63,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
         ref={ref}
         className={cn(
           "inline-flex items-center justify-center align-middle overflow-hidden select-none rounded-full bg-brand-3 relative",
-          heightWidth,
+          overrideSizeChange ? originalHeightWidth : heightWidth,
           className,
         )}
         {...props}

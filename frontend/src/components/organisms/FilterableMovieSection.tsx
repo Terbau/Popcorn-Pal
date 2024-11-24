@@ -34,7 +34,7 @@ export const FilterableMovieSection = ({
 
   return (
     <section
-      className="w-full flex flex-col gap-8"
+      className="w-full flex flex-col gap-8 items-center justify-center"
       data-cy="filterable-movie-section"
     >
       <FilterBar
