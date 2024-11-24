@@ -24,7 +24,7 @@ jobs:
 
     - name: Install dependencies
       working-directory: ./backend
-      run: npm install
+      run: NODE_OPTIONS="--max-old-space-size=512" npm ci
 
     - name: Compile the backend project
       working-directory: ./backend
