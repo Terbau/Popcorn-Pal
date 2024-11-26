@@ -1,12 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { gql, useQuery } from "@apollo/client";
-import type { Query } from "../__generated__/types";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import type { Mutation, Query } from "../__generated__/types";
 import { MovieImage } from "../components/molecules/MovieImage/MovieImage";
 import { transformAndResizeImageUrl } from "../lib/utils";
 import { Badge, type BadgeProps } from "../components/atoms/Badge/Badge";
 import { LoadingPageSpinner } from "../components/atoms/Spinner/LoadingPageSpinner";
 import { ToggleBadge } from "../components/molecules/ToggleBadge/ToggleBadge";
+import { toast } from "react-toastify";
+import { useAuth } from "../lib/context/authContext";
 
 const GET_MOVIE = gql`
   query GetMovie($id: ID!) {
@@ -30,9 +32,29 @@ const GET_MOVIE = gql`
   }
 `;
 
+const GET_FAVORITE_QUERY = gql`
+  query GetMovie($movieId: ID!) {
+    getUserMovieData(movieId: $movieId) {
+      favorite
+      favoritedAt
+    }
+  }
+`;
+
+const ADD_FAVORITE_MOVIE = gql`
+  mutation AddFavoriteMovie($movieId: ID!) {
+    addFavoriteMovie(movieId: $movieId)
+  }
+`;
+
+const DELETE_FAVORITE_MOVIE = gql`
+  mutation DeleteFavoriteMovie($movieId: ID!) {
+    deleteFavoriteMovie(movieId: $movieId)
+  }
+`;
+
 export default function MoviePage() {
   const { movieId } = useParams();
-  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -43,10 +65,51 @@ export default function MoviePage() {
     {
       variables: { id: movieId },
       skip: !movieId,
+    }
+  );
+
+  const { data: favoriteData, refetch: refetchFavoriteData } = useQuery<
+    Pick<Query, "getUserMovieData">
+  >(GET_FAVORITE_QUERY, {
+    variables: { movieId },
+    skip: !movieId,
+  });
+
+  const [
+    addFavoriteMovie,
+    // { loading: addFavoriteMovieLoading, error: addFavoriteMovieError },
+  ] = useMutation<Pick<Mutation, "addFavoriteMovie">>(ADD_FAVORITE_MOVIE, {
+    variables: { movieId },
+    onCompleted: () => {
+      toast.success("Movie successfully favorited!");
+      refetchFavoriteData();
     },
+    onError: () => {
+      toast.error("Could not favorite movie");
+    },
+  });
+
+  const [
+    deleteFavoriteMovie,
+    // { loading: deleteFavoriteMovieLoading, error: deleteFavoriteMovieError },
+  ] = useMutation<Pick<Mutation, "deleteFavoriteMovie">>(
+    DELETE_FAVORITE_MOVIE,
+    {
+      variables: { movieId },
+      onCompleted: (data) => {
+        if (data.deleteFavoriteMovie) {
+          toast.success("Movie successfully unfavorited!");
+          refetchFavoriteData();
+        }
+      },
+      onError: () => {
+        toast.error("Could not unfavorite movie");
+      },
+    }
   );
 
   const movie = data?.getMovie;
+  const isFavorite = favoriteData?.getUserMovieData.favorite ?? false;
 
   const ratingAndBadgeComponents = useCallback(
     (size: BadgeProps["size"]) => (
@@ -55,13 +118,15 @@ export default function MoviePage() {
           Rate
         </Badge>
         <ToggleBadge
-          pressed={liked}
-          onPressedChange={setLiked}
+          pressed={isFavorite}
+          onPressedChange={() =>
+            isFavorite ? deleteFavoriteMovie() : addFavoriteMovie()
+          }
           size={size}
           variant="secondary"
           color="red"
         >
-          {liked ? "Liked" : "Like"}
+          {isFavorite ? "Unfavorite" : "Favorite"}
         </ToggleBadge>
         <Badge color="yellow" variant="secondary" size={size} asChild>
           <Link to={`https://www.imdb.com/title/${movie?.id}/`} target="_blank">
@@ -72,7 +137,7 @@ export default function MoviePage() {
         </Badge>
       </div>
     ),
-    [movie?.externalRating, movie?.id, liked],
+    [movie?.externalRating, movie?.id, isFavorite]
   );
 
   if (loading) return <LoadingPageSpinner />;
@@ -86,7 +151,7 @@ export default function MoviePage() {
         movie.landscapePosterUrl,
         1920, // Resize image to 1280 width to save bandwidth
         movie.landscapePosterWidth ?? 0,
-        movie.landscapePosterHeight ?? 0,
+        movie.landscapePosterHeight ?? 0
       )
     : null;
 

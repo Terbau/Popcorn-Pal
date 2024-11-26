@@ -52,7 +52,7 @@ const middleware = new ApolloLink((operation, forward) => {
   });
 });
 
-const client = new ApolloClient({
+export const apolloClient = new ApolloClient({
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
@@ -78,7 +78,7 @@ function App() {
   return (
     <AuthProvider>
       <HashRouter>
-        <ApolloProvider client={client}>
+        <ApolloProvider client={apolloClient}>
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<HomePage />} />

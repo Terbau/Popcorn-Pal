@@ -1,5 +1,6 @@
 import type { Session } from "./auth";
 import type { Comment } from "./comment";
+import { Favorite } from "./favorite";
 import type {
   Creator,
   Genre,
@@ -22,4 +23,5 @@ export interface Database {
   movieStar: MovieStar;
   movie: Movie;
   comment: Comment;
+  favorite: Favorite;
 }

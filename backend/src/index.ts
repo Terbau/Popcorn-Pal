@@ -25,12 +25,15 @@ import { getMovies } from "./resolvers/queries/getMovies.js";
 import { getMovie } from "./resolvers/queries/getMovie.js";
 import { updateUser } from "./resolvers/mutations/updateUser.js";
 import { getFeaturedMovies } from "./resolvers/queries/getFeaturedMovies.js";
+import { getUserMovieData } from "./resolvers/queries/getUserMovieData.js";
+import { addFavoriteMovie } from "./resolvers/mutations/addFavoriteMovie.js";
+import { deleteFavoriteMovie } from "./resolvers/mutations/deleteFavoriteMovie.js";
 
 const FILE_UPLOAD_MAX_SIZE = 1 * 1024 * 1024;
 
 const typeDefs = readFileSync(
   join(dirname(fileURLToPath(import.meta.url)), "schema.graphql"),
-  "utf8",
+  "utf8"
 );
 
 const resolvers: {
@@ -47,12 +50,15 @@ const resolvers: {
     getUser,
     randomMovie,
     searchMovies,
+    getUserMovieData,
   },
   Mutation: {
     signUp,
     signIn,
     signOut,
     updateUser,
+    addFavoriteMovie,
+    deleteFavoriteMovie,
   },
   Date: dateScalar,
 };
@@ -76,7 +82,7 @@ const startServer = async () => {
       origin: ["http://localhost:5173", "http://it2810-21.idi.ntnu.no"],
       credentials: true,
     }),
-    express.json({ limit: "50mb" }),
+    express.json({ limit: "50mb" })
   );
 
   await server.start();
@@ -101,12 +107,12 @@ const startServer = async () => {
           setSessionTokenCookie(
             res,
             token,
-            sessionValidationResult.session.expiresAt,
+            sessionValidationResult.session.expiresAt
           );
         }
         return { ...sessionValidationResult, res };
       },
-    }),
+    })
   );
 
   app.listen(3001, () => {

@@ -61,6 +61,12 @@ type SearchResult {
   totalResults: Int
   nextPage: Int
 }
+type UserMovieData {
+  userId: ID
+  movieId: ID
+  favorite: Boolean
+  favoritedAt: Date
+}
 
 type Query {
   getMovies(
@@ -73,7 +79,8 @@ type Query {
   getMovie(id: ID!): Movie
   randomMovie: Movie!
   getUser(id: ID): User
-  searchMovies(query: String!, page: Int, pageSize: Int): SearchResult
+  searchMovies(query: String!, page: Int, pageSize: Int): SearchResult!
+  getUserMovieData(movieId: ID!): UserMovieData!
 }
 
 input SignUpInput {
@@ -100,4 +107,7 @@ type Mutation {
   signIn(input: SignInInput!): User
   signOut: Boolean!
   updateUser(input: UpdateUserInput!): User
+  addFavoriteMovie(movieId: ID!): Boolean
+  deleteFavoriteMovie(movieId: ID!): Boolean
 }
+

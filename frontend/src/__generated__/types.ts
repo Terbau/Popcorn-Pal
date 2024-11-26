@@ -54,10 +54,22 @@ export type Movie = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addFavoriteMovie?: Maybe<Scalars['Boolean']['output']>;
+  deleteFavoriteMovie?: Maybe<Scalars['Boolean']['output']>;
   signIn?: Maybe<User>;
   signOut: Scalars['Boolean']['output'];
   signUp?: Maybe<User>;
   updateUser?: Maybe<User>;
+};
+
+
+export type MutationAddFavoriteMovieArgs = {
+  movieId: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteFavoriteMovieArgs = {
+  movieId: Scalars['ID']['input'];
 };
 
 
@@ -81,8 +93,9 @@ export type Query = {
   getMovie?: Maybe<Movie>;
   getMovies?: Maybe<Array<Movie>>;
   getUser?: Maybe<User>;
+  getUserMovieData: UserMovieData;
   randomMovie: Movie;
-  searchMovies?: Maybe<SearchResult>;
+  searchMovies: SearchResult;
 };
 
 
@@ -101,6 +114,11 @@ export type QueryGetMoviesArgs = {
 
 export type QueryGetUserArgs = {
   id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryGetUserMovieDataArgs = {
+  movieId: Scalars['ID']['input'];
 };
 
 
@@ -157,4 +175,12 @@ export type User = {
   id: Scalars['ID']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['Date']['output']>;
+};
+
+export type UserMovieData = {
+  __typename?: 'UserMovieData';
+  favorite?: Maybe<Scalars['Boolean']['output']>;
+  favoritedAt?: Maybe<Scalars['Date']['output']>;
+  movieId?: Maybe<Scalars['ID']['output']>;
+  userId?: Maybe<Scalars['ID']['output']>;
 };
