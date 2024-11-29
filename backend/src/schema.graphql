@@ -20,6 +20,21 @@ type Comment {
   updatedAt: Date
 }
 
+type Creator {
+  name: String!
+  id: String!
+}
+
+type Genre {
+  name: String!
+  id: String!
+}
+
+type Star {
+  name: String!
+  id: String!
+}
+
 type Movie {
   id: ID!
   title: String!
@@ -40,9 +55,9 @@ type Movie {
   showcaseOnHomePage: Boolean
   createdAt: Date
   updatedAt: Date
-  creators: [String!]
-  genres: [String!]
-  stars: [String!]
+  creators: [Creator!]!
+  genres: [Genre!]!
+  stars: [Star!]!
 }
 
 type SearchMovie {
@@ -56,8 +71,14 @@ type SearchMovie {
   similarity: Float
 }
 
-type SearchResult {
-  movies: [SearchMovie!]
+type PaginatedSearchResult {
+  results: [SearchMovie!]!
+  totalResults: Int
+  nextPage: Int
+}
+
+type PaginatedMoviesResult {
+  results: [Movie!]!
   totalResults: Int
   nextPage: Int
 }
@@ -68,12 +89,15 @@ type Query {
     pageSize: Int
     orderBy: String
     orderDirection: String
-  ): [Movie!]
-  getFeaturedMovies: [Movie!]
+    genres: [String!]
+    filterGenres: Boolean
+  ): PaginatedMoviesResult!
+  getFeaturedMovies: [Movie!]!
   getMovie(id: ID!): Movie
   randomMovie: Movie!
   getUser(id: ID): User
-  searchMovies(query: String!, page: Int, pageSize: Int): SearchResult
+  searchMovies(query: String!, page: Int, pageSize: Int): PaginatedSearchResult!
+  getGenres: [Genre!]!
 }
 
 input SignUpInput {

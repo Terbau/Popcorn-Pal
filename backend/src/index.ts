@@ -4,7 +4,6 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import cookie from "cookie";
 import { validateSessionToken } from "./auth/session.js";
-import type { MyContext, RemappedMutation, RemappedQuery } from "./types.js";
 import { setSessionTokenCookie } from "./auth/utils.js";
 
 import { createServer } from "node:http";
@@ -19,12 +18,15 @@ import { signUp } from "./resolvers/mutations/signUp.js";
 import { signIn } from "./resolvers/mutations/signIn.js";
 import { signOut } from "./resolvers/mutations/signOut.js";
 import { searchMovies } from "./resolvers/queries/searchMovies.js";
-import { dateScalar } from "./resolvers/scalars/date.js";
 import type { GraphQLScalarType } from "graphql";
 import { getMovies } from "./resolvers/queries/getMovies.js";
 import { getMovie } from "./resolvers/queries/getMovie.js";
 import { updateUser } from "./resolvers/mutations/updateUser.js";
 import { getFeaturedMovies } from "./resolvers/queries/getFeaturedMovies.js";
+import type { MutationResolvers, QueryResolvers } from "./generated/types.js";
+import type { CustomContext } from "./types.js";
+import { DateResolver } from "graphql-scalars";
+import { getGenres } from "./resolvers/queries/getGenres.js";
 
 const FILE_UPLOAD_MAX_SIZE = 1 * 1024 * 1024;
 
@@ -35,10 +37,11 @@ const typeDefs = readFileSync(
 
 const resolvers: {
   Upload: typeof GraphQLUpload;
-  Query: RemappedQuery;
-  Mutation: RemappedMutation;
+  Query: QueryResolvers<CustomContext>;
+  Mutation: MutationResolvers<CustomContext>;
   Date: GraphQLScalarType;
 } = {
+  Date: DateResolver,
   Upload: GraphQLUpload,
   Query: {
     getMovies,
@@ -47,6 +50,7 @@ const resolvers: {
     getUser,
     randomMovie,
     searchMovies,
+    getGenres,
   },
   Mutation: {
     signUp,
@@ -54,14 +58,13 @@ const resolvers: {
     signOut,
     updateUser,
   },
-  Date: dateScalar,
 };
 
 const startServer = async () => {
   const app = express();
   const httpServer = createServer(app);
 
-  const server = new ApolloServer<MyContext>({
+  const server = new ApolloServer<CustomContext>({
     typeDefs,
     resolvers,
     formatError: (err) => {
@@ -83,7 +86,10 @@ const startServer = async () => {
 
   app.use(
     "/graphql",
-    graphqlUploadExpress({ maxFileSize: FILE_UPLOAD_MAX_SIZE, maxFiles: 1 }),
+    graphqlUploadExpress({
+      maxFileSize: FILE_UPLOAD_MAX_SIZE,
+      maxFiles: 1,
+    }),
     expressMiddleware(server, {
       context: async ({ req, res }) => {
         const cookies = req.headers.cookie

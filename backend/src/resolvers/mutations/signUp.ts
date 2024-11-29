@@ -1,9 +1,9 @@
 import { hashPassword, verifyPasswordStrength } from "../../auth/password.js";
 import { db } from "../../db/index.js";
-import type { RemappedMutation } from "../../types";
+import type { MutationResolvers } from "../../types.js";
 import { type User, UserSignUpInputSchema } from "../../types/user.js";
 
-export const signUp: RemappedMutation["signUp"] = async (
+export const signUp: MutationResolvers["signUp"] = async (
   _,
   { input },
 ): Promise<User> => {

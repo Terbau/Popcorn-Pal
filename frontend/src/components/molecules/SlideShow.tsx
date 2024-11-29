@@ -2,18 +2,18 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { Icon } from "@iconify/react";
 import { Button } from "../atoms/Button/Button";
-import type { Movie } from "../../__generated__/types";
 import { transformAndResizeImageUrl } from "../../lib/utils";
 import { Link } from "react-router-dom";
+import type { GetFeaturedMoviesQuery } from "@/lib/graphql/generated/graphql";
 
 interface SlideShowProps {
-  movies: Movie[];
+  movies: GetFeaturedMoviesQuery["getFeaturedMovies"];
 }
 
 export const SlideShow = ({ movies }: SlideShowProps) => {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()]);
 
-  const movieSlides = movies.map((movie) => ({
+  const movieSlides = movies?.map((movie) => ({
     id: movie.id,
     image: transformAndResizeImageUrl(
       movie.landscapePosterUrl ?? "",
@@ -29,7 +29,7 @@ export const SlideShow = ({ movies }: SlideShowProps) => {
   return (
     <div className="overflow-hidden" ref={emblaRef}>
       <div className="flex">
-        {movieSlides.map((slide, index) => (
+        {movieSlides?.map((slide, index) => (
           <div
             className="relative flex-shrink-0 w-full h-[28rem]"
             key={slide.id}

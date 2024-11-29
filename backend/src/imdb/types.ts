@@ -4,11 +4,11 @@ export interface ImdbImageLookupImageData {
     id: string;
     caption: {
       plainText: string;
-    }
+    };
     height: number;
     width: number;
     url: string;
-  }
+  };
 }
 
 export interface ImdbImageData {
@@ -80,7 +80,7 @@ export interface ImdbRawLookupResultEntry {
       star?: { href: string; name: string }[];
       director?: { href: string; name: string }[];
       creator?: { href: string; name: string }[];
-    }
+    };
     id: string;
     metadata: {
       certificate: string;
@@ -88,7 +88,7 @@ export interface ImdbRawLookupResultEntry {
       release: number;
       runtime: number;
       numberOfEpisodes?: number;
-    },
+    };
     movieMeterCurrentRank: number;
     plot: string;
     poster: ImdbPosterData;
@@ -96,15 +96,15 @@ export interface ImdbRawLookupResultEntry {
       href: string;
       title: string;
       year: string[];
-    }
+    };
     ratings: {
       canVote: boolean;
       metascore: number;
       rating: number;
       votes: number;
-    }
+    };
     type: string;
-  }
+  };
 }
 
 export interface ImdbCreator {
@@ -144,4 +144,3 @@ export interface ImdbItem {
 export interface ImdbLookupResult {
   [id: string]: ImdbItem;
 }
-

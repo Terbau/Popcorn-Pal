@@ -1,10 +1,10 @@
-import type { RemappedQuery } from "../../types";
 import { fetchMovies } from "../../functions.js";
 import { fetchMovieImages } from "../../imdb/index.js";
 import { db } from "../../db/index.js";
+import type { QueryResolvers } from "../../types.js";
 
-export const getMovie: RemappedQuery["getMovie"] = async (_, { id }) => {
-  const movies = await fetchMovies([id]);
+export const getMovie: QueryResolvers["getMovie"] = async (_, { id }) => {
+  const { results: movies } = await fetchMovies([id]);
   const movie = movies.at(0);
 
   if (!movie) {

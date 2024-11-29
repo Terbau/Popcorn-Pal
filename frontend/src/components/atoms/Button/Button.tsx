@@ -115,6 +115,10 @@ export const buttonStyles = cva({
       sm: "px-2 py-1 text-sm",
       md: "px-4 py-2 text-base",
       lg: "px-6 py-3 text-lg",
+      "responsive-sm": "px-1 py-0.5 sm:px-2 sm:py-1 text-xs",
+      "responsive-md": "px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm",
+      "responsive-lg":
+        "px-3 py-1.5 sm:px-6 sm:py-3 xs:text-xs text-sm sm:text-base",
     },
   },
   defaultVariants: {
@@ -134,6 +138,16 @@ const getIconSizeStyles = (
       return `w-6 h-6 ${iconAlignment === "left" ? "-ml-1" : "-mr-1"}`;
     case "lg":
       return `w-8 h-8 ${iconAlignment === "left" ? "-ml-2" : "-mr-2"}`;
+    case "responsive-sm":
+      return "w-3 h-3 sm:w-4 sm:h-4";
+    case "responsive-md":
+      return `w-4 h-4 sm:w-6 sm:h-6 ${
+        iconAlignment === "left" ? "-ml-1" : "-mr-1"
+      }`;
+    case "responsive-lg":
+      return `w-6 h-6 sm:w-8 sm:h-8 ${
+        iconAlignment === "left" ? "-ml-2" : "-mr-2"
+      }`;
     default:
       throw new Error("Invalid size");
   }

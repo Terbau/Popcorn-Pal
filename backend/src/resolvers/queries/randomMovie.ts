@@ -1,8 +1,8 @@
-import type { RemappedQuery } from "../../types";
 import { db } from "../../db/index.js";
+import type { QueryResolvers } from "../../types.js";
 import { sql } from "kysely";
 
-export const randomMovie: RemappedQuery["randomMovie"] = async () => {
+export const randomMovie: QueryResolvers["randomMovie"] = async () => {
   const movie = await db
     .selectFrom("movie")
     .selectAll("movie")
@@ -10,5 +10,10 @@ export const randomMovie: RemappedQuery["randomMovie"] = async () => {
     .limit(1)
     .executeTakeFirstOrThrow();
 
-  return movie;
+  return {
+    ...movie,
+    genres: [],
+    stars: [],
+    creators: [],
+  };
 };

@@ -1,9 +1,8 @@
-import type { RemappedQuery } from "../../types.js";
 import { db } from "../../db/index.js";
-import type { Movie } from "../../types/movie.js";
+import type { QueryResolvers } from "../../types.js";
 
-export const getFeaturedMovies: RemappedQuery["getFeaturedMovies"] =
-  async (): Promise<Movie[]> => {
+export const getFeaturedMovies: QueryResolvers["getFeaturedMovies"] =
+  async () => {
     const movies = await db
       .selectFrom("movie")
       .selectAll()

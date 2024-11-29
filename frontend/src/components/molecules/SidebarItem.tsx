@@ -10,6 +10,7 @@ import { Icon, type IconProps } from "@iconify/react/dist/iconify.js";
 import { cn } from "../../lib/utils";
 
 interface SidebarItemProps extends HTMLAttributes<HTMLButtonElement> {
+  isSelected?: boolean;
   disabled?: boolean;
   asChild?: boolean;
 }
@@ -21,14 +22,27 @@ const SidebarItemContext = createContext<
 >(undefined);
 
 export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
-  ({ asChild = false, disabled, className, ...props }, ref) => {
+  (
+    {
+      isSelected = false,
+      disabled = false,
+      asChild = false,
+      className,
+      ...props
+    },
+    ref,
+  ) => {
     const Comp = asChild ? Slot : "button";
 
     return (
       <SidebarItemContext.Provider value={{ disabled }}>
         <Comp
           ref={ref}
-          className={cn("flex flex-row gap-3", className)}
+          className={cn(
+            "flex flex-row gap-3",
+            { "text-brand-11": isSelected },
+            className,
+          )}
           {...props}
         />
       </SidebarItemContext.Provider>
@@ -62,7 +76,7 @@ export const SidebarItemLabel = forwardRef<
 });
 
 export const SidebarItemIcon = ({ className, ...props }: IconProps) => {
-  return <Icon className={cn("", className)} {...props} />;
+  return <Icon className={cn("h-6 w-6", className)} {...props} />;
 };
 
 export const SidebarItemBadge = forwardRef<HTMLSpanElement, BadgeProps>(

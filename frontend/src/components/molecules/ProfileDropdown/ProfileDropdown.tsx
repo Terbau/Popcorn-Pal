@@ -6,18 +6,13 @@ import {
 import { ProfileDropdownSeparator } from "./ProfileDropdownSeparator";
 import { useAuth } from "../../../lib/context/authContext";
 import { Avatar } from "../Avatar/Avatar";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { EditableAvatar } from "../Avatar/EditableAvatar";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { EditProfileModal } from "../../organisms/EditProfileModal";
 import { createInitials } from "../../../lib/utils";
-
-const SIGN_OUT = gql`
-  mutation SignOut {
-    signOut
-  }
-`;
+import { SIGN_OUT } from "@/lib/graphql/mutations/auth";
 
 export const ProfileDropdown = ({
   ...props

@@ -3,28 +3,14 @@ import "@fontsource/playfair-display";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../../lib/context/authContext";
 import { useCallback, useEffect } from "react";
-import { gql, useQuery } from "@apollo/client";
-import type { Query } from "../../__generated__/types";
 import { Footer } from "../molecules/Footer";
 import { Bounce, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { useCurrentUser } from "@/lib/hooks/useCurrentUser";
+import type { GetCurrentUserQuery } from "@/lib/graphql/generated/graphql";
 
-const GET_CURRENT_USER = gql`
-  query GetCurrentUser {
-    getUser {
-      id
-      email
-      firstName
-      lastName
-      avatarUrl
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
-export const constructUser = (data: Query["getUser"]) => {
+export const constructUser = (data: GetCurrentUserQuery["getUser"]) => {
   return {
     id: data?.id ?? "",
     email: data?.email ?? "",
@@ -39,7 +25,7 @@ export const constructUser = (data: Query["getUser"]) => {
 export const Layout = () => {
   const { currentUser, setCurrentUser, session } = useAuth();
 
-  const { refetch } = useQuery<Pick<Query, "getUser">>(GET_CURRENT_USER, {
+  const { refetch } = useCurrentUser({
     skip: !!session && !!currentUser,
     onCompleted: (data) => {
       handleSetCurrentUser(data);
@@ -47,20 +33,12 @@ export const Layout = () => {
   });
 
   const handleSetCurrentUser = useCallback(
-    (data: Pick<Query, "getUser">) => {
+    (data: GetCurrentUserQuery) => {
       if (!data.getUser) {
         return;
       }
 
-      setCurrentUser({
-        id: data.getUser.id,
-        email: data.getUser.email ?? "",
-        firstName: data.getUser.firstName ?? "",
-        lastName: data.getUser.lastName ?? "",
-        avatarUrl: data.getUser.avatarUrl ?? "",
-        createdAt: new Date(data.getUser.createdAt ?? 0),
-        updatedAt: new Date(data.getUser.updatedAt ?? 0),
-      });
+      setCurrentUser(constructUser(data.getUser));
     },
     [setCurrentUser],
   );
@@ -78,7 +56,7 @@ export const Layout = () => {
   return (
     <div className="w-full bg-primary min-h-screen flex flex-col font-roboto">
       <Navbar />
-      <main className="mt-20 mb-16 flex-grow">
+      <main className="mb-16 flex-grow">
         <Outlet />
       </main>
       <Footer />
