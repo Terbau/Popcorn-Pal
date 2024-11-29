@@ -57,6 +57,15 @@ export const apolloClient = new ApolloClient({
           },
         },
       },
+      Movie: {
+        fields: {
+          genres: {
+            merge(_, incoming) {
+              return [...incoming];
+            },
+          },
+        },
+      },
     },
   }),
   link: concat(middleware, uploadLink),

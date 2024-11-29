@@ -1,4 +1,6 @@
 import { hashPassword, verifyPasswordStrength } from "../../auth/password.js";
+import { createSession, generateSessionToken } from "../../auth/session.js";
+import { setSessionTokenCookie } from "../../auth/utils.js";
 import { db } from "../../db/index.js";
 import type { MutationResolvers } from "../../types.js";
 import { type User, UserSignUpInputSchema } from "../../types/user.js";
@@ -6,6 +8,7 @@ import { type User, UserSignUpInputSchema } from "../../types/user.js";
 export const signUp: MutationResolvers["signUp"] = async (
   _,
   { input },
+  { res },
 ): Promise<User> => {
   UserSignUpInputSchema.parse(input);
 
@@ -45,5 +48,18 @@ export const signUp: MutationResolvers["signUp"] = async (
     ])
     .executeTakeFirstOrThrow();
 
-  return user;
+  const token = generateSessionToken();
+  const session = await createSession(token, user.id);
+
+  setSessionTokenCookie(res, token, session.expiresAt);
+
+  return {
+    id: user.id,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    avatarUrl: user.avatarUrl,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+  };
 };
