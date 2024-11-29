@@ -1,8 +1,8 @@
+import type { MutationResolvers } from "../../types.js";
 import { invalidateSession } from "../../auth/session.js";
 import { deleteSessionTokenCookie } from "../../auth/utils.js";
-import type { RemappedMutation } from "../../types";
 
-export const signOut: RemappedMutation["signOut"] = async (
+export const signOut: MutationResolvers["signOut"] = async (
   _,
   __,
   { session, res },

@@ -61,7 +61,12 @@ export const createSrcSet = (
 ): string => {
   const srcSet = targetWidths.map(
     (targetWidth) =>
-      `${transformAndResizeImageUrl(url, width, height, targetWidth)} ${targetWidth}w`,
+      `${transformAndResizeImageUrl(
+        url,
+        width,
+        height,
+        targetWidth,
+      )} ${targetWidth}w`,
   );
   return srcSet.join(", ");
 };

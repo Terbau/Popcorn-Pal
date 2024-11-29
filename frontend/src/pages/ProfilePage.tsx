@@ -1,6 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import type { Query } from "../__generated__/types";
 import { useAuth } from "../lib/context/authContext";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { EditableAvatar } from "../components/molecules/Avatar/EditableAvatar";
@@ -9,20 +7,7 @@ import { createInitials } from "../lib/utils";
 import { EditProfileModal } from "../components/organisms/EditProfileModal";
 import { useState } from "react";
 import { LoadingPageSpinner } from "../components/atoms/Spinner/LoadingPageSpinner";
-
-const GET_USER_QUERY = gql`
-  query GetUser($id: ID!) {
-    getUser(id: $id) {
-      id
-      email
-      firstName
-      lastName
-      avatarUrl
-      createdAt
-      updatedAt
-    }
-  }
-`;
+import { useUser } from "@/lib/hooks/useUser";
 
 export default function ProfilePage() {
   const { userId } = useParams();
@@ -32,23 +17,25 @@ export default function ProfilePage() {
 
   const isCurrentUser = userId === currentUser?.id;
 
-  const { data, loading, error } = useQuery<Pick<Query, "getUser">>(
-    GET_USER_QUERY,
-    { skip: !userId || isCurrentUser, variables: { id: userId } },
-  );
+  const {
+    user: apiUser,
+    loading,
+    error,
+  } = useUser({
+    skip: !userId || isCurrentUser,
+    variables: { id: userId ?? "" },
+  });
 
   // Use currentUser if the user is viewing their own profile. This is because
   // the data of currentUser is updated in real-time when the user updates their
   // profile. This is not the case for other users' profiles.
-  const user = isCurrentUser ? currentUser : data?.getUser;
+  const user = isCurrentUser ? currentUser : apiUser;
 
   if (error) return <p>Error: {error.message}</p>;
   if (loading || !currentUser) return <LoadingPageSpinner />;
 
   if (!user) {
-    return (
-      <p className="flex justify-center text-2xl mt-6">User not found</p>
-    )
+    return <p className="flex justify-center text-2xl mt-6">User not found</p>;
   }
 
   return (

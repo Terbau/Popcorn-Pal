@@ -2,7 +2,7 @@ import { sql } from "kysely";
 import { db } from "./db/index.js";
 import { getItemsByIds } from "./imdb/index.js";
 import type { Creator, Genre, Movie, Star } from "./types/movie.js";
-import type { SearchMovie } from "./__generated__/types.js";
+import type { SearchMovie } from "./generated/types.js";
 
 export const moviesOrderOptions = [
   "title",
@@ -58,7 +58,9 @@ export const fetchMovies = async (
   offset?: number,
   orderBy: MoviesOrderOptions = "title",
   orderDirection: "asc" | "desc" = "asc",
-): Promise<Movie[]> => {
+  genres?: string[],
+  getTotalResults = false,
+): Promise<{ results: Movie[]; totalResults: number }> => {
   const movies = await db
     .selectFrom("movie")
     .leftJoin("movieGenre", "movie.id", "movieGenre.movieId")
@@ -69,18 +71,23 @@ export const fetchMovies = async (
     .leftJoin("star", "movieStar.starId", "star.id")
     .selectAll("movie")
     .select(({ ref }) => [
-      sql<Genre[]>`COALESCE(json_agg(DISTINCT genre.name) FILTER (WHERE ${ref(
+      sql<
+        Genre[]
+      >`COALESCE(json_agg(DISTINCT jsonb_build_object('id', genre.id, 'name', genre.name)) FILTER (WHERE ${ref(
         "genre.id",
       )} IS NOT NULL), '[]')`.as("genres"),
       sql<
         Creator[]
-      >`COALESCE(json_agg(DISTINCT creator.name) FILTER (WHERE ${ref(
+      >`COALESCE(json_agg(DISTINCT jsonb_build_object('id', creator.id, 'name', creator.name)) FILTER (WHERE ${ref(
         "creator.id",
       )} IS NOT NULL), '[]')`.as("creators"),
-      sql<Star[]>`COALESCE(json_agg(DISTINCT star.name) FILTER (WHERE ${ref(
+      sql<
+        Star[]
+      >`COALESCE(json_agg(DISTINCT jsonb_build_object('id', star.id, 'name', star.name)) FILTER (WHERE ${ref(
         "star.id",
       )} IS NOT NULL), '[]')`.as("stars"),
     ])
+    .$if(genres !== undefined, (qb) => qb.where("genre.id", "in", genres ?? []))
     .$if(ids !== undefined, (qb) => qb.where("movie.id", "in", ids ?? []))
     .$if(limit !== undefined, (qb) => qb.limit(limit ?? 0))
     .$if(offset !== undefined, (qb) => qb.offset(offset ?? 0))
@@ -88,7 +95,31 @@ export const fetchMovies = async (
     .groupBy(["movie.id", "movie.createdAt"])
     .execute();
 
-  return movies;
+  let totalResults = 0;
+
+  if (getTotalResults) {
+    const totalResultsQueryResult = await db
+      .selectFrom((eb) =>
+        eb
+          .selectFrom("movie")
+          .select("id")
+          .leftJoin("movieGenre", "movie.id", "movieGenre.movieId")
+          .$if(genres !== undefined, (qb) =>
+            qb.where("movieGenre.genreId", "in", genres ?? []),
+          )
+          .$if(ids !== undefined, (qb) => qb.where("movie.id", "in", ids ?? []))
+          .as("subquery"),
+      )
+      .select(sql<number>`COUNT(DISTINCT subquery.id)`.as("total"))
+      .executeTakeFirst();
+
+    totalResults = totalResultsQueryResult?.total ?? movies.length;
+  }
+
+  return {
+    results: movies,
+    totalResults,
+  };
 };
 
 export const upsertMoviesByMovieIds = async (

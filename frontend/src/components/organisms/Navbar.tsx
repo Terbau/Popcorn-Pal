@@ -1,12 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, ButtonLeftIcon } from "../atoms/Button/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import "@fontsource/playfair-display"; // Importerer Playfair Display fonten
 import "@fontsource/roboto"; // Importerer Roboto fonten
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { useAuth } from "../../lib/context/authContext";
-import { useState } from "react";
-import type { Query } from "../../__generated__/types";
+import { useEffect, useState } from "react";
 import { LoadingButton } from "../molecules/LoadingButton/LoadingButton";
 import { MovieSearchDropdown } from "./MovieSearchDropdown";
 import { ProfileDropdown } from "../molecules/ProfileDropdown/ProfileDropdown";
@@ -15,20 +14,39 @@ import { MobileSearchOverlay } from "./MobileSearchOverlay";
 import {
   SidebarItem,
   SidebarItemBadge,
+  SidebarItemIcon,
   SidebarItemLabel,
 } from "../molecules/SidebarItem";
 import { Separator } from "../atoms/Separator/Separator";
+import { GET_RANDOM_MOVIE } from "@/lib/graphql/queries/movie";
+import { cn } from "@/lib/utils";
+import { Badge, type BadgeProps } from "../atoms/Badge/Badge";
 
-const RANDOM_MOVIE = gql`
-  query randomMovie {
-    randomMovie {
-      id
-    }
-  }
-`;
+interface NavLink {
+  label: string;
+  to: string;
+  icon?: string;
+  badgeText?: string;
+  disabled?: boolean;
+  badgeProps?: BadgeProps;
+}
+
+const NAV_LINKS: NavLink[] = [
+  {
+    label: "Home",
+    to: "/",
+    icon: "material-symbols:home-outline",
+  },
+  {
+    label: "Discover",
+    to: "/discover",
+    icon: "fluent:movies-and-tv-16-regular",
+  },
+] as const;
 
 export const Navbar = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { currentUser } = useAuth();
 
   const [isLoading, setLoading] = useState(false);
@@ -37,12 +55,9 @@ export const Navbar = () => {
   const [mobileSearchOverlayIsOpen, setMobileSearchOverlayIsOpen] =
     useState(false);
 
-  const [fetchRandomMovie] = useLazyQuery<Pick<Query, "randomMovie">>(
-    RANDOM_MOVIE,
-    {
-      fetchPolicy: "no-cache",
-    },
-  );
+  const [fetchRandomMovie] = useLazyQuery(GET_RANDOM_MOVIE, {
+    fetchPolicy: "no-cache",
+  });
 
   const handleRandomMovie = async () => {
     setLoading(true);
@@ -54,51 +69,86 @@ export const Navbar = () => {
     setLoading(false);
   };
 
+  const currentPath = pathname.split("/")[1];
+
   return (
-    <header className="fixed bg-brand-3 w-full h-20 z-20">
-      <nav className="relative w-full h-full flex flex-row justify-between sm:justify-start px-3 xss:px-5 py-2 items-center gap-1 xs:gap-3 sm:gap-6 md:gap-12 font-roboto">
+    <header className="sticky top-0 bg-brand-3 w-full h-20 z-20 border-b border-brand-6">
+      <div className="relative w-full h-full flex flex-row md:justify-start px-3 xss:px-5 items-center gap-1 xs:gap-3 sm:gap-6 md:gap-12 font-roboto">
         <button
           type="button"
-          className="block sm:hidden"
+          className="block md:hidden"
           onClick={() => setSidebarIsOpen(true)}
         >
           <Icon icon="material-symbols:menu" className="h-8 w-8" />
         </button>
 
         <Link
-          className="flex items-center space-x-2 sm:space-x-4 font-playfair cursor-pointer hover:scale-105 transition duration-200"
+          className="flex items-center space-x-2 md:space-x-4 font-playfair cursor-pointer hover:scale-105 transition duration-200"
           to="/"
         >
           <Icon
             icon="emojione:popcorn"
-            className="h-8 w-8 sm:h-14 sm:w-14 hidden xss:block"
+            className="h-8 w-8 md:h-12 md:w-12 hidden xss:block"
           />
-          <p className="text-lg xss:xl sm:text-2xl md:text-4xl font-bold text-purple-500 whitespace-nowrap drop-shadow-[0_0_10px_rgba(128,90,213,0.8)]">
+          <p className="text-base xss:lg  md:text-2xl font-bold text-purple-500 whitespace-nowrap drop-shadow-[0_0_10px_rgba(128,90,213,0.8)]">
             POPCORN PAL
           </p>
         </Link>
 
-        <div className="sm:ml-auto flex flex-row items-center gap-2 xss:gap-4">
-          <LoadingButton
+        <nav className="h-full">
+          <ul className="hidden md:flex gap-6 h-full">
+            {NAV_LINKS.map((link) => {
+              const Comp = link.disabled ? "span" : Link;
+
+              return (
+                <li
+                  key={link.to}
+                  className="h-full flex flex-row gap-2 items-center"
+                >
+                  <Comp
+                    to={link.to}
+                    className={cn(
+                      "text-base text-brand-11 h-full flex items-center",
+                      { "hover:text-brand-10": !link.disabled },
+                      {
+                        "border-b-[3px] border-brand-9 pt-[3px]":
+                          currentPath === link.to.split("/")[1],
+                      },
+                    )}
+                  >
+                    {link.label}
+                  </Comp>
+                  {link.badgeText && (
+                    <Badge {...link.badgeProps}>{link.badgeText}</Badge>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        <div className="ml-auto flex flex-row items-center gap-2 xss:gap-4">
+          {/* More to a more fitting place */}
+          {/* <LoadingButton
             isLoading={isLoading}
             onClick={!isLoading ? handleRandomMovie : undefined}
             className="hidden md:flex"
           >
             <ButtonLeftIcon icon="mynaui:play-solid" />
             Random Movie
-          </LoadingButton>
+          </LoadingButton> */}
 
-          <div className="hidden sm:block">
+          <div className="hidden md:block">
             <MovieSearchDropdown />
           </div>
 
           <button
             type="button"
             onClick={() => setMobileSearchOverlayIsOpen(true)}
-            className="sm:hidden"
+            className="md:hidden"
           >
             {/* Search icon */}
-            <Icon icon="ic:twotone-search" className="h-6 w-6 sm:h-8 sm:w-8" />
+            <Icon icon="ic:twotone-search" className="h-6 w-6 md:h-8 md:w-8" />
           </button>
 
           {currentUser ? (
@@ -120,23 +170,28 @@ export const Navbar = () => {
             onOpenChange={setSidebarIsOpen}
           >
             <Separator orientation="horizontal" />
-            <SidebarItem disabled>
-              <SidebarItemLabel asChild>
-                <Link to="/for-you">For You</Link>
-              </SidebarItemLabel>
-              <SidebarItemBadge color="red" variant="secondary" size="sm">
-                Coming soon
-              </SidebarItemBadge>
-            </SidebarItem>
 
-            <SidebarItem disabled>
-              <SidebarItemLabel asChild>
-                <Link to="/discover">Discover</Link>
-              </SidebarItemLabel>
-              <SidebarItemBadge color="red" variant="secondary" size="sm">
-                Coming soon
-              </SidebarItemBadge>
-            </SidebarItem>
+            <nav className="flex flex-col gap-y-4">
+              {NAV_LINKS.map((link) => (
+                <SidebarItem
+                  key={link.to}
+                  isSelected={currentPath === link.to.split("/")[1]}
+                  disabled={link.disabled}
+                >
+                  {link.icon && <SidebarItemIcon icon={link.icon} />}
+                  <SidebarItemLabel asChild>
+                    <Link to={link.to} onClick={() => setSidebarIsOpen(false)}>
+                      {link.label}
+                    </Link>
+                  </SidebarItemLabel>
+                  {link.badgeText && (
+                    <SidebarItemBadge {...link.badgeProps}>
+                      {link.badgeText}
+                    </SidebarItemBadge>
+                  )}
+                </SidebarItem>
+              ))}
+            </nav>
           </Sheet>
 
           <MobileSearchOverlay
@@ -144,7 +199,7 @@ export const Navbar = () => {
             onOpenChange={setMobileSearchOverlayIsOpen}
           />
         </div>
-      </nav>
+      </div>
     </header>
   );
 };

@@ -7,13 +7,7 @@ interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  ({
-    label,
-    errorMessage,
-    className,
-    type = "text",
-    ...props
-  }, ref) => {
+  ({ label, errorMessage, className, type = "text", ...props }, ref) => {
     const id = useId();
 
     return (

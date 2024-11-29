@@ -1,5 +1,3 @@
-import type { RemappedQuery } from "../../types";
-import type { SearchResult } from "../../__generated__/types";
 import { searchImdb } from "../../imdb/index.js";
 import {
   fetchSearchResults,
@@ -7,6 +5,7 @@ import {
   upsertMoviesByMovieIds,
 } from "../../functions.js";
 import { z } from "zod";
+import type { QueryResolvers } from "../../types.js";
 
 const MINIMUM_MOVIES_BEFORE_EXTERNAL_SEARCH = 5;
 const MINIMUM_MOVIES_SIMILARITY_THRESHOLD_FOR_EXTERNAL_FETCH = 0.25;
@@ -21,10 +20,10 @@ const SearchMoviesSchema = z.object({
   pageSize: z.number().int().min(0).optional().default(30),
 });
 
-export const searchMovies: RemappedQuery["searchMovies"] = async (
+export const searchMovies: QueryResolvers["searchMovies"] = async (
   _,
   { query, page, pageSize },
-): Promise<SearchResult> => {
+) => {
   const {
     query: validatedQuery,
     page: validatedPage,
@@ -75,7 +74,7 @@ export const searchMovies: RemappedQuery["searchMovies"] = async (
   );
 
   return {
-    movies: searchResults,
+    results: searchResults,
     totalResults,
     nextPage: offset + limit < totalResults ? validatedPage + 1 : null,
   };

@@ -2,13 +2,13 @@ import type { HTMLAttributes } from "react";
 import { cn } from "../../lib/utils";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import type { SearchMovie } from "../../__generated__/types";
 import { MovieImage } from "./MovieImage/MovieImage";
 import { ScrollArea } from "./ScrollArea/ScrollArea";
 import { LoadingButton } from "./LoadingButton/LoadingButton";
+import type { SearchMoviesQuery } from "@/lib/graphql/generated/graphql";
 
 interface SearchResultDropdownProps extends HTMLAttributes<HTMLDivElement> {
-  searchResults: SearchMovie[];
+  searchResults: SearchMoviesQuery["searchMovies"]["results"];
   totalSearchResults: number;
   isLoading?: boolean;
   canFetchMore?: boolean;
@@ -54,7 +54,7 @@ export const SearchResultDropdown = ({
                 "w-full text-center": isMobile,
               })}
             >
-              Showing {searchResults.length} / {totalSearchResults} results
+              Showing {searchResults?.length} / {totalSearchResults} results
             </span>
             {!isMobile && (
               <button type="button">
@@ -67,8 +67,8 @@ export const SearchResultDropdown = ({
             )}
           </div>
 
-          <ul className="gap-6 md:gap-12 p-4 w-full grid grid-cols-[repeat(auto-fit,minmax(7rem,1fr))] md:grid-cols-[repeat(auto-fit,minmax(160px,1fr))]">
-            {searchResults.map((result) => (
+          <ul className="md:gap-12 w-full grid grid-cols-[repeat(auto-fit,minmax(5rem,1fr))] xs:grid-cols-[repeat(auto-fit,minmax(7rem,1fr))] md:grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-4 sm:gap-6">
+            {searchResults?.map((result) => (
               <li key={result.id} className="relative mx-auto">
                 <Link to={`/movie/${result.id}`} onClick={() => onClose?.()}>
                   <MovieImage src={result.posterUrl ?? ""} alt={result.title} />
@@ -76,7 +76,7 @@ export const SearchResultDropdown = ({
               </li>
             ))}
           </ul>
-          {canFetchMore && searchResults.length > 0 && (
+          {canFetchMore && (searchResults?.length ?? 0) > 0 && (
             <LoadingButton
               className="mt-8 w-fit"
               variant="secondary"

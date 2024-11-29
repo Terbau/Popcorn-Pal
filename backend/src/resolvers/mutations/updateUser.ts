@@ -1,9 +1,9 @@
 import { db } from "../../db/index.js";
+import type { MutationResolvers } from "../../types.js";
 import { uploadAvatar } from "../../minio/functions.js";
-import type { RemappedMutation } from "../../types.js";
 import { type User, UserUpdateInputSchema } from "../../types/user.js";
 
-export const updateUser: RemappedMutation["updateUser"] = async (
+export const updateUser: MutationResolvers["updateUser"] = async (
   _,
   { input },
   { user },

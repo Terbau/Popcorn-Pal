@@ -1,13 +1,13 @@
 import { db } from "../../db/index.js";
+import type { QueryResolvers } from "../../types.js";
 import { throwNotAuthenticatedError } from "../../errors.js";
-import type { RemappedQuery } from "../../types";
-import { UserSchema, type User } from "../../types/user.js";
+import { UserSchema } from "../../types/user.js";
 
-export const getUser: RemappedQuery["getUser"] = async (
+export const getUser: QueryResolvers["getUser"] = async (
   _,
   { id },
   { user },
-): Promise<User | null> => {
+) => {
   if (!id) {
     if (!user) {
       return throwNotAuthenticatedError();
@@ -16,7 +16,7 @@ export const getUser: RemappedQuery["getUser"] = async (
     return user;
   }
 
-  if (!UserSchema.pick({ id }).parse({ id })) {
+  if (!UserSchema.pick({ id: true }).parse({ id })) {
     throw new Error("Invalid input");
   }
 

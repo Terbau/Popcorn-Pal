@@ -2,21 +2,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { TextInput } from "../components/molecules/TextInput/TextInput";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { LoadingButton } from "../components/molecules/LoadingButton/LoadingButton";
-import type { Mutation } from "../__generated__/types";
 import { Link, useNavigate } from "react-router-dom";
-
-const SIGN_IN = gql`
-  mutation SignIn($input: SignInInput!) {
-    signIn(input: $input) {
-      id
-      email
-      firstName
-      lastName
-    }
-  }
-`;
+import { SIGN_IN } from "@/lib/graphql/mutations/auth";
 
 const UserSignInSchema = z.object({
   email: z.string().email(),
@@ -36,16 +25,13 @@ export default function SignInPage() {
     resolver: zodResolver(UserSignInSchema),
   });
 
-  const [signIn, { loading, error }] = useMutation<Pick<Mutation, "signIn">>(
-    SIGN_IN,
-    {
-      onCompleted: (data) => {
-        if (data?.signIn) {
-          navigate("/");
-        }
-      },
+  const [signIn, { loading, error }] = useMutation(SIGN_IN, {
+    onCompleted: (data) => {
+      if (data?.signIn) {
+        navigate("/");
+      }
     },
-  );
+  });
 
   const onSubmit = (data: FormData) => {
     signIn({

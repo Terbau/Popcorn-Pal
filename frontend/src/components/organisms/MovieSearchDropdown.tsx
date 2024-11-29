@@ -1,29 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchInput } from "../molecules/SearchInput/SearchInput";
 import { SearchResultDropdown } from "../molecules/SearchResultDropdown";
-import type { Query } from "../../__generated__/types";
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { cn } from "../../lib/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
-
-const SEARCH_MOVIES = gql`
-  query SearchMovies($query: String!, $page: Int!, $pageSize: Int!) {
-    searchMovies(query: $query, page: $page, pageSize: $pageSize) {
-      movies {
-        id
-        title
-        yearReleased
-        posterUrl
-        posterHeight
-        posterWidth
-        externalRating
-        similarity
-      }
-      totalResults
-      nextPage
-    }
-  }
-`;
+import { SEARCH_MOVIES } from "@/lib/graphql/queries/movie";
+import type { SearchMoviesQuery } from "@/lib/graphql/generated/graphql";
+import { useDebounce } from "@/lib/hooks/useDebounce";
 
 interface MovieSearchDropdownProps {
   isMobile?: boolean;
@@ -34,63 +17,57 @@ export const MovieSearchDropdown = ({
   isMobile,
   onMobileOverlayClose,
 }: MovieSearchDropdownProps) => {
-  const [isTimeoutActive, setIsTimeoutActive] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [searchResultDropdownIsOpen, setSearchResultDropdownIsOpen] =
     useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [searchResultData, setSearchResultData] = useState<
-    Query["searchMovies"]
-  >({});
+  const [queryResult, setQueryResult] = useState<
+    SearchMoviesQuery["searchMovies"] | undefined
+  >(undefined);
 
-  const searchTimeout = useRef<NodeJS.Timeout | null>(null);
+  const hasValidSearchQuery = searchQuery.length > 1;
 
-  const [fetchSearch, { data, loading, fetchMore }] = useLazyQuery<
-    Pick<Query, "searchMovies">
-  >(SEARCH_MOVIES, {
-    onCompleted: () => {
-      setSearchResultDropdownIsOpen(true);
+  const [fetchSearch, { data, loading, fetchMore }] = useLazyQuery(
+    SEARCH_MOVIES,
+    {
+      onError: (error) => {
+        console.error("Error fetching search results", error);
+      },
+      onCompleted: () => {
+        setSearchResultDropdownIsOpen(true);
+      },
     },
-  });
+  );
 
-  // Only allow a search every 300ms
-  const handleQueryChange = (query: string) => {
-    setSearchQuery(query);
+  // Only allow one search request at a time, and only allow it every 300ms.
+  const [
+    debouncedFetchSearch,
+    { isPending: debounceIsPending, cancel: cancelDebounce },
+  ] = useDebounce(fetchSearch, 300);
 
-    if (searchTimeout.current) {
-      clearTimeout(searchTimeout.current);
-    }
+  const results = queryResult?.results ?? [];
+  const totalResults = queryResult?.totalResults ?? 0;
+  const nextPage = queryResult?.nextPage;
 
-    if (query.length > 1) {
-      setIsTimeoutActive(true);
-      setCurrentPage(0);
-      searchTimeout.current = setTimeout(async () => {
-        await fetchSearch({ variables: { query, page: 0, pageSize: 30 } });
-
-        if (searchTimeout.current) {
-          clearTimeout(searchTimeout.current);
-          setIsTimeoutActive(false);
-        }
-
-        searchTimeout.current = null;
-      }, 300);
-    }
+  const handleOnClose = () => {
+    setSearchResultDropdownIsOpen(false);
+    onMobileOverlayClose?.();
   };
 
   useEffect(() => {
-    if (data) {
-      setSearchResultData(data.searchMovies);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (searchQuery.length < 1) {
-      setSearchResultData({});
+    if (!hasValidSearchQuery) {
       setSearchResultDropdownIsOpen(false);
+      cancelDebounce();
+    } else {
+      debouncedFetchSearch({
+        variables: { query: searchQuery, page: 0, pageSize: 30 },
+      });
     }
-  }, [searchQuery]);
+  }, [hasValidSearchQuery, searchQuery, debouncedFetchSearch, cancelDebounce]);
 
+  // This effect is responsible for fetching more data whenever
+  // the state variable `currentPage` changes.
   useEffect(() => {
     const handleFetchMore = async () => {
       setIsLoadingMore(true);
@@ -108,6 +85,12 @@ export const MovieSearchDropdown = ({
     }
   }, [currentPage, fetchMore]);
 
+  useEffect(() => {
+    if (data) {
+      setQueryResult(data.searchMovies);
+    }
+  });
+
   return (
     <>
       <div className="flex flex-row gap-3">
@@ -124,11 +107,12 @@ export const MovieSearchDropdown = ({
           className={cn({ "ml-auto": !isMobile }, { grow: isMobile })}
           query={searchQuery}
           onFocus={() =>
-            (searchResultData?.movies?.length ?? 0) > 0 &&
+            hasValidSearchQuery &&
+            results.length > 0 &&
             setSearchResultDropdownIsOpen(true)
           }
-          onQueryChange={(query) => handleQueryChange(query)}
-          isLoading={loading || isTimeoutActive}
+          onQueryChange={(query) => setSearchQuery(query)}
+          isLoading={loading || debounceIsPending}
         />
       </div>
       <SearchResultDropdown
@@ -139,12 +123,12 @@ export const MovieSearchDropdown = ({
             hidden: !searchResultDropdownIsOpen,
           },
         )}
-        searchResults={searchResultData?.movies ?? []}
-        totalSearchResults={searchResultData?.totalResults ?? 0}
+        searchResults={results}
+        totalSearchResults={totalResults}
         isLoading={isLoadingMore}
-        canFetchMore={searchResultData?.nextPage !== null}
+        canFetchMore={nextPage !== null}
         isMobile={isMobile}
-        onClose={() => setSearchResultDropdownIsOpen(false)}
+        onClose={handleOnClose}
         onFetchMore={() => setCurrentPage((prev) => prev + 1)}
       />
     </>

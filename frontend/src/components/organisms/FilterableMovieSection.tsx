@@ -4,10 +4,10 @@ import {
   type FilterBarItem,
 } from "../molecules/FilterBar/FilterBar";
 import { MovieGrid } from "../molecules/MovieGrid";
-import type { Movie } from "../../__generated__/types";
+import type { GetMoviesQuery } from "@/lib/graphql/generated/graphql";
 
 interface FilterableMovieSectionProps {
-  movies: Movie[];
+  movies: GetMoviesQuery["getMovies"]["results"];
   isLoading?: boolean;
 }
 
@@ -46,12 +46,12 @@ export const FilterableMovieSection = ({
         className="mx-auto"
       />
       <MovieGrid
-        movies={movies.filter((movie: Movie) =>
-          movie?.genres?.some((genres) => {
+        movies={movies?.filter((movie) =>
+          movie?.genres?.some((genreData) => {
             return filters.some(
-              (filter) => filter.isSelected && filter.value === genres
+              (filter) => filter.isSelected && filter.value === genreData.id,
             );
-          })
+          }),
         )}
         isLoading={isLoading}
       />

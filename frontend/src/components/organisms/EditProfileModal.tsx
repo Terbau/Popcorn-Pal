@@ -1,8 +1,7 @@
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import type { Mutation } from "../../__generated__/types";
 import { Modal, type ModalProps } from "../molecules/Modal/Modal";
 import { TextInput } from "../molecules/TextInput/TextInput";
 import { useAuth } from "../../lib/context/authContext";
@@ -14,6 +13,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "../atoms/Button/Button";
 import { toast } from "react-toastify";
 import { createInitials } from "../../lib/utils";
+import { UPDATE_USER } from "@/lib/graphql/mutations/user";
 
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
@@ -44,20 +44,6 @@ const EditProfileSchema = z.object({
 
 type FormData = z.infer<typeof EditProfileSchema>;
 
-const EDIT_PROFILE_MUTATION = gql`
-  mutation UpdateProfile($input: UpdateUserInput!) {
-    updateUser(input: $input) {
-      id
-      email
-      firstName
-      lastName
-      avatarUrl
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
 export const EditProfileModal = ({
   title = "Edit Profile",
   description = "Edit your profile information. Leaving fields blank will not change them.",
@@ -87,9 +73,7 @@ export const EditProfileModal = ({
     }, [currentUser]),
   });
 
-  const [editProfile, { loading, error }] = useMutation<
-    Pick<Mutation, "updateUser">
-  >(EDIT_PROFILE_MUTATION, {
+  const [editProfile, { loading, error }] = useMutation(UPDATE_USER, {
     onCompleted: (data) => {
       if (data.updateUser) {
         setCurrentUser(constructUser(data.updateUser));

@@ -1,34 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { gql, useQuery } from "@apollo/client";
-import type { Query } from "../__generated__/types";
 import { MovieImage } from "../components/molecules/MovieImage/MovieImage";
 import { transformAndResizeImageUrl } from "../lib/utils";
 import { Badge, type BadgeProps } from "../components/atoms/Badge/Badge";
 import { LoadingPageSpinner } from "../components/atoms/Spinner/LoadingPageSpinner";
 import { ToggleBadge } from "../components/molecules/ToggleBadge/ToggleBadge";
-
-const GET_MOVIE = gql`
-  query GetMovie($id: ID!) {
-    getMovie(id: $id) {
-      id
-      title
-      plot
-      runtime
-      creators
-      genres
-      stars
-      yearReleased
-      posterUrl
-      posterHeight
-      posterWidth
-      landscapePosterUrl
-      landscapePosterHeight
-      landscapePosterWidth
-      externalRating
-    }
-  }
-`;
+import { useMovie } from "@/lib/hooks/useMovie";
 
 export default function MoviePage() {
   const { movieId } = useParams();
@@ -38,15 +15,12 @@ export default function MoviePage() {
     window.scrollTo(0, 0);
   }, []);
 
-  const { data, loading, error } = useQuery<Pick<Query, "getMovie">>(
-    GET_MOVIE,
+  const { movie, loading, error } = useMovie(
+    { id: movieId ?? "" },
     {
-      variables: { id: movieId },
       skip: !movieId,
     },
   );
-
-  const movie = data?.getMovie;
 
   const ratingAndBadgeComponents = useCallback(
     (size: BadgeProps["size"]) => (
@@ -116,13 +90,15 @@ export default function MoviePage() {
             <ul className="flex flex-row gap-2 items-start overflow-x-auto w-full h-fit py-2">
               {movie.genres?.map((genre) => (
                 <Badge
-                  key={genre}
+                  key={genre.id}
                   color="slate"
                   variant="secondary"
                   size="sm"
                   asChild
                 >
-                  <li className="w-fit h-fit whitespace-nowrap">{genre}</li>
+                  <li className="w-fit h-fit whitespace-nowrap">
+                    {genre.name}
+                  </li>
                 </Badge>
               ))}
             </ul>

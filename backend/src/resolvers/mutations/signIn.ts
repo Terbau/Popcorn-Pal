@@ -2,14 +2,13 @@ import { verifyPasswordHash } from "../../auth/password.js";
 import { createSession, generateSessionToken } from "../../auth/session.js";
 import { setSessionTokenCookie } from "../../auth/utils.js";
 import { db } from "../../db/index.js";
-import type { RemappedMutation } from "../../types";
-import type { User } from "../../types/user.js";
+import type { MutationResolvers } from "../../types.js";
 
-export const signIn: RemappedMutation["signIn"] = async (
+export const signIn: MutationResolvers["signIn"] = async (
   _,
   { input },
   { res },
-): Promise<User> => {
+) => {
   const { email, password } = input;
 
   const user = await db

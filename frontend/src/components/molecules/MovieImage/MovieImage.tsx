@@ -24,10 +24,9 @@ export const MovieImage = ({
 
   return (
     <div
-      className={cn(
-        "h-[10.5rem] md:h-60 aspect-[2/3] shrink-0 rounded-lg relative",
+      className={cn("h-32 xs:h-[10.5rem] md:h-60 aspect-[2/3] shrink-0 rounded-lg relative",
         { "hover:scale-105 duration-300": hasHoverEffect },
-        className,
+        className
       )}
     >
       {badgeProps && (
@@ -38,7 +37,7 @@ export const MovieImage = ({
         <img
           src={transformedSrc}
           alt={alt}
-          className="h-full object-cover"
+          className="h-full w-full object-cover"
           {...props}
         />
       </div>
