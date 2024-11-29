@@ -16,7 +16,7 @@ import { apolloClient } from "./lib/graphql/apolloClient";
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter basename="project2">
+      <BrowserRouter basename="/project2/">
         <NuqsAdapter>
           <ApolloProvider client={apolloClient}>
             <Routes>
