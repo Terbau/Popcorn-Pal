@@ -121,7 +121,6 @@ export type QueryGetMovieArgs = {
 
 
 export type QueryGetMoviesArgs = {
-  filterGenres?: InputMaybe<Scalars['Boolean']['input']>;
   genres?: InputMaybe<Array<Scalars['String']['input']>>;
   orderBy?: InputMaybe<Scalars['String']['input']>;
   orderDirection?: InputMaybe<Scalars['String']['input']>;

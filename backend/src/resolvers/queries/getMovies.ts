@@ -12,7 +12,7 @@ const GetMoviesSchema = z.object({
 
 export const getMovies: QueryResolvers["getMovies"] = async (
   _,
-  { page, pageSize, orderBy, orderDirection, genres, filterGenres },
+  { page, pageSize, orderBy, orderDirection, genres },
 ) => {
   const {
     page: validatedPage,
