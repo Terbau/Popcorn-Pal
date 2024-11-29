@@ -57,11 +57,11 @@ export default function MoviePage() {
 
   const landscapePosterUrl = movie.landscapePosterUrl
     ? transformAndResizeImageUrl(
-        movie.landscapePosterUrl,
-        1920, // Resize image to 1280 width to save bandwidth
-        movie.landscapePosterWidth ?? 0,
-        movie.landscapePosterHeight ?? 0,
-      )
+      movie.landscapePosterUrl,
+      1920, // Resize image to 1280 width to save bandwidth
+      movie.landscapePosterWidth ?? 0,
+      movie.landscapePosterHeight ?? 0,
+    )
     : null;
 
   return (

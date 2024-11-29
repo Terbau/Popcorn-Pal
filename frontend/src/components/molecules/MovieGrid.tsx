@@ -16,18 +16,18 @@ export const MovieGrid = ({ movies, isLoading = false }: MovieGridProps) => {
     >
       {isLoading
         ? Array.from({ length: 6 }).map((_, index) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
-            <li key={index} data-cy="movie-skeleton">
-              <SkeletonMovieImage />
-            </li>
-          ))
+          // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
+          <li key={index} data-cy="movie-skeleton">
+            <SkeletonMovieImage />
+          </li>
+        ))
         : movies?.map((movie) => (
-            <li key={movie.id} data-cy="movie-item">
-              <Link to={`/movie/${movie.id}`}>
-                <MovieImage src={movie.posterUrl ?? ""} alt={movie.title} />
-              </Link>
-            </li>
-          ))}
+          <li key={movie.id} data-cy="movie-item">
+            <Link to={`/movie/${movie.id}`}>
+              <MovieImage src={movie.posterUrl ?? ""} alt={movie.title} />
+            </Link>
+          </li>
+        ))}
     </ul>
   );
 };

@@ -1,12 +1,10 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Button, ButtonLeftIcon } from "../atoms/Button/Button";
+import { Link, useLocation } from "react-router-dom";
+import { Button } from "../atoms/Button/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import "@fontsource/playfair-display"; // Importerer Playfair Display fonten
 import "@fontsource/roboto"; // Importerer Roboto fonten
-import { useLazyQuery } from "@apollo/client";
 import { useAuth } from "../../lib/context/authContext";
-import { useEffect, useState } from "react";
-import { LoadingButton } from "../molecules/LoadingButton/LoadingButton";
+import { useState } from "react";
 import { MovieSearchDropdown } from "./MovieSearchDropdown";
 import { ProfileDropdown } from "../molecules/ProfileDropdown/ProfileDropdown";
 import { Sheet } from "../molecules/Sheet/Sheet";
@@ -18,7 +16,6 @@ import {
   SidebarItemLabel,
 } from "../molecules/SidebarItem";
 import { Separator } from "../atoms/Separator/Separator";
-import { GET_RANDOM_MOVIE } from "@/lib/graphql/queries/movie";
 import { cn } from "@/lib/utils";
 import { Badge, type BadgeProps } from "../atoms/Badge/Badge";
 
@@ -45,29 +42,13 @@ const NAV_LINKS: NavLink[] = [
 ] as const;
 
 export const Navbar = () => {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
   const { currentUser } = useAuth();
 
-  const [isLoading, setLoading] = useState(false);
   const [profileDropdownIsOpen, setProfileDropdownIsOpen] = useState(false);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [mobileSearchOverlayIsOpen, setMobileSearchOverlayIsOpen] =
     useState(false);
-
-  const [fetchRandomMovie] = useLazyQuery(GET_RANDOM_MOVIE, {
-    fetchPolicy: "no-cache",
-  });
-
-  const handleRandomMovie = async () => {
-    setLoading(true);
-    const { data } = await fetchRandomMovie();
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    if (data?.randomMovie) {
-      navigate(`/movie/${data.randomMovie.id}`);
-    }
-    setLoading(false);
-  };
 
   const currentPath = pathname.split("/")[1];
 

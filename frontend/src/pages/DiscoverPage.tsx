@@ -49,7 +49,10 @@ export default function DiscoverPage() {
       defaultValue: [] as string[],
     },
   );
-  const genres = possiblyUndefinedGenres ?? [];
+  const genres = useMemo(
+    () => possiblyUndefinedGenres ?? [],
+    [possiblyUndefinedGenres],
+  );
 
   const { movies, totalResults, loading } = useMovies({
     orderBy,
@@ -192,14 +195,14 @@ export default function DiscoverPage() {
           <ul className="flex flex-col gap-4 mt-4">
             {loading
               ? Array.from({ length: 3 }).map((_, i) => (
-                  // biome-ignore lint/suspicious/noArrayIndexKey: <makes sense to use i here>
-                  <SkeletonDetailedMovieCard key={i} />
-                ))
+                // biome-ignore lint/suspicious/noArrayIndexKey: <makes sense to use i here>
+                <SkeletonDetailedMovieCard key={i} />
+              ))
               : movies.map((movie) => (
-                  <Link key={movie.id} to={`/movie/${movie.id}`}>
-                    <DetailedMovieCard movie={movie} />
-                  </Link>
-                ))}
+                <Link key={movie.id} to={`/movie/${movie.id}`}>
+                  <DetailedMovieCard movie={movie} />
+                </Link>
+              ))}
           </ul>
         </section>
       </div>

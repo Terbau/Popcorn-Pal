@@ -89,7 +89,7 @@ export const MovieSearchDropdown = ({
     if (data) {
       setQueryResult(data.searchMovies);
     }
-  });
+  }, [data]);
 
   return (
     <>
