@@ -27,14 +27,6 @@ jobs:
         NODE_OPTIONS="--max-old-space-size=512" npm ci
         npm run build
 
-    - name: Create target directory if not exists
+    - name: Copy Frontend
       run: |
-        mkdir -p /var/www/html/project2
-
-    - name: Clear previous build
-      run: |
-        rm -rf /var/www/html/project2/*
-
-    - name: Copy new build to target directory
-      run: |
-        cp -r frontend/dist/* /var/www/html/project2/
+        rsync -av --delete --exclude='.htaccess' ./frontend/dist/ /var/www/html/project2/
