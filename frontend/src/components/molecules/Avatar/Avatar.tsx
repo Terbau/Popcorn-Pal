@@ -25,6 +25,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
     ref,
   ) => {
     const originalHeightWidth = {
+      xs: "h-6 w-6",
       sm: "h-8 w-8",
       md: "h-10 w-10",
       lg: "h-12 w-12",
@@ -36,6 +37,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
     }[size];
 
     const heightWidth = {
+      xs: "h-3 w-3 md:h-6 md:w-6",
       sm: "h-4 w-4 md:h-8 md:w-8",
       md: "h-6 w-6 md:h-10 md:w-10",
       lg: "h-8 w-8 md:h-12 md:w-12",
@@ -47,6 +49,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
     }[size];
 
     const fallbackTextSize = {
+      xs: "text-xs",
       sm: "text-xs",
       md: "text-sm",
       lg: "text-base",
@@ -62,7 +65,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
         key={src} // fix for fallback not being rendered when src changes to undefined
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center align-middle overflow-hidden select-none rounded-full bg-brand-3 relative",
+          "inline-flex items-center justify-center align-middle overflow-hidden select-none rounded-full bg-brand-3 relative shrink-0",
           overrideSizeChange ? originalHeightWidth : heightWidth,
           className,
         )}
@@ -70,7 +73,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
       >
         {src && (
           <RadixAvatar.Image
-            className="w-full h-full object-cover rounded-[inherit]"
+            className="w-full h-full object-cover rounded-[inherit] shrink-0"
             src={src}
             alt={alt ?? fallback}
           />

@@ -1,23 +1,50 @@
-scalar Date
+scalar DateTime
 scalar Upload
 
 type User {
   id: ID!
-  email: String
-  firstName: String
-  lastName: String
+  email: String!
+  firstName: String!
+  lastName: String!
   avatarUrl: String
-  createdAt: Date
-  updatedAt: Date
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Comment {
   id: ID!
-  userId: ID!
+  userId: ID
   movieId: ID!
   content: String!
-  createdAt: Date
-  updatedAt: Date
+  parentId: ID
+  createdAt: DateTime!
+  updatedAt: DateTime
+  deletedAt: DateTime
+}
+
+type RecursiveComment {
+  id: ID!
+  userId: ID
+  movieId: ID!
+  content: String!
+  parentId: ID
+  createdAt: DateTime!
+  updatedAt: DateTime
+  deletedAt: DateTime
+  user: User
+  totalComments: Int!
+  depth: Int!
+  voteRatio: Int!
+  hasUpvoted: Boolean!
+  hasDownvoted: Boolean!
+}
+
+type CommentVote {
+  userId: ID!
+  commentId: ID!
+  type: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Creator {
@@ -41,7 +68,7 @@ type Movie {
   plot: String
   runtime: Int
   yearReleased: Int
-  releasedAt: Date
+  releasedAt: DateTime
   certificate: String
   externalRating: Float
   externalMovieMeterRank: Int
@@ -53,8 +80,8 @@ type Movie {
   landscapePosterHeight: Int
   landscapePosterWidth: Int
   showcaseOnHomePage: Boolean
-  createdAt: Date
-  updatedAt: Date
+  createdAt: DateTime
+  updatedAt: DateTime
   creators: [Creator!]!
   genres: [Genre!]!
   stars: [Star!]!
@@ -73,14 +100,19 @@ type SearchMovie {
 
 type PaginatedSearchResult {
   results: [SearchMovie!]!
-  totalResults: Int
-  nextPage: Int
+  totalResults: Int!
 }
 
 type PaginatedMoviesResult {
   results: [Movie!]!
-  totalResults: Int
-  nextPage: Int
+  totalResults: Int!
+}
+
+type PaginatedRecursiveCommentsResult {
+  results: [RecursiveComment!]!
+  totalResults: Int!
+  movieId: ID!
+  parentId: ID
 }
 
 type Query {
@@ -97,6 +129,16 @@ type Query {
   getUser(id: ID): User
   searchMovies(query: String!, page: Int, pageSize: Int): PaginatedSearchResult!
   getGenres: [Genre!]!
+  getComment(id: ID): RecursiveComment
+  getRecursiveComments(
+    movieId: ID!
+    parentId: ID
+    limitAtDepth: Int
+    maxDepth: Int
+    page: Int
+    pageSize: Int
+    orderDirection: String
+  ): PaginatedRecursiveCommentsResult!
 }
 
 input SignUpInput {
@@ -118,9 +160,28 @@ input UpdateUserInput {
   avatarFile: Upload
 }
 
+input CreateCommentInput {
+  movieId: ID!
+  content: String!
+  parentId: ID
+}
+
+input UpdateCommentInput {
+  content: String!
+}
+
+input UpsertCommentVoteInput {
+  type: String!
+}
+
 type Mutation {
   signUp(input: SignUpInput!): User
   signIn(input: SignInInput!): User
   signOut: Boolean!
   updateUser(input: UpdateUserInput!): User
+  createComment(input: CreateCommentInput!): Comment!
+  updateComment(id: ID!, input: UpdateCommentInput!): Comment!
+  deleteComment(id: ID!): Comment!
+  upsertCommentVote(commentId: ID!, input: UpsertCommentVoteInput!): CommentVote!
+  deleteCommentVote(commentId: ID!): Boolean!
 }

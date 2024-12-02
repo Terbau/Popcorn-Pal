@@ -76,6 +76,5 @@ export const searchMovies: QueryResolvers["searchMovies"] = async (
   return {
     results: searchResults,
     totalResults,
-    nextPage: offset + limit < totalResults ? validatedPage + 1 : null,
   };
 };

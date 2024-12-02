@@ -6,9 +6,11 @@ import {
   useContext,
   useState,
 } from "react";
-import type { User } from "../types/user";
 import { useReactiveVar } from "@apollo/client";
 import { sessionVar } from "../reactiveVars";
+import type { GetCurrentUserQuery } from "../graphql/generated/graphql";
+
+export type User = Exclude<GetCurrentUserQuery["getUser"], null | undefined>;
 
 interface AuthContextProps {
   currentUser: User | undefined;

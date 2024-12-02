@@ -1,5 +1,5 @@
 import type { Session } from "./auth";
-import type { Comment } from "./comment";
+import type { Comment, CommentVote } from "./comment";
 import type {
   Creator,
   Genre,
@@ -22,4 +22,5 @@ export interface Database {
   movieStar: MovieStar;
   movie: Movie;
   comment: Comment;
+  commentVote: CommentVote;
 }

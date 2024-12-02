@@ -10,18 +10,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useCurrentUser } from "@/lib/hooks/useCurrentUser";
 import type { GetCurrentUserQuery } from "@/lib/graphql/generated/graphql";
 
-export const constructUser = (data: GetCurrentUserQuery["getUser"]) => {
-  return {
-    id: data?.id ?? "",
-    email: data?.email ?? "",
-    firstName: data?.firstName ?? "",
-    lastName: data?.lastName ?? "",
-    avatarUrl: data?.avatarUrl ?? "",
-    createdAt: new Date(data?.createdAt ?? 0),
-    updatedAt: new Date(data?.updatedAt ?? 0),
-  };
-};
-
 export const Layout = () => {
   const { currentUser, setCurrentUser, session } = useAuth();
 
@@ -38,7 +26,7 @@ export const Layout = () => {
         return;
       }
 
-      setCurrentUser(constructUser(data.getUser));
+      setCurrentUser(data.getUser);
     },
     [setCurrentUser],
   );

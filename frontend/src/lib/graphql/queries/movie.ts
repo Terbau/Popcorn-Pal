@@ -37,7 +37,6 @@ export const GET_MOVIES = gql(`
         }
       }
       totalResults
-      nextPage
     }
   }
 `);
@@ -108,7 +107,6 @@ export const SEARCH_MOVIES = gql(`
         similarity
       }
       totalResults
-      nextPage
     }
   }
 `);
