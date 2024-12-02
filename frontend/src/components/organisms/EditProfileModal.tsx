@@ -4,10 +4,8 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Modal, type ModalProps } from "../molecules/Modal/Modal";
 import { TextInput } from "../molecules/TextInput/TextInput";
-import { useAuth } from "../../lib/context/authContext";
-import type { User } from "../../lib/types/user";
+import { useAuth, type User } from "../../lib/context/authContext";
 import { LoadingButton } from "../molecules/LoadingButton/LoadingButton";
-import { constructUser } from "../layouts/Layout";
 import { AvatarInput } from "../molecules/AvatarInput/AvatarInput";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "../atoms/Button/Button";
@@ -76,7 +74,7 @@ export const EditProfileModal = ({
   const [editProfile, { loading, error }] = useMutation(UPDATE_USER, {
     onCompleted: (data) => {
       if (data.updateUser) {
-        setCurrentUser(constructUser(data.updateUser));
+        setCurrentUser(data.updateUser);
         onOpenChange?.(false);
         toast.success("Profile successfully updated");
       }

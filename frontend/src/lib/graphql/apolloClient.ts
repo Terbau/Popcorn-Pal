@@ -43,6 +43,16 @@ const middleware = new ApolloLink((operation, forward) => {
 export const apolloClient = new ApolloClient({
   cache: new InMemoryCache({
     typePolicies: {
+      PaginatedRecursiveCommentsResult: {
+        keyFields: ["movieId", "parentId"],
+        fields: {
+          results: {
+            merge(existing, incoming) {
+              return [...(existing ?? []), ...incoming];
+            },
+          },
+        },
+      },
       Query: {
         fields: {
           searchMovies: {
@@ -55,13 +65,20 @@ export const apolloClient = new ApolloClient({
               };
             },
           },
+          getRecursiveComments: {
+            keyArgs: ["movieId", "parentId"],
+            merge(_, incoming) {
+              // Some weird behavior. Returning just incoming works...
+              return incoming;
+            },
+          },
         },
       },
       Movie: {
         fields: {
           genres: {
             merge(_, incoming) {
-              return [...incoming];
+              return incoming;
             },
           },
         },

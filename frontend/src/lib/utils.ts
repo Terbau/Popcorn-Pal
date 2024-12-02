@@ -1,10 +1,17 @@
 import { type ClassValue, clsx } from "clsx";
 import type { MutableRefObject, Ref, RefCallback } from "react";
 import { twMerge } from "tailwind-merge";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 export type NoUndefinedField<T> = {
   [P in keyof T]-?: NoUndefinedField<NonNullable<T[P]>>;
 };
+
+export type ArrayElement<ArrayType extends readonly unknown[]> =
+  ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -73,7 +80,17 @@ export const createSrcSet = (
 ): string => {
   const srcSet = targetWidths.map(
     (targetWidth) =>
-      `${transformAndResizeImageUrl(url, targetWidth, width, height)} ${targetWidth}w`,
+      `${transformAndResizeImageUrl(
+        url,
+        targetWidth,
+        width,
+        height,
+      )} ${targetWidth}w`,
   );
   return srcSet.join(", ");
+};
+
+export const formatRelativeTime = (date: Date): string => {
+  const formattedString = dayjs(date).fromNow();
+  return formattedString === "in a few seconds" ? "just now" : formattedString;
 };

@@ -25,8 +25,15 @@ import { updateUser } from "./resolvers/mutations/updateUser.js";
 import { getFeaturedMovies } from "./resolvers/queries/getFeaturedMovies.js";
 import type { MutationResolvers, QueryResolvers } from "./generated/types.js";
 import type { CustomContext } from "./types.js";
-import { DateResolver } from "graphql-scalars";
+import { DateTimeResolver } from "graphql-scalars";
 import { getGenres } from "./resolvers/queries/getGenres.js";
+import { getRecursiveComments } from "./resolvers/queries/getRecursiveComments.js";
+import { deleteComment } from "./resolvers/mutations/deleteComment.js";
+import { updateComment } from "./resolvers/mutations/updateComment.js";
+import { createComment } from "./resolvers/mutations/createComment.js";
+import { getComment } from "./resolvers/queries/getComment.js";
+import { upsertCommentVote } from "./resolvers/mutations/upsertCommentVote.js";
+import { deleteCommentVote } from "./resolvers/mutations/deleteCommentVote.js";
 
 const FILE_UPLOAD_MAX_SIZE = 1 * 1024 * 1024;
 
@@ -39,9 +46,9 @@ const resolvers: {
   Upload: typeof GraphQLUpload;
   Query: QueryResolvers<CustomContext>;
   Mutation: MutationResolvers<CustomContext>;
-  Date: GraphQLScalarType;
+  DateTime: GraphQLScalarType;
 } = {
-  Date: DateResolver,
+  DateTime: DateTimeResolver,
   Upload: GraphQLUpload,
   Query: {
     getMovies,
@@ -51,12 +58,19 @@ const resolvers: {
     randomMovie,
     searchMovies,
     getGenres,
+    getComment,
+    getRecursiveComments,
   },
   Mutation: {
     signUp,
     signIn,
     signOut,
     updateUser,
+    createComment,
+    updateComment,
+    deleteComment,
+    upsertCommentVote,
+    deleteCommentVote,
   },
 };
 

@@ -6,10 +6,14 @@ import { Badge, type BadgeProps } from "../components/atoms/Badge/Badge";
 import { LoadingPageSpinner } from "../components/atoms/Spinner/LoadingPageSpinner";
 import { ToggleBadge } from "../components/molecules/ToggleBadge/ToggleBadge";
 import { useMovie } from "@/lib/hooks/useMovie";
+import { useQueryState } from "nuqs";
+import { CommentsSection } from "@/components/organisms/CommentsSection";
 
 export default function MoviePage() {
   const { movieId } = useParams();
+
   const [liked, setLiked] = useState(false);
+  const [rootParentId, setRootParentId] = useQueryState("commentId");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -52,7 +56,7 @@ export default function MoviePage() {
   if (loading) return <LoadingPageSpinner />;
   if (error) return <p>Error: {error.message}</p>;
 
-  if (!movie)
+  if (!movie || !movieId)
     return <p className="flex justify-center text-2xl mt-6">Movie not found</p>;
 
   const landscapePosterUrl = movie.landscapePosterUrl
@@ -120,6 +124,13 @@ export default function MoviePage() {
             <p className="mt-1">{movie.plot}</p>
           </section>
         </section>
+
+        <CommentsSection
+          className="mt-10 px-5 sm:px-12"
+          movieId={movieId}
+          rootParentId={rootParentId}
+          setRootParentId={setRootParentId}
+        />
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import * as RadixAlertDialog from "@radix-ui/react-alert-dialog";
 import { LoadingButton } from "../LoadingButton/LoadingButton";
 import type { ButtonColor } from "../../atoms/Button/Button";
 
-interface AlertDialogAction {
+export interface AlertDialogAction {
   variant?: "primary" | "secondary" | "tertiary";
   color?: ButtonColor;
   label: string;
@@ -10,7 +10,7 @@ interface AlertDialogAction {
   onClick: () => void;
 }
 
-interface AlertDialogProps extends RadixAlertDialog.AlertDialogProps {
+export interface AlertDialogProps extends RadixAlertDialog.AlertDialogProps {
   title?: string;
   description?: string;
   actions: AlertDialogAction[];

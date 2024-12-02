@@ -42,7 +42,6 @@ export const useMovies = (
   return {
     movies: data?.getMovies.results ?? [],
     totalResults: data?.getMovies.totalResults ?? 0,
-    nextPage: data?.getMovies.nextPage ?? 0,
     ...rest,
   };
 };

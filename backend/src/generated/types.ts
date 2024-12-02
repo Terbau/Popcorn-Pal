@@ -14,18 +14,35 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  Date: { input: Date; output: Date; }
+  DateTime: { input: any; output: any; }
   Upload: { input: any; output: any; }
 };
 
 export type Comment = {
   __typename?: 'Comment';
   content: Scalars['String']['output'];
-  createdAt?: Maybe<Scalars['Date']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  deletedAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   movieId: Scalars['ID']['output'];
-  updatedAt?: Maybe<Scalars['Date']['output']>;
+  parentId?: Maybe<Scalars['ID']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  userId?: Maybe<Scalars['ID']['output']>;
+};
+
+export type CommentVote = {
+  __typename?: 'CommentVote';
+  commentId: Scalars['ID']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  type: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
   userId: Scalars['ID']['output'];
+};
+
+export type CreateCommentInput = {
+  content: Scalars['String']['input'];
+  movieId: Scalars['ID']['input'];
+  parentId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type Creator = {
@@ -43,7 +60,7 @@ export type Genre = {
 export type Movie = {
   __typename?: 'Movie';
   certificate?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['Date']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   creators: Array<Creator>;
   externalMovieMeterRank?: Maybe<Scalars['Int']['output']>;
   externalRating?: Maybe<Scalars['Float']['output']>;
@@ -57,21 +74,41 @@ export type Movie = {
   posterHeight?: Maybe<Scalars['Int']['output']>;
   posterUrl?: Maybe<Scalars['String']['output']>;
   posterWidth?: Maybe<Scalars['Int']['output']>;
-  releasedAt?: Maybe<Scalars['Date']['output']>;
+  releasedAt?: Maybe<Scalars['DateTime']['output']>;
   runtime?: Maybe<Scalars['Int']['output']>;
   showcaseOnHomePage?: Maybe<Scalars['Boolean']['output']>;
   stars: Array<Star>;
   title: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['Date']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
   yearReleased?: Maybe<Scalars['Int']['output']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createComment: Comment;
+  deleteComment: Comment;
+  deleteCommentVote: Scalars['Boolean']['output'];
   signIn?: Maybe<User>;
   signOut: Scalars['Boolean']['output'];
   signUp?: Maybe<User>;
+  updateComment: Comment;
   updateUser?: Maybe<User>;
+  upsertCommentVote: CommentVote;
+};
+
+
+export type MutationCreateCommentArgs = {
+  input: CreateCommentInput;
+};
+
+
+export type MutationDeleteCommentArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteCommentVoteArgs = {
+  commentId: Scalars['ID']['input'];
 };
 
 
@@ -85,33 +122,58 @@ export type MutationSignUpArgs = {
 };
 
 
+export type MutationUpdateCommentArgs = {
+  id: Scalars['ID']['input'];
+  input: UpdateCommentInput;
+};
+
+
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
 };
 
+
+export type MutationUpsertCommentVoteArgs = {
+  commentId: Scalars['ID']['input'];
+  input: UpsertCommentVoteInput;
+};
+
 export type PaginatedMoviesResult = {
   __typename?: 'PaginatedMoviesResult';
-  nextPage?: Maybe<Scalars['Int']['output']>;
   results: Array<Movie>;
-  totalResults?: Maybe<Scalars['Int']['output']>;
+  totalResults: Scalars['Int']['output'];
+};
+
+export type PaginatedRecursiveCommentsResult = {
+  __typename?: 'PaginatedRecursiveCommentsResult';
+  movieId: Scalars['ID']['output'];
+  parentId?: Maybe<Scalars['ID']['output']>;
+  results: Array<RecursiveComment>;
+  totalResults: Scalars['Int']['output'];
 };
 
 export type PaginatedSearchResult = {
   __typename?: 'PaginatedSearchResult';
-  nextPage?: Maybe<Scalars['Int']['output']>;
   results: Array<SearchMovie>;
-  totalResults?: Maybe<Scalars['Int']['output']>;
+  totalResults: Scalars['Int']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  getComment?: Maybe<RecursiveComment>;
   getFeaturedMovies: Array<Movie>;
   getGenres: Array<Genre>;
   getMovie?: Maybe<Movie>;
   getMovies: PaginatedMoviesResult;
+  getRecursiveComments: PaginatedRecursiveCommentsResult;
   getUser?: Maybe<User>;
   randomMovie: Movie;
   searchMovies: PaginatedSearchResult;
+};
+
+
+export type QueryGetCommentArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
@@ -129,6 +191,17 @@ export type QueryGetMoviesArgs = {
 };
 
 
+export type QueryGetRecursiveCommentsArgs = {
+  limitAtDepth?: InputMaybe<Scalars['Int']['input']>;
+  maxDepth?: InputMaybe<Scalars['Int']['input']>;
+  movieId: Scalars['ID']['input'];
+  orderDirection?: InputMaybe<Scalars['String']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  parentId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
 export type QueryGetUserArgs = {
   id?: InputMaybe<Scalars['ID']['input']>;
 };
@@ -138,6 +211,24 @@ export type QuerySearchMoviesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   query: Scalars['String']['input'];
+};
+
+export type RecursiveComment = {
+  __typename?: 'RecursiveComment';
+  content: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  deletedAt?: Maybe<Scalars['DateTime']['output']>;
+  depth: Scalars['Int']['output'];
+  hasDownvoted: Scalars['Boolean']['output'];
+  hasUpvoted: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
+  movieId: Scalars['ID']['output'];
+  parentId?: Maybe<Scalars['ID']['output']>;
+  totalComments: Scalars['Int']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  user?: Maybe<User>;
+  userId?: Maybe<Scalars['ID']['output']>;
+  voteRatio: Scalars['Int']['output'];
 };
 
 export type SearchMovie = {
@@ -170,6 +261,10 @@ export type Star = {
   name: Scalars['String']['output'];
 };
 
+export type UpdateCommentInput = {
+  content: Scalars['String']['input'];
+};
+
 export type UpdateUserInput = {
   avatarFile?: InputMaybe<Scalars['Upload']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
@@ -177,15 +272,19 @@ export type UpdateUserInput = {
   lastName?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type UpsertCommentVoteInput = {
+  type: Scalars['String']['input'];
+};
+
 export type User = {
   __typename?: 'User';
   avatarUrl?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['Date']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  firstName?: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  email: Scalars['String']['output'];
+  firstName: Scalars['String']['output'];
   id: Scalars['ID']['output'];
-  lastName?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['Date']['output']>;
+  lastName: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -262,8 +361,10 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Comment: ResolverTypeWrapper<Comment>;
+  CommentVote: ResolverTypeWrapper<CommentVote>;
+  CreateCommentInput: CreateCommentInput;
   Creator: ResolverTypeWrapper<Creator>;
-  Date: ResolverTypeWrapper<Scalars['Date']['output']>;
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Genre: ResolverTypeWrapper<Genre>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
@@ -271,15 +372,19 @@ export type ResolversTypes = ResolversObject<{
   Movie: ResolverTypeWrapper<Movie>;
   Mutation: ResolverTypeWrapper<{}>;
   PaginatedMoviesResult: ResolverTypeWrapper<PaginatedMoviesResult>;
+  PaginatedRecursiveCommentsResult: ResolverTypeWrapper<PaginatedRecursiveCommentsResult>;
   PaginatedSearchResult: ResolverTypeWrapper<PaginatedSearchResult>;
   Query: ResolverTypeWrapper<{}>;
+  RecursiveComment: ResolverTypeWrapper<RecursiveComment>;
   SearchMovie: ResolverTypeWrapper<SearchMovie>;
   SignInInput: SignInInput;
   SignUpInput: SignUpInput;
   Star: ResolverTypeWrapper<Star>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  UpdateCommentInput: UpdateCommentInput;
   UpdateUserInput: UpdateUserInput;
   Upload: ResolverTypeWrapper<Scalars['Upload']['output']>;
+  UpsertCommentVoteInput: UpsertCommentVoteInput;
   User: ResolverTypeWrapper<User>;
 }>;
 
@@ -287,8 +392,10 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
   Comment: Comment;
+  CommentVote: CommentVote;
+  CreateCommentInput: CreateCommentInput;
   Creator: Creator;
-  Date: Scalars['Date']['output'];
+  DateTime: Scalars['DateTime']['output'];
   Float: Scalars['Float']['output'];
   Genre: Genre;
   ID: Scalars['ID']['output'];
@@ -296,24 +403,39 @@ export type ResolversParentTypes = ResolversObject<{
   Movie: Movie;
   Mutation: {};
   PaginatedMoviesResult: PaginatedMoviesResult;
+  PaginatedRecursiveCommentsResult: PaginatedRecursiveCommentsResult;
   PaginatedSearchResult: PaginatedSearchResult;
   Query: {};
+  RecursiveComment: RecursiveComment;
   SearchMovie: SearchMovie;
   SignInInput: SignInInput;
   SignUpInput: SignUpInput;
   Star: Star;
   String: Scalars['String']['output'];
+  UpdateCommentInput: UpdateCommentInput;
   UpdateUserInput: UpdateUserInput;
   Upload: Scalars['Upload']['output'];
+  UpsertCommentVoteInput: UpsertCommentVoteInput;
   User: User;
 }>;
 
 export type CommentResolvers<ContextType = any, ParentType extends ResolversParentTypes['Comment'] = ResolversParentTypes['Comment']> = ResolversObject<{
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   movieId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  parentId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  userId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CommentVoteResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommentVote'] = ResolversParentTypes['CommentVote']> = ResolversObject<{
+  commentId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -324,8 +446,8 @@ export type CreatorResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
-  name: 'Date';
+export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+  name: 'DateTime';
 }
 
 export type GenreResolvers<ContextType = any, ParentType extends ResolversParentTypes['Genre'] = ResolversParentTypes['Genre']> = ResolversObject<{
@@ -336,7 +458,7 @@ export type GenreResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type MovieResolvers<ContextType = any, ParentType extends ResolversParentTypes['Movie'] = ResolversParentTypes['Movie']> = ResolversObject<{
   certificate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   creators?: Resolver<Array<ResolversTypes['Creator']>, ParentType, ContextType>;
   externalMovieMeterRank?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   externalRating?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
@@ -350,45 +472,76 @@ export type MovieResolvers<ContextType = any, ParentType extends ResolversParent
   posterHeight?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   posterUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   posterWidth?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  releasedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  releasedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   runtime?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   showcaseOnHomePage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   stars?: Resolver<Array<ResolversTypes['Star']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   yearReleased?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  createComment?: Resolver<ResolversTypes['Comment'], ParentType, ContextType, RequireFields<MutationCreateCommentArgs, 'input'>>;
+  deleteComment?: Resolver<ResolversTypes['Comment'], ParentType, ContextType, RequireFields<MutationDeleteCommentArgs, 'id'>>;
+  deleteCommentVote?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteCommentVoteArgs, 'commentId'>>;
   signIn?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationSignInArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   signUp?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationSignUpArgs, 'input'>>;
+  updateComment?: Resolver<ResolversTypes['Comment'], ParentType, ContextType, RequireFields<MutationUpdateCommentArgs, 'id' | 'input'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'input'>>;
+  upsertCommentVote?: Resolver<ResolversTypes['CommentVote'], ParentType, ContextType, RequireFields<MutationUpsertCommentVoteArgs, 'commentId' | 'input'>>;
 }>;
 
 export type PaginatedMoviesResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['PaginatedMoviesResult'] = ResolversParentTypes['PaginatedMoviesResult']> = ResolversObject<{
-  nextPage?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   results?: Resolver<Array<ResolversTypes['Movie']>, ParentType, ContextType>;
-  totalResults?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  totalResults?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type PaginatedRecursiveCommentsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['PaginatedRecursiveCommentsResult'] = ResolversParentTypes['PaginatedRecursiveCommentsResult']> = ResolversObject<{
+  movieId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  parentId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  results?: Resolver<Array<ResolversTypes['RecursiveComment']>, ParentType, ContextType>;
+  totalResults?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type PaginatedSearchResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['PaginatedSearchResult'] = ResolversParentTypes['PaginatedSearchResult']> = ResolversObject<{
-  nextPage?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   results?: Resolver<Array<ResolversTypes['SearchMovie']>, ParentType, ContextType>;
-  totalResults?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  totalResults?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  getComment?: Resolver<Maybe<ResolversTypes['RecursiveComment']>, ParentType, ContextType, Partial<QueryGetCommentArgs>>;
   getFeaturedMovies?: Resolver<Array<ResolversTypes['Movie']>, ParentType, ContextType>;
   getGenres?: Resolver<Array<ResolversTypes['Genre']>, ParentType, ContextType>;
   getMovie?: Resolver<Maybe<ResolversTypes['Movie']>, ParentType, ContextType, RequireFields<QueryGetMovieArgs, 'id'>>;
   getMovies?: Resolver<ResolversTypes['PaginatedMoviesResult'], ParentType, ContextType, Partial<QueryGetMoviesArgs>>;
+  getRecursiveComments?: Resolver<ResolversTypes['PaginatedRecursiveCommentsResult'], ParentType, ContextType, RequireFields<QueryGetRecursiveCommentsArgs, 'movieId'>>;
   getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryGetUserArgs>>;
   randomMovie?: Resolver<ResolversTypes['Movie'], ParentType, ContextType>;
   searchMovies?: Resolver<ResolversTypes['PaginatedSearchResult'], ParentType, ContextType, RequireFields<QuerySearchMoviesArgs, 'query'>>;
+}>;
+
+export type RecursiveCommentResolvers<ContextType = any, ParentType extends ResolversParentTypes['RecursiveComment'] = ResolversParentTypes['RecursiveComment']> = ResolversObject<{
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  depth?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  hasDownvoted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  hasUpvoted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  movieId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  parentId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  totalComments?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  userId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  voteRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type SearchMovieResolvers<ContextType = any, ParentType extends ResolversParentTypes['SearchMovie'] = ResolversParentTypes['SearchMovie']> = ResolversObject<{
@@ -415,25 +568,28 @@ export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   avatarUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{
   Comment?: CommentResolvers<ContextType>;
+  CommentVote?: CommentVoteResolvers<ContextType>;
   Creator?: CreatorResolvers<ContextType>;
-  Date?: GraphQLScalarType;
+  DateTime?: GraphQLScalarType;
   Genre?: GenreResolvers<ContextType>;
   Movie?: MovieResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   PaginatedMoviesResult?: PaginatedMoviesResultResolvers<ContextType>;
+  PaginatedRecursiveCommentsResult?: PaginatedRecursiveCommentsResultResolvers<ContextType>;
   PaginatedSearchResult?: PaginatedSearchResultResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  RecursiveComment?: RecursiveCommentResolvers<ContextType>;
   SearchMovie?: SearchMovieResolvers<ContextType>;
   Star?: StarResolvers<ContextType>;
   Upload?: GraphQLScalarType;

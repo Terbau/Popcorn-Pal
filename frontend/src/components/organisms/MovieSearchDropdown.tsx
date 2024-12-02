@@ -7,11 +7,14 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { SEARCH_MOVIES } from "@/lib/graphql/queries/movie";
 import type { SearchMoviesQuery } from "@/lib/graphql/generated/graphql";
 import { useDebounce } from "@/lib/hooks/useDebounce";
+import { toast } from "react-toastify";
 
 interface MovieSearchDropdownProps {
   isMobile?: boolean;
   onMobileOverlayClose?: () => void;
 }
+
+const PAGE_SIZE = 30;
 
 export const MovieSearchDropdown = ({
   isMobile,
@@ -31,8 +34,8 @@ export const MovieSearchDropdown = ({
   const [fetchSearch, { data, loading, fetchMore }] = useLazyQuery(
     SEARCH_MOVIES,
     {
-      onError: (error) => {
-        console.error("Error fetching search results", error);
+      onError: () => {
+        toast.error("Failed to search for movies");
       },
       onCompleted: () => {
         setSearchResultDropdownIsOpen(true);
@@ -48,7 +51,8 @@ export const MovieSearchDropdown = ({
 
   const results = queryResult?.results ?? [];
   const totalResults = queryResult?.totalResults ?? 0;
-  const nextPage = queryResult?.nextPage;
+  // calculate if there is a next page based on current page and total results
+  const hasNextPage = (currentPage + 1) * PAGE_SIZE < totalResults;
 
   const handleOnClose = () => {
     setSearchResultDropdownIsOpen(false);
@@ -61,7 +65,7 @@ export const MovieSearchDropdown = ({
       cancelDebounce();
     } else {
       debouncedFetchSearch({
-        variables: { query: searchQuery, page: 0, pageSize: 30 },
+        variables: { query: searchQuery, page: 0, pageSize: PAGE_SIZE },
       });
     }
   }, [hasValidSearchQuery, searchQuery, debouncedFetchSearch, cancelDebounce]);
@@ -73,7 +77,7 @@ export const MovieSearchDropdown = ({
       setIsLoadingMore(true);
       try {
         await fetchMore({
-          variables: { page: currentPage },
+          variables: { page: currentPage, pageSize: PAGE_SIZE },
         });
       } finally {
         setIsLoadingMore(false);
@@ -126,7 +130,7 @@ export const MovieSearchDropdown = ({
         searchResults={results}
         totalSearchResults={totalResults}
         isLoading={isLoadingMore}
-        canFetchMore={nextPage !== null}
+        canFetchMore={hasNextPage}
         isMobile={isMobile}
         onClose={handleOnClose}
         onFetchMore={() => setCurrentPage((prev) => prev + 1)}

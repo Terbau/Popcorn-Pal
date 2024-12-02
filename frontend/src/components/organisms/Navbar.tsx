@@ -6,7 +6,7 @@ import "@fontsource/roboto"; // Importerer Roboto fonten
 import { useAuth } from "../../lib/context/authContext";
 import { useState } from "react";
 import { MovieSearchDropdown } from "./MovieSearchDropdown";
-import { ProfileDropdown } from "../molecules/ProfileDropdown/ProfileDropdown";
+import { ProfileDropdown } from "../molecules/ProfileDropdown";
 import { Sheet } from "../molecules/Sheet/Sheet";
 import { MobileSearchOverlay } from "./MobileSearchOverlay";
 import {
