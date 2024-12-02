@@ -50,7 +50,7 @@ export const CommentsSection = ({
 
   const [isLoadingMoreParentIds, setIsLoadingMoreParentIds] = useState<
     (string | null)[]
-  >([]);
+      >([]);
   const [commentInputOpen, setCommentInputOpen] = useState(false);
   const [maxCommentDepth, setMaxCommentDepth] = useState(
     MAX_COMMENT_DEPTH_DESKTOP,

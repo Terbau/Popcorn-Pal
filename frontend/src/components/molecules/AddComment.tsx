@@ -8,8 +8,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import type { User } from "@/lib/types/user";
 import { ParentIdContext } from "@/components/organisms/CommentsSection";
+import type { User } from "@/lib/context/authContext";
 
 const MIN_COMMENT_LENGTH = 1;
 const MAX_COMMENT_LENGTH = 500;

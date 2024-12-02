@@ -81,8 +81,8 @@ export const Comment = ({
   const currentUserVoteType = currentUserHasUpvoted
     ? "UPVOTE"
     : currentUserHasDownvoted
-    ? "DOWNVOTE"
-    : undefined;
+      ? "DOWNVOTE"
+      : undefined;
 
   const [deleteComment] = useDeleteComment({
     onCompleted: () => {
