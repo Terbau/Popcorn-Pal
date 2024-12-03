@@ -74,7 +74,7 @@ export const ProfileDropdown = ({
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link to={`/profile/${currentUser.id}`}>
-            <DropdownMenuItemIcon icon="mdi:user" />
+            <DropdownMenuItemIcon icon="mdi:user-outline" />
             My Profile
           </Link>
         </DropdownMenuItem>
@@ -82,6 +82,13 @@ export const ProfileDropdown = ({
           <Link to={`/watchlist/${currentUser.id}`}>
             <DropdownMenuItemIcon icon="mdi:movie-open-outline" />
             My Watchlist
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link to={`/Favoritepage`}>
+            <DropdownMenuItemIcon icon="mdi:heart-outline" />
+            My Favorites
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

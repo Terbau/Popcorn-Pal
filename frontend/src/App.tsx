@@ -12,6 +12,7 @@ import ProfilePage from "./pages/ProfilePage";
 import MoviePage from "./pages/MoviePage";
 import DiscoverPage from "./pages/DiscoverPage";
 import { apolloClient } from "./lib/graphql/apolloClient";
+import FavoritePage from "./pages/FavoritePage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/discover" element={<DiscoverPage />} />
                 <Route path="/profile/:userId" element={<ProfilePage />} />
                 <Route path="/movie/:movieId" element={<MoviePage />} />
+                <Route path="/FavoritePage" element={<FavoritePage />} />
               </Route>
             </Routes>
           </ApolloProvider>
