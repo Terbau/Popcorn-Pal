@@ -32,11 +32,15 @@ export const GenreSidebarFilter = ({
   });
 
   const genreOptions: SidebarCheckboxFilterItemProps[] = useMemo(() => {
-    return allGenres.map((genre) => ({
+    const options = allGenres.map((genre) => ({
       value: genre.id,
       label: genre.name,
       isChecked: genres.includes(genre.id),
     }));
+
+    // Sort
+    options.sort((a, b) => a.label.localeCompare(b.label));
+    return options;
   }, [allGenres, genres]);
 
   const handleGenreItemClick = (item: SidebarCheckboxFilterItemProps) => {

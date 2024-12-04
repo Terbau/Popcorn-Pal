@@ -25,9 +25,9 @@ export default function MoviePage() {
   const [liked, setLiked] = useState(false);
   const [isViewingFullBanner, setIsViewingFullBanner] = useState(false);
   const [rootParentId, setRootParentId] = useQueryState("commentId");
-  const [_, setDiscoverGenres] = useSessionStorageState("discoverGenres", {
+  const setDiscoverGenres = useSessionStorageState("discoverGenres", {
     defaultValue: [] as string[],
-  });
+  })[1];
 
   const { md } = useResponsive();
   const size = md ? "md" : "sm";
