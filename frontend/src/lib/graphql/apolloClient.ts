@@ -55,7 +55,7 @@ export const apolloClient = new ApolloClient({
       },
       PaginatedWatchlistItemsResult: {
         keyFields: ["userId", "genres", "labels", "orderBy", "orderDirection"],
-        merge(existing, incoming) {
+        merge(incoming) {
           return incoming;
         },
       },
