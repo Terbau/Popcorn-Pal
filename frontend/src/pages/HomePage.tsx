@@ -3,6 +3,8 @@ import { SlideShow } from "../components/molecules/SlideShow";
 import { FilterableMovieSection } from "../components/organisms/FilterableMovieSection";
 import { useFeaturedMovies } from "@/lib/hooks/useFeaturedMovies";
 import { useMovies } from "@/lib/hooks/useMovies";
+import { InformationView } from "@/components/molecules/informationView";
+import { PcWindow } from "@/components/molecules/PcWindow";
 
 export default function HomePage() {
   const { movies: featuredMovies } = useFeaturedMovies();
@@ -11,7 +13,7 @@ export default function HomePage() {
     orderDirection: "desc",
     pageSize: 10,
   });
-  const { movies: allMovies, loading: allMoviesLoading } = useMovies({
+  useMovies({
     orderBy: "externalRating",
     orderDirection: "desc",
     pageSize: 30, // need pagination here in the future
@@ -20,18 +22,34 @@ export default function HomePage() {
   return (
     <>
       <SlideShow movies={featuredMovies ?? []} />
-      <div className="max-w-screen-xl mx-auto w-[90vw] mb-16">
-        <div className="flex items-center justify-center mt-12 mb-4 sm:mb-24">
+      <div className=" mb-16">
+        <div className="flex items-center justify-center mt-12 mb-4 max-w-screen-xl mx-auto w-[90vw]">
           <MovieCarousel
             movieList={top10Movies ?? []}
             isLoading={top10MoviesLoading}
             label="Top Movies"
           />
         </div>
-        <FilterableMovieSection
-          movies={allMovies ?? []}
-          isLoading={allMoviesLoading}
-        />
+
+        <div className="mt-10">
+          {" "}
+          {/* Legg til margin over komponenten */}
+          <div className="h-68 bg-brand-3 my-16">
+            <InformationView
+              title="Welcome to Discover"
+              text="Explore a wide range of content tailored just for you."
+              buttonLink="/discover"
+            />
+          </div>
+          <div className="h-68  mt-16">
+            <InformationView
+              title="Favorite movies"
+              text=" Find your favorite movies and save them to your list."
+              buttonLink="/favorites"
+              reverse={true}
+            />
+          </div>
+        </div>
       </div>
     </>
   );
