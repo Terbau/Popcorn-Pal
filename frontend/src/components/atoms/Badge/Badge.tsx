@@ -9,11 +9,12 @@ export type BadgeColor =
   | "red"
   | "blue"
   | "green"
-  | "yellow";
+  | "yellow"
+  | "orange";
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   color?: BadgeColor;
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
   variant?: "primary" | "secondary";
   asChild?: boolean;
 }
@@ -47,7 +48,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
 );
 
 export const badgeStyles = cva({
-  base: "rounded-full h-fit",
+  base: "rounded-full h-fit whitespace-nowrap",
   variants: {
     variant: {
       primary: "text-slate-12",
@@ -55,6 +56,7 @@ export const badgeStyles = cva({
       tertiary: "text-gray-9",
     },
     size: {
+      xs: "px-2 py-0.5 text-xs",
       sm: "px-3 py-1 text-xs",
       md: "px-3 py-1.5 text-sm",
       lg: "px-4 py-2 text-base",

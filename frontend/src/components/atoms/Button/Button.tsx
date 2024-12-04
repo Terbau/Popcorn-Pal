@@ -104,7 +104,7 @@ export const ButtonRightIcon = forwardRef<SVGSVGElement, ButtonIconProps>(
 );
 
 export const buttonStyles = cva({
-  base: "rounded-md outline-none cursor-pointer focus-within:ring-2 [&>*]:outline-none flex flex-row items-center gap-1",
+  base: "rounded-md outline-none cursor-pointer focus-within:ring-2 [&>*]:outline-none flex flex-row items-center gap-1 whitespace-nowrap",
   variants: {
     variant: {
       primary: "text-slate-12",

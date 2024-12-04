@@ -66,3 +66,16 @@ export const MovieSchema = z.object({
 });
 
 export type Movie = z.infer<typeof MovieSchema>;
+
+export const MoviesOrderByOptionsSchema = z.enum([
+  "title",
+  "externalRating",
+  "runtime",
+  "yearReleased",
+])
+
+export type MoviesOrderByOptions = z.infer<typeof MoviesOrderByOptionsSchema>;
+
+export const MoviesOrderDirectionOptionsSchema = z.enum(["asc", "desc"])
+
+export type MoviesOrderDirectionOptions = z.infer<typeof MoviesOrderDirectionOptionsSchema>;

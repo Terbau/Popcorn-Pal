@@ -53,6 +53,22 @@ export const apolloClient = new ApolloClient({
           },
         },
       },
+      PaginatedWatchlistItemsResult: {
+        keyFields: ["userId", "genres", "labels", "orderBy", "orderDirection"],
+        merge(existing, incoming) {
+          return incoming;
+        },
+      },
+      WatchlistItem: {
+        keyFields: ["userId", "movieId"],
+        fields: {
+          label: {
+            merge(_, incoming) {
+              return incoming;
+            },
+          },
+        },
+      },
       Query: {
         fields: {
           searchMovies: {

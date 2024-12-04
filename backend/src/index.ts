@@ -34,6 +34,11 @@ import { createComment } from "./resolvers/mutations/createComment.js";
 import { getComment } from "./resolvers/queries/getComment.js";
 import { upsertCommentVote } from "./resolvers/mutations/upsertCommentVote.js";
 import { deleteCommentVote } from "./resolvers/mutations/deleteCommentVote.js";
+import { getWatchlistItems } from "./resolvers/queries/getWatchlistItems.js";
+import { createWatchlistItem } from "./resolvers/mutations/createWatchlistItem.js";
+import { updateWatchlistItem } from "./resolvers/mutations/updateWatchlistItem.js";
+import { deleteWatchlistItem } from "./resolvers/mutations/deleteWatchlistItem.js";
+import { getWatchlistItem } from "./resolvers/queries/getWatchlistItem.js";
 
 const FILE_UPLOAD_MAX_SIZE = 1 * 1024 * 1024;
 
@@ -60,6 +65,8 @@ const resolvers: {
     getGenres,
     getComment,
     getRecursiveComments,
+    getWatchlistItems,
+    getWatchlistItem,
   },
   Mutation: {
     signUp,
@@ -71,6 +78,9 @@ const resolvers: {
     deleteComment,
     upsertCommentVote,
     deleteCommentVote,
+    createWatchlistItem,
+    updateWatchlistItem,
+    deleteWatchlistItem,
   },
 };
 
