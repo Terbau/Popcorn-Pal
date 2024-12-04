@@ -25,6 +25,8 @@ export const getMovie: QueryResolvers["getMovie"] = async (_, { id }) => {
     // that is 1280x720. If none are found, we take the image with the width to height
     // ratio.
 
+    let greatestWidthToHeightRatio = Number.MIN_VALUE;
+    let imageWithGreatestWidthToHeightRatio = null;
     let imageWithCaptionMatch = null;
     let _1920x1080 = null;
     let _1280x720 = null;
@@ -36,6 +38,11 @@ export const getMovie: QueryResolvers["getMovie"] = async (_, { id }) => {
       const height = image.node.height;
       const ratio = width / height;
 
+      if (ratio > greatestWidthToHeightRatio) {
+        greatestWidthToHeightRatio = ratio;
+        imageWithGreatestWidthToHeightRatio = image;
+      }
+
       if (
         width >= 1280 &&
         ratio > 1.7 &&
@@ -44,7 +51,6 @@ export const getMovie: QueryResolvers["getMovie"] = async (_, { id }) => {
           `${movie.title} (${movie.yearReleased})`.toLowerCase()
       ) {
         imageWithCaptionMatch = image;
-        break;
       }
 
       if (width === 1920 && height === 1080) {
@@ -63,7 +69,11 @@ export const getMovie: QueryResolvers["getMovie"] = async (_, { id }) => {
     }
 
     const landscapeImage =
-      imageWithCaptionMatch ?? _1920x1080 ?? _1280x720 ?? imageWithBestRatio;
+      imageWithGreatestWidthToHeightRatio ??
+      imageWithCaptionMatch ??
+      _1920x1080 ??
+      _1280x720 ??
+      imageWithBestRatio;
 
     if (landscapeImage) {
       landscapePosterValues = {

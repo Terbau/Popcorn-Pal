@@ -87,6 +87,15 @@ type Movie {
   stars: [Star!]!
 }
 
+type WatchlistItem {
+  userId: ID!
+  movieId: ID!
+  label: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  movie: Movie!
+}
+
 type SearchMovie {
   id: ID!
   title: String!
@@ -106,6 +115,16 @@ type PaginatedSearchResult {
 type PaginatedMoviesResult {
   results: [Movie!]!
   totalResults: Int!
+}
+
+type PaginatedWatchlistItemsResult {
+  results: [WatchlistItem!]!
+  totalResults: Int!
+  userId: ID!
+  genres: [String!]
+  labels: [String!]
+  orderBy: String
+  orderDirection: String
 }
 
 type PaginatedRecursiveCommentsResult {
@@ -139,6 +158,16 @@ type Query {
     pageSize: Int
     orderDirection: String
   ): PaginatedRecursiveCommentsResult!
+  getWatchlistItems(
+    userId: ID!
+    page: Int
+    pageSize: Int
+    orderBy: String
+    orderDirection: String
+    genres: [String!]
+    labels: [String!]
+  ): PaginatedWatchlistItemsResult!
+  getWatchlistItem(userId: ID!, movieId: ID!): WatchlistItem
 }
 
 input SignUpInput {
@@ -174,6 +203,15 @@ input UpsertCommentVoteInput {
   type: String!
 }
 
+input CreateWatchlistItemInput {
+  movieId: ID!
+  label: String!
+}
+
+input UpdateWatchlistItemInput {
+  label: String!
+}
+
 type Mutation {
   signUp(input: SignUpInput!): User
   signIn(input: SignInInput!): User
@@ -182,6 +220,15 @@ type Mutation {
   createComment(input: CreateCommentInput!): Comment!
   updateComment(id: ID!, input: UpdateCommentInput!): Comment!
   deleteComment(id: ID!): Comment!
-  upsertCommentVote(commentId: ID!, input: UpsertCommentVoteInput!): CommentVote!
+  upsertCommentVote(
+    commentId: ID!
+    input: UpsertCommentVoteInput!
+  ): CommentVote!
   deleteCommentVote(commentId: ID!): Boolean!
+  createWatchlistItem(input: CreateWatchlistItemInput!): WatchlistItem!
+  updateWatchlistItem(
+    movieId: ID!
+    input: UpdateWatchlistItemInput!
+  ): WatchlistItem!
+  deleteWatchlistItem(movieId: ID!): Boolean!
 }

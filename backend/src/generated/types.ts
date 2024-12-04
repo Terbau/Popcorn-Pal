@@ -45,6 +45,11 @@ export type CreateCommentInput = {
   parentId?: InputMaybe<Scalars['ID']['input']>;
 };
 
+export type CreateWatchlistItemInput = {
+  label: Scalars['String']['input'];
+  movieId: Scalars['ID']['input'];
+};
+
 export type Creator = {
   __typename?: 'Creator';
   id: Scalars['String']['output'];
@@ -86,19 +91,27 @@ export type Movie = {
 export type Mutation = {
   __typename?: 'Mutation';
   createComment: Comment;
+  createWatchlistItem: WatchlistItem;
   deleteComment: Comment;
   deleteCommentVote: Scalars['Boolean']['output'];
+  deleteWatchlistItem: Scalars['Boolean']['output'];
   signIn?: Maybe<User>;
   signOut: Scalars['Boolean']['output'];
   signUp?: Maybe<User>;
   updateComment: Comment;
   updateUser?: Maybe<User>;
+  updateWatchlistItem: WatchlistItem;
   upsertCommentVote: CommentVote;
 };
 
 
 export type MutationCreateCommentArgs = {
   input: CreateCommentInput;
+};
+
+
+export type MutationCreateWatchlistItemArgs = {
+  input: CreateWatchlistItemInput;
 };
 
 
@@ -109,6 +122,11 @@ export type MutationDeleteCommentArgs = {
 
 export type MutationDeleteCommentVoteArgs = {
   commentId: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteWatchlistItemArgs = {
+  movieId: Scalars['ID']['input'];
 };
 
 
@@ -130,6 +148,12 @@ export type MutationUpdateCommentArgs = {
 
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
+};
+
+
+export type MutationUpdateWatchlistItemArgs = {
+  input: UpdateWatchlistItemInput;
+  movieId: Scalars['ID']['input'];
 };
 
 
@@ -158,6 +182,17 @@ export type PaginatedSearchResult = {
   totalResults: Scalars['Int']['output'];
 };
 
+export type PaginatedWatchlistItemsResult = {
+  __typename?: 'PaginatedWatchlistItemsResult';
+  genres?: Maybe<Array<Scalars['String']['output']>>;
+  labels?: Maybe<Array<Scalars['String']['output']>>;
+  orderBy?: Maybe<Scalars['String']['output']>;
+  orderDirection?: Maybe<Scalars['String']['output']>;
+  results: Array<WatchlistItem>;
+  totalResults: Scalars['Int']['output'];
+  userId: Scalars['ID']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
   getComment?: Maybe<RecursiveComment>;
@@ -167,6 +202,8 @@ export type Query = {
   getMovies: PaginatedMoviesResult;
   getRecursiveComments: PaginatedRecursiveCommentsResult;
   getUser?: Maybe<User>;
+  getWatchlistItem?: Maybe<WatchlistItem>;
+  getWatchlistItems: PaginatedWatchlistItemsResult;
   randomMovie: Movie;
   searchMovies: PaginatedSearchResult;
 };
@@ -204,6 +241,23 @@ export type QueryGetRecursiveCommentsArgs = {
 
 export type QueryGetUserArgs = {
   id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryGetWatchlistItemArgs = {
+  movieId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+};
+
+
+export type QueryGetWatchlistItemsArgs = {
+  genres?: InputMaybe<Array<Scalars['String']['input']>>;
+  labels?: InputMaybe<Array<Scalars['String']['input']>>;
+  orderBy?: InputMaybe<Scalars['String']['input']>;
+  orderDirection?: InputMaybe<Scalars['String']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  userId: Scalars['ID']['input'];
 };
 
 
@@ -272,6 +326,10 @@ export type UpdateUserInput = {
   lastName?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type UpdateWatchlistItemInput = {
+  label: Scalars['String']['input'];
+};
+
 export type UpsertCommentVoteInput = {
   type: Scalars['String']['input'];
 };
@@ -285,6 +343,16 @@ export type User = {
   id: Scalars['ID']['output'];
   lastName: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
+};
+
+export type WatchlistItem = {
+  __typename?: 'WatchlistItem';
+  createdAt: Scalars['DateTime']['output'];
+  label: Scalars['String']['output'];
+  movie: Movie;
+  movieId: Scalars['ID']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  userId: Scalars['ID']['output'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -363,6 +431,7 @@ export type ResolversTypes = ResolversObject<{
   Comment: ResolverTypeWrapper<Comment>;
   CommentVote: ResolverTypeWrapper<CommentVote>;
   CreateCommentInput: CreateCommentInput;
+  CreateWatchlistItemInput: CreateWatchlistItemInput;
   Creator: ResolverTypeWrapper<Creator>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
@@ -374,6 +443,7 @@ export type ResolversTypes = ResolversObject<{
   PaginatedMoviesResult: ResolverTypeWrapper<PaginatedMoviesResult>;
   PaginatedRecursiveCommentsResult: ResolverTypeWrapper<PaginatedRecursiveCommentsResult>;
   PaginatedSearchResult: ResolverTypeWrapper<PaginatedSearchResult>;
+  PaginatedWatchlistItemsResult: ResolverTypeWrapper<PaginatedWatchlistItemsResult>;
   Query: ResolverTypeWrapper<{}>;
   RecursiveComment: ResolverTypeWrapper<RecursiveComment>;
   SearchMovie: ResolverTypeWrapper<SearchMovie>;
@@ -383,9 +453,11 @@ export type ResolversTypes = ResolversObject<{
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   UpdateCommentInput: UpdateCommentInput;
   UpdateUserInput: UpdateUserInput;
+  UpdateWatchlistItemInput: UpdateWatchlistItemInput;
   Upload: ResolverTypeWrapper<Scalars['Upload']['output']>;
   UpsertCommentVoteInput: UpsertCommentVoteInput;
   User: ResolverTypeWrapper<User>;
+  WatchlistItem: ResolverTypeWrapper<WatchlistItem>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -394,6 +466,7 @@ export type ResolversParentTypes = ResolversObject<{
   Comment: Comment;
   CommentVote: CommentVote;
   CreateCommentInput: CreateCommentInput;
+  CreateWatchlistItemInput: CreateWatchlistItemInput;
   Creator: Creator;
   DateTime: Scalars['DateTime']['output'];
   Float: Scalars['Float']['output'];
@@ -405,6 +478,7 @@ export type ResolversParentTypes = ResolversObject<{
   PaginatedMoviesResult: PaginatedMoviesResult;
   PaginatedRecursiveCommentsResult: PaginatedRecursiveCommentsResult;
   PaginatedSearchResult: PaginatedSearchResult;
+  PaginatedWatchlistItemsResult: PaginatedWatchlistItemsResult;
   Query: {};
   RecursiveComment: RecursiveComment;
   SearchMovie: SearchMovie;
@@ -414,9 +488,11 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String']['output'];
   UpdateCommentInput: UpdateCommentInput;
   UpdateUserInput: UpdateUserInput;
+  UpdateWatchlistItemInput: UpdateWatchlistItemInput;
   Upload: Scalars['Upload']['output'];
   UpsertCommentVoteInput: UpsertCommentVoteInput;
   User: User;
+  WatchlistItem: WatchlistItem;
 }>;
 
 export type CommentResolvers<ContextType = any, ParentType extends ResolversParentTypes['Comment'] = ResolversParentTypes['Comment']> = ResolversObject<{
@@ -484,13 +560,16 @@ export type MovieResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createComment?: Resolver<ResolversTypes['Comment'], ParentType, ContextType, RequireFields<MutationCreateCommentArgs, 'input'>>;
+  createWatchlistItem?: Resolver<ResolversTypes['WatchlistItem'], ParentType, ContextType, RequireFields<MutationCreateWatchlistItemArgs, 'input'>>;
   deleteComment?: Resolver<ResolversTypes['Comment'], ParentType, ContextType, RequireFields<MutationDeleteCommentArgs, 'id'>>;
   deleteCommentVote?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteCommentVoteArgs, 'commentId'>>;
+  deleteWatchlistItem?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteWatchlistItemArgs, 'movieId'>>;
   signIn?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationSignInArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   signUp?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationSignUpArgs, 'input'>>;
   updateComment?: Resolver<ResolversTypes['Comment'], ParentType, ContextType, RequireFields<MutationUpdateCommentArgs, 'id' | 'input'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'input'>>;
+  updateWatchlistItem?: Resolver<ResolversTypes['WatchlistItem'], ParentType, ContextType, RequireFields<MutationUpdateWatchlistItemArgs, 'input' | 'movieId'>>;
   upsertCommentVote?: Resolver<ResolversTypes['CommentVote'], ParentType, ContextType, RequireFields<MutationUpsertCommentVoteArgs, 'commentId' | 'input'>>;
 }>;
 
@@ -514,6 +593,17 @@ export type PaginatedSearchResultResolvers<ContextType = any, ParentType extends
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type PaginatedWatchlistItemsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['PaginatedWatchlistItemsResult'] = ResolversParentTypes['PaginatedWatchlistItemsResult']> = ResolversObject<{
+  genres?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  labels?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  orderBy?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  orderDirection?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  results?: Resolver<Array<ResolversTypes['WatchlistItem']>, ParentType, ContextType>;
+  totalResults?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   getComment?: Resolver<Maybe<ResolversTypes['RecursiveComment']>, ParentType, ContextType, Partial<QueryGetCommentArgs>>;
   getFeaturedMovies?: Resolver<Array<ResolversTypes['Movie']>, ParentType, ContextType>;
@@ -522,6 +612,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getMovies?: Resolver<ResolversTypes['PaginatedMoviesResult'], ParentType, ContextType, Partial<QueryGetMoviesArgs>>;
   getRecursiveComments?: Resolver<ResolversTypes['PaginatedRecursiveCommentsResult'], ParentType, ContextType, RequireFields<QueryGetRecursiveCommentsArgs, 'movieId'>>;
   getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryGetUserArgs>>;
+  getWatchlistItem?: Resolver<Maybe<ResolversTypes['WatchlistItem']>, ParentType, ContextType, RequireFields<QueryGetWatchlistItemArgs, 'movieId' | 'userId'>>;
+  getWatchlistItems?: Resolver<ResolversTypes['PaginatedWatchlistItemsResult'], ParentType, ContextType, RequireFields<QueryGetWatchlistItemsArgs, 'userId'>>;
   randomMovie?: Resolver<ResolversTypes['Movie'], ParentType, ContextType>;
   searchMovies?: Resolver<ResolversTypes['PaginatedSearchResult'], ParentType, ContextType, RequireFields<QuerySearchMoviesArgs, 'query'>>;
 }>;
@@ -577,6 +669,16 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type WatchlistItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['WatchlistItem'] = ResolversParentTypes['WatchlistItem']> = ResolversObject<{
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  movie?: Resolver<ResolversTypes['Movie'], ParentType, ContextType>;
+  movieId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type Resolvers<ContextType = any> = ResolversObject<{
   Comment?: CommentResolvers<ContextType>;
   CommentVote?: CommentVoteResolvers<ContextType>;
@@ -588,11 +690,13 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   PaginatedMoviesResult?: PaginatedMoviesResultResolvers<ContextType>;
   PaginatedRecursiveCommentsResult?: PaginatedRecursiveCommentsResultResolvers<ContextType>;
   PaginatedSearchResult?: PaginatedSearchResultResolvers<ContextType>;
+  PaginatedWatchlistItemsResult?: PaginatedWatchlistItemsResultResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   RecursiveComment?: RecursiveCommentResolvers<ContextType>;
   SearchMovie?: SearchMovieResolvers<ContextType>;
   Star?: StarResolvers<ContextType>;
   Upload?: GraphQLScalarType;
   User?: UserResolvers<ContextType>;
+  WatchlistItem?: WatchlistItemResolvers<ContextType>;
 }>;
 

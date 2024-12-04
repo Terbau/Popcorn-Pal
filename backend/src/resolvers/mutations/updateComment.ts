@@ -3,7 +3,7 @@ import type { MutationResolvers } from "../../types";
 import { db } from "../../db/index.js";
 
 const UpdateCommentSchema = z.object({
-  content: z.string().min(5).max(500),
+  content: z.string().min(1).max(500),
 });
 
 export const updateComment: MutationResolvers["updateComment"] = async (

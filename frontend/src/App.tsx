@@ -10,8 +10,9 @@ import { NuqsAdapter } from "nuqs/adapters/react";
 
 import ProfilePage from "./pages/ProfilePage";
 import MoviePage from "./pages/MoviePage";
-import DiscoverPage from "./pages/DiscoverPage";
 import { apolloClient } from "./lib/graphql/apolloClient";
+import DiscoverPage from "./pages/DiscoverPage";
+import WatchlistPage from "./pages/WatchlistPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/discover" element={<DiscoverPage />} />
                 <Route path="/profile/:userId" element={<ProfilePage />} />
                 <Route path="/movie/:movieId" element={<MoviePage />} />
+                <Route path="/watchlist/:userId" element={<WatchlistPage />} />
               </Route>
             </Routes>
           </ApolloProvider>

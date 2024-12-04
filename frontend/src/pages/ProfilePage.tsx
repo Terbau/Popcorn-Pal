@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../lib/context/authContext";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { EditableAvatar } from "../components/molecules/Avatar/EditableAvatar";
@@ -8,6 +8,7 @@ import { EditProfileModal } from "../components/organisms/EditProfileModal";
 import { useState } from "react";
 import { LoadingPageSpinner } from "../components/atoms/Spinner/LoadingPageSpinner";
 import { useUser } from "@/lib/hooks/useUser";
+import { Separator } from "@/components/atoms/Separator/Separator";
 
 export default function ProfilePage() {
   const { userId } = useParams();
@@ -47,6 +48,14 @@ export default function ProfilePage() {
       <div className="max-w-screen-lg w-[90vw] mx-auto mt-8 md:mt-16 rounded-lg overflow-hidden">
         <div className="w-full bg-brand-2 h-32 md:h-56" />
         <div className="bg-brand-3 relative flex flex-col px-6 md:px-12 pb-6 md:pb-12">
+          <Button
+            size="sm"
+            variant="secondary"
+            className="absolute top-3 right-3 sm:top-5 sm:right-5"
+            onClick={() => setEditProfileIsOpen(true)}
+          >
+            Edit profile
+          </Button>
           <div className="flex gap-2 sm:gap-8 flex-row items-center w-full -translate-y-1/2 absolute top-0 left-0 px-3 md:px-8">
             <EditableAvatar
               src={user?.avatarUrl ?? undefined}
@@ -95,14 +104,18 @@ export default function ProfilePage() {
               Odio, dolores? Voluptatum aperiam non debitis!
             </p>
           </div>
-          <Button
-            size="sm"
-            variant="secondary"
-            className="absolute top-3 right-3 sm:top-5 sm:right-5"
-            onClick={() => setEditProfileIsOpen(true)}
-          >
-            Edit profile
-          </Button>
+          <Separator
+            orientation="horizontal"
+            includeMargin={false}
+            className="my-6"
+          />
+          <div className="flex flex-row gap-4">
+            <Button asChild variant="secondary">
+              <Link to={`/profile/${user?.id}/watchlist`}>
+                Check out Watchlist
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     </>

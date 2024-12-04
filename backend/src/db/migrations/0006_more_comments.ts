@@ -10,7 +10,9 @@ export async function up(db: Kysely<Database>): Promise<void> {
 
   await db.schema
     .alterTable("comment")
-    .addColumn("parent_id", "uuid")
+    .addColumn("parent_id", "uuid", (col) =>
+      col.references("comment.id").onDelete("cascade"),
+    )
     .addColumn("deleted_at", "timestamptz")
     .alterColumn("updated_at", (col) => col.dropDefault())
     .alterColumn("updated_at", (col) => col.dropNotNull())
@@ -19,10 +21,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
   // Need to set updatedAt to null for all rows. Ideally would have liked to do this
   // only for rows that have not actually been updated, but that would be pretty much
   // impossible to know.
-  await db
-    .updateTable("comment")
-    .set({ updatedAt: null })
-    .execute();
+  await db.updateTable("comment").set({ updatedAt: null }).execute();
 
   await createTableWithDefaults(
     "comment_vote",

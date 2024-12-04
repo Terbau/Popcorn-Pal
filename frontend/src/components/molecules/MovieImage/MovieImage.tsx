@@ -7,6 +7,7 @@ interface MovieImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   alt: string;
   badgeProps?: BadgeProps;
   hasHoverEffect?: boolean;
+  size?: "sm" | "md" | "lg";
 }
 
 export const MovieImage = ({
@@ -14,6 +15,7 @@ export const MovieImage = ({
   alt,
   badgeProps,
   hasHoverEffect = true,
+  size = "md",
   className,
   ...props
 }: MovieImageProps) => {
@@ -22,11 +24,19 @@ export const MovieImage = ({
   // minimize the environmental impact of serving large images.
   const transformedSrc = transformAndResizeImageUrl(src, 264);
 
+  const sizeClass = {
+    sm: "h-28 xs:h-[9rem] md:h-52",
+    md: "h-32 xs:h-[10.5rem] md:h-60",
+    lg: "h-40 xs:h-48 md:h-72",
+  }[size];
+
   return (
     <div
-      className={cn("h-32 xs:h-[10.5rem] md:h-60 aspect-[2/3] shrink-0 rounded-lg relative",
+      className={cn(
+        "aspect-[2/3] shrink-0 rounded-lg relative",
         { "hover:scale-105 duration-300": hasHoverEffect },
-        className
+        sizeClass,
+        className,
       )}
     >
       {badgeProps && (
@@ -38,6 +48,7 @@ export const MovieImage = ({
           src={transformedSrc}
           alt={alt}
           className="h-full w-full object-cover"
+          loading="lazy"
           {...props}
         />
       </div>

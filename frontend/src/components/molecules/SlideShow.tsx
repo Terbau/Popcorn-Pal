@@ -37,7 +37,7 @@ export const SlideShow = ({ movies }: SlideShowProps) => {
             <img
               src={slide.image}
               alt={`Slide ${index + 1}`}
-              className="w-full object-cover h-[44rem]"
+              className="w-full object-cover object-right-top"
             />
             <div className="absolute flex items-end bottom-0 left-0 bg-gradient-to-b from-transparent to-primary h-full text-white p-6 text-4xl w-full font-roboto">
               <div className="pl-2">

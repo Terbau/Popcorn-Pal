@@ -10,6 +10,7 @@ import type {
   Star,
 } from "./movie";
 import type { User } from "./user";
+import type { WatchlistItem } from "./watchlist";
 
 export interface Database {
   user: User;
@@ -23,4 +24,5 @@ export interface Database {
   movie: Movie;
   comment: Comment;
   commentVote: CommentVote;
+  watchlistItem: WatchlistItem;
 }
