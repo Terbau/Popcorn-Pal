@@ -75,9 +75,11 @@ export const apolloClient = new ApolloClient({
             keyArgs: ["query"],
             // what to do when merging fetchMore data
             merge(existing, incoming) {
+              console.log("existing", existing);
+              console.log("incoming", incoming);
               return {
                 ...incoming,
-                movies: [...(existing?.results ?? []), ...incoming.results],
+                results: [...(existing?.results ?? []), ...incoming.results],
               };
             },
           },

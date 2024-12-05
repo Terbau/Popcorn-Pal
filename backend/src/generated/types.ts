@@ -182,6 +182,12 @@ export type PaginatedSearchResult = {
   totalResults: Scalars['Int']['output'];
 };
 
+export type PaginatedUsersSearchResult = {
+  __typename?: 'PaginatedUsersSearchResult';
+  results: Array<User>;
+  totalResults: Scalars['Int']['output'];
+};
+
 export type PaginatedWatchlistItemsResult = {
   __typename?: 'PaginatedWatchlistItemsResult';
   genres?: Maybe<Array<Scalars['String']['output']>>;
@@ -206,6 +212,7 @@ export type Query = {
   getWatchlistItems: PaginatedWatchlistItemsResult;
   randomMovie: Movie;
   searchMovies: PaginatedSearchResult;
+  searchUsers: PaginatedUsersSearchResult;
 };
 
 
@@ -262,6 +269,13 @@ export type QueryGetWatchlistItemsArgs = {
 
 
 export type QuerySearchMoviesArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  query: Scalars['String']['input'];
+};
+
+
+export type QuerySearchUsersArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   query: Scalars['String']['input'];
@@ -443,6 +457,7 @@ export type ResolversTypes = ResolversObject<{
   PaginatedMoviesResult: ResolverTypeWrapper<PaginatedMoviesResult>;
   PaginatedRecursiveCommentsResult: ResolverTypeWrapper<PaginatedRecursiveCommentsResult>;
   PaginatedSearchResult: ResolverTypeWrapper<PaginatedSearchResult>;
+  PaginatedUsersSearchResult: ResolverTypeWrapper<PaginatedUsersSearchResult>;
   PaginatedWatchlistItemsResult: ResolverTypeWrapper<PaginatedWatchlistItemsResult>;
   Query: ResolverTypeWrapper<{}>;
   RecursiveComment: ResolverTypeWrapper<RecursiveComment>;
@@ -478,6 +493,7 @@ export type ResolversParentTypes = ResolversObject<{
   PaginatedMoviesResult: PaginatedMoviesResult;
   PaginatedRecursiveCommentsResult: PaginatedRecursiveCommentsResult;
   PaginatedSearchResult: PaginatedSearchResult;
+  PaginatedUsersSearchResult: PaginatedUsersSearchResult;
   PaginatedWatchlistItemsResult: PaginatedWatchlistItemsResult;
   Query: {};
   RecursiveComment: RecursiveComment;
@@ -593,6 +609,12 @@ export type PaginatedSearchResultResolvers<ContextType = any, ParentType extends
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type PaginatedUsersSearchResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['PaginatedUsersSearchResult'] = ResolversParentTypes['PaginatedUsersSearchResult']> = ResolversObject<{
+  results?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
+  totalResults?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type PaginatedWatchlistItemsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['PaginatedWatchlistItemsResult'] = ResolversParentTypes['PaginatedWatchlistItemsResult']> = ResolversObject<{
   genres?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   labels?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
@@ -616,6 +638,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getWatchlistItems?: Resolver<ResolversTypes['PaginatedWatchlistItemsResult'], ParentType, ContextType, RequireFields<QueryGetWatchlistItemsArgs, 'userId'>>;
   randomMovie?: Resolver<ResolversTypes['Movie'], ParentType, ContextType>;
   searchMovies?: Resolver<ResolversTypes['PaginatedSearchResult'], ParentType, ContextType, RequireFields<QuerySearchMoviesArgs, 'query'>>;
+  searchUsers?: Resolver<ResolversTypes['PaginatedUsersSearchResult'], ParentType, ContextType, RequireFields<QuerySearchUsersArgs, 'query'>>;
 }>;
 
 export type RecursiveCommentResolvers<ContextType = any, ParentType extends ResolversParentTypes['RecursiveComment'] = ResolversParentTypes['RecursiveComment']> = ResolversObject<{
@@ -690,6 +713,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   PaginatedMoviesResult?: PaginatedMoviesResultResolvers<ContextType>;
   PaginatedRecursiveCommentsResult?: PaginatedRecursiveCommentsResultResolvers<ContextType>;
   PaginatedSearchResult?: PaginatedSearchResultResolvers<ContextType>;
+  PaginatedUsersSearchResult?: PaginatedUsersSearchResultResolvers<ContextType>;
   PaginatedWatchlistItemsResult?: PaginatedWatchlistItemsResultResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   RecursiveComment?: RecursiveCommentResolvers<ContextType>;

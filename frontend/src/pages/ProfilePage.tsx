@@ -33,7 +33,7 @@ export default function ProfilePage() {
   const user = isCurrentUser ? currentUser : apiUser;
 
   if (error) return <p>Error: {error.message}</p>;
-  if (loading || !currentUser) return <LoadingPageSpinner />;
+  if (loading) return <LoadingPageSpinner />;
 
   if (!user) {
     return <p className="flex justify-center text-2xl mt-6">User not found</p>;
@@ -111,9 +111,7 @@ export default function ProfilePage() {
           />
           <div className="flex flex-row gap-4">
             <Button asChild variant="secondary">
-              <Link to={`/profile/${user?.id}/watchlist`}>
-                Check out Watchlist
-              </Link>
+              <Link to={`/watchlist/${user?.id}`}>Check out Watchlist</Link>
             </Button>
           </div>
         </div>

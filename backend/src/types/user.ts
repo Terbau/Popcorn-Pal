@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { PaginationSchema } from "./pagination.js";
 
 export const RawUserSchema = z.object({
   id: z.string().uuid(),
@@ -33,3 +34,9 @@ export const UserUpdateInputSchema = RawUserSchema.pick({
   .partial();
 
 export type User = z.infer<typeof UserSchema>;
+
+export const PaginatedUsersResponseSchema = PaginationSchema(UserSchema);
+
+export type PaginatedUsersResponse = z.infer<
+  typeof PaginatedUsersResponseSchema
+>;

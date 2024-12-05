@@ -39,6 +39,7 @@ import { createWatchlistItem } from "./resolvers/mutations/createWatchlistItem.j
 import { updateWatchlistItem } from "./resolvers/mutations/updateWatchlistItem.js";
 import { deleteWatchlistItem } from "./resolvers/mutations/deleteWatchlistItem.js";
 import { getWatchlistItem } from "./resolvers/queries/getWatchlistItem.js";
+import { searchUsers } from "./resolvers/queries/searchUsers.js";
 
 const FILE_UPLOAD_MAX_SIZE = 1 * 1024 * 1024;
 
@@ -62,6 +63,7 @@ const resolvers: {
     getUser,
     randomMovie,
     searchMovies,
+    searchUsers,
     getGenres,
     getComment,
     getRecursiveComments,

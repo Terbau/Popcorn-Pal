@@ -112,6 +112,11 @@ type PaginatedSearchResult {
   totalResults: Int!
 }
 
+type PaginatedUsersSearchResult {
+  results: [User!]!
+  totalResults: Int!
+}
+
 type PaginatedMoviesResult {
   results: [Movie!]!
   totalResults: Int!
@@ -147,6 +152,7 @@ type Query {
   randomMovie: Movie!
   getUser(id: ID): User
   searchMovies(query: String!, page: Int, pageSize: Int): PaginatedSearchResult!
+  searchUsers(query: String!, page: Int, pageSize: Int): PaginatedUsersSearchResult!
   getGenres: [Genre!]!
   getComment(id: ID): RecursiveComment
   getRecursiveComments(
