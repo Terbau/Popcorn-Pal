@@ -10,3 +10,9 @@ export interface User {
   updatedAt: Generated<Date>;
   avatarUrl: string | null;
 }
+
+export interface UserFollow {
+  followerId: string;
+  followingId: string;
+  createdAt: Generated<Date>;
+}
