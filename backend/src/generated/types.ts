@@ -56,6 +56,14 @@ export type Creator = {
   name: Scalars['String']['output'];
 };
 
+export type FollowerInfo = {
+  __typename?: 'FollowerInfo';
+  currentUserIsFollowing: Scalars['Boolean']['output'];
+  followerCount: Scalars['Int']['output'];
+  followingCount: Scalars['Int']['output'];
+  userId: Scalars['ID']['output'];
+};
+
 export type Genre = {
   __typename?: 'Genre';
   id: Scalars['String']['output'];
@@ -91,9 +99,11 @@ export type Movie = {
 export type Mutation = {
   __typename?: 'Mutation';
   createComment: Comment;
+  createFollow: Scalars['Boolean']['output'];
   createWatchlistItem: WatchlistItem;
   deleteComment: Comment;
   deleteCommentVote: Scalars['Boolean']['output'];
+  deleteFollow: Scalars['Boolean']['output'];
   deleteWatchlistItem: Scalars['Boolean']['output'];
   signIn?: Maybe<User>;
   signOut: Scalars['Boolean']['output'];
@@ -110,6 +120,11 @@ export type MutationCreateCommentArgs = {
 };
 
 
+export type MutationCreateFollowArgs = {
+  userId: Scalars['ID']['input'];
+};
+
+
 export type MutationCreateWatchlistItemArgs = {
   input: CreateWatchlistItemInput;
 };
@@ -122,6 +137,11 @@ export type MutationDeleteCommentArgs = {
 
 export type MutationDeleteCommentVoteArgs = {
   commentId: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteFollowArgs = {
+  userId: Scalars['ID']['input'];
 };
 
 
@@ -203,6 +223,7 @@ export type Query = {
   __typename?: 'Query';
   getComment?: Maybe<RecursiveComment>;
   getFeaturedMovies: Array<Movie>;
+  getFollowerInfo: FollowerInfo;
   getGenres: Array<Genre>;
   getMovie?: Maybe<Movie>;
   getMovies: PaginatedMoviesResult;
@@ -218,6 +239,11 @@ export type Query = {
 
 export type QueryGetCommentArgs = {
   id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryGetFollowerInfoArgs = {
+  userId: Scalars['ID']['input'];
 };
 
 
@@ -449,6 +475,7 @@ export type ResolversTypes = ResolversObject<{
   Creator: ResolverTypeWrapper<Creator>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  FollowerInfo: ResolverTypeWrapper<FollowerInfo>;
   Genre: ResolverTypeWrapper<Genre>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
@@ -485,6 +512,7 @@ export type ResolversParentTypes = ResolversObject<{
   Creator: Creator;
   DateTime: Scalars['DateTime']['output'];
   Float: Scalars['Float']['output'];
+  FollowerInfo: FollowerInfo;
   Genre: Genre;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
@@ -542,6 +570,14 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
+export type FollowerInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['FollowerInfo'] = ResolversParentTypes['FollowerInfo']> = ResolversObject<{
+  currentUserIsFollowing?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  followerCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  followingCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type GenreResolvers<ContextType = any, ParentType extends ResolversParentTypes['Genre'] = ResolversParentTypes['Genre']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -576,9 +612,11 @@ export type MovieResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createComment?: Resolver<ResolversTypes['Comment'], ParentType, ContextType, RequireFields<MutationCreateCommentArgs, 'input'>>;
+  createFollow?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCreateFollowArgs, 'userId'>>;
   createWatchlistItem?: Resolver<ResolversTypes['WatchlistItem'], ParentType, ContextType, RequireFields<MutationCreateWatchlistItemArgs, 'input'>>;
   deleteComment?: Resolver<ResolversTypes['Comment'], ParentType, ContextType, RequireFields<MutationDeleteCommentArgs, 'id'>>;
   deleteCommentVote?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteCommentVoteArgs, 'commentId'>>;
+  deleteFollow?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteFollowArgs, 'userId'>>;
   deleteWatchlistItem?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteWatchlistItemArgs, 'movieId'>>;
   signIn?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationSignInArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -629,6 +667,7 @@ export type PaginatedWatchlistItemsResultResolvers<ContextType = any, ParentType
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   getComment?: Resolver<Maybe<ResolversTypes['RecursiveComment']>, ParentType, ContextType, Partial<QueryGetCommentArgs>>;
   getFeaturedMovies?: Resolver<Array<ResolversTypes['Movie']>, ParentType, ContextType>;
+  getFollowerInfo?: Resolver<ResolversTypes['FollowerInfo'], ParentType, ContextType, RequireFields<QueryGetFollowerInfoArgs, 'userId'>>;
   getGenres?: Resolver<Array<ResolversTypes['Genre']>, ParentType, ContextType>;
   getMovie?: Resolver<Maybe<ResolversTypes['Movie']>, ParentType, ContextType, RequireFields<QueryGetMovieArgs, 'id'>>;
   getMovies?: Resolver<ResolversTypes['PaginatedMoviesResult'], ParentType, ContextType, Partial<QueryGetMoviesArgs>>;
@@ -707,6 +746,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   CommentVote?: CommentVoteResolvers<ContextType>;
   Creator?: CreatorResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
+  FollowerInfo?: FollowerInfoResolvers<ContextType>;
   Genre?: GenreResolvers<ContextType>;
   Movie?: MovieResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;

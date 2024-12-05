@@ -40,6 +40,9 @@ import { updateWatchlistItem } from "./resolvers/mutations/updateWatchlistItem.j
 import { deleteWatchlistItem } from "./resolvers/mutations/deleteWatchlistItem.js";
 import { getWatchlistItem } from "./resolvers/queries/getWatchlistItem.js";
 import { searchUsers } from "./resolvers/queries/searchUsers.js";
+import { getFollowerInfo } from "./resolvers/queries/getFollowerInfo.js";
+import { createFollow } from "./resolvers/mutations/createFollow.js";
+import { deleteFollow } from "./resolvers/mutations/deleteFollow.js";
 
 const FILE_UPLOAD_MAX_SIZE = 1 * 1024 * 1024;
 
@@ -69,6 +72,7 @@ const resolvers: {
     getRecursiveComments,
     getWatchlistItems,
     getWatchlistItem,
+    getFollowerInfo,
   },
   Mutation: {
     signUp,
@@ -83,6 +87,8 @@ const resolvers: {
     createWatchlistItem,
     updateWatchlistItem,
     deleteWatchlistItem,
+    createFollow,
+    deleteFollow,
   },
 };
 

@@ -9,7 +9,7 @@ import type {
   MovieStar,
   Star,
 } from "./movie";
-import type { User } from "./user";
+import type { User, UserFollow } from "./user";
 import type { WatchlistItem } from "./watchlist";
 
 export interface Database {
@@ -25,4 +25,5 @@ export interface Database {
   comment: Comment;
   commentVote: CommentVote;
   watchlistItem: WatchlistItem;
+  userFollow: UserFollow;
 }

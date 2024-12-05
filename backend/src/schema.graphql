@@ -107,6 +107,13 @@ type SearchMovie {
   similarity: Float
 }
 
+type FollowerInfo {
+  followerCount: Int!
+  followingCount: Int!
+  currentUserIsFollowing: Boolean!
+  userId: ID!
+}
+
 type PaginatedSearchResult {
   results: [SearchMovie!]!
   totalResults: Int!
@@ -152,7 +159,11 @@ type Query {
   randomMovie: Movie!
   getUser(id: ID): User
   searchMovies(query: String!, page: Int, pageSize: Int): PaginatedSearchResult!
-  searchUsers(query: String!, page: Int, pageSize: Int): PaginatedUsersSearchResult!
+  searchUsers(
+    query: String!
+    page: Int
+    pageSize: Int
+  ): PaginatedUsersSearchResult!
   getGenres: [Genre!]!
   getComment(id: ID): RecursiveComment
   getRecursiveComments(
@@ -174,6 +185,7 @@ type Query {
     labels: [String!]
   ): PaginatedWatchlistItemsResult!
   getWatchlistItem(userId: ID!, movieId: ID!): WatchlistItem
+  getFollowerInfo(userId: ID!): FollowerInfo!
 }
 
 input SignUpInput {
@@ -237,4 +249,6 @@ type Mutation {
     input: UpdateWatchlistItemInput!
   ): WatchlistItem!
   deleteWatchlistItem(movieId: ID!): Boolean!
+  createFollow(userId: ID!): Boolean!
+  deleteFollow(userId: ID!): Boolean!
 }

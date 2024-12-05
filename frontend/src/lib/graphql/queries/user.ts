@@ -44,3 +44,14 @@ export const SEARCH_USERS = gql(`
     }
   }
 `);
+
+export const GET_FOLLOWER_INFO = gql(`
+  query GetFollowerInfo($userId: ID!) {
+    getFollowerInfo(userId: $userId) {
+      currentUserIsFollowing
+      followerCount
+      followingCount
+      userId
+    }
+  }
+`);

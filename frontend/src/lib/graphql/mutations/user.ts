@@ -13,3 +13,15 @@ export const UPDATE_USER = gql(`
     }
   }
 `);
+
+export const CREATE_FOLLOW = gql(`
+  mutation CreateFollow($userId: ID!) {
+    createFollow(userId: $userId)
+  }
+`);
+
+export const DELETE_FOLLOW = gql(`
+  mutation DeleteFollow($userId: ID!) {
+    deleteFollow(userId: $userId)
+  }
+`);

@@ -43,6 +43,9 @@ const middleware = new ApolloLink((operation, forward) => {
 export const apolloClient = new ApolloClient({
   cache: new InMemoryCache({
     typePolicies: {
+      FollowerInfo: {
+        keyFields: ["userId"],
+      },
       PaginatedRecursiveCommentsResult: {
         keyFields: ["movieId", "parentId"],
         fields: {
