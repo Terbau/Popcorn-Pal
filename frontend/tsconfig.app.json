@@ -4,6 +4,7 @@
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
+    "types": ["@vitest/browser/matchers"],
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -24,5 +25,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "./setupTest.ts"],
 }
