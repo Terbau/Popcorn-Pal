@@ -10,8 +10,8 @@ export const useDebounce = (
   const timeout = useRef<NodeJS.Timeout | null>(null);
   const [isPending, setIsPending] = useState(false);
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const debouncedFunction = useCallback(
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     (...args: any[]) => {
       if (timeout.current) {
         clearTimeout(timeout.current);
@@ -19,7 +19,7 @@ export const useDebounce = (
 
       setIsPending(true);
 
-      setTimeout(() => {
+      timeout.current = setTimeout(() => {
         setIsPending(false);
         fn(...args);
         timeout.current = null;

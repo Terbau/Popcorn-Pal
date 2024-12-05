@@ -1,35 +1,39 @@
-import type { HTMLAttributes } from "react";
 import { cn } from "../../lib/utils";
-import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { MovieImage } from "./MovieImage/MovieImage";
 import { ScrollArea } from "./ScrollArea/ScrollArea";
 import { LoadingButton } from "./LoadingButton/LoadingButton";
-import type { SearchMoviesQuery } from "@/lib/graphql/generated/graphql";
+import * as RadixPopover from "@radix-ui/react-popover";
 
-interface SearchResultDropdownProps extends HTMLAttributes<HTMLDivElement> {
-  searchResults: SearchMoviesQuery["searchMovies"]["results"];
+interface SearchResultDropdownProps extends RadixPopover.PopoverContentProps {
+  amountSearchResults: number;
   totalSearchResults: number;
   isLoading?: boolean;
   canFetchMore?: boolean;
   isMobile?: boolean;
+  showAmountText?: boolean;
+  hasCloseButton?: boolean;
   onClose?: () => void;
   onFetchMore?: () => void;
 }
 
 export const SearchResultDropdown = ({
-  searchResults,
+  amountSearchResults,
   totalSearchResults,
   isLoading = false,
   canFetchMore = false,
   isMobile = false,
+  showAmountText = true,
+  hasCloseButton = true,
   onClose,
   onFetchMore,
   className,
+  children,
   ...props
 }: SearchResultDropdownProps) => {
   return (
-    <div
+    <RadixPopover.Content
+      onOpenAutoFocus={(e) => e.preventDefault()}
+      onCloseAutoFocus={(e) => e.preventDefault()}
       className={cn(
         "w-full flex flex-col",
         { "h-screen": !isMobile },
@@ -49,15 +53,17 @@ export const SearchResultDropdown = ({
           )}
         >
           <div className="flex flex-row justify-between mb-2 w-full">
-            <span
-              className={cn("font-semibold sm:text-lg", {
-                "w-full text-center": isMobile,
-              })}
-            >
-              Showing {searchResults?.length} / {totalSearchResults} results
-            </span>
-            {!isMobile && (
-              <button type="button">
+            {showAmountText && (
+              <span
+                className={cn("font-semibold sm:text-lg", {
+                  "w-full text-center": isMobile,
+                })}
+              >
+                Showing {amountSearchResults} / {totalSearchResults} results
+              </span>
+            )}
+            {!isMobile && hasCloseButton && (
+              <button type="button" className="ml-auto">
                 <Icon
                   icon="iconamoon:close"
                   className="h-8 w-8 text-brand-11 hover:text-brand-12"
@@ -67,16 +73,8 @@ export const SearchResultDropdown = ({
             )}
           </div>
 
-          <ul className="md:gap-12 w-full grid grid-cols-[repeat(auto-fit,minmax(5rem,1fr))] xs:grid-cols-[repeat(auto-fit,minmax(7rem,1fr))] md:grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-4 sm:gap-6">
-            {searchResults?.map((result) => (
-              <li key={result.id} className="relative mx-auto">
-                <Link to={`/movie/${result.id}`} onClick={() => onClose?.()}>
-                  <MovieImage src={result.posterUrl ?? ""} alt={result.title} />
-                </Link>
-              </li>
-            ))}
-          </ul>
-          {canFetchMore && (searchResults?.length ?? 0) > 0 && (
+          {children}
+          {canFetchMore && amountSearchResults > 0 && (
             <LoadingButton
               className="mt-8 w-fit"
               variant="secondary"
@@ -88,11 +86,6 @@ export const SearchResultDropdown = ({
           )}
         </div>
       </ScrollArea>
-      <button
-        type="button"
-        onClick={onClose}
-        className="bg-black/60 w-full grow cursor-default"
-      />
-    </div>
+    </RadixPopover.Content>
   );
 };

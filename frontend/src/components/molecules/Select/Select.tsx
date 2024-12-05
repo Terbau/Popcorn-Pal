@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import * as RadixSelect from "@radix-ui/react-select";
-import { forwardRef, Fragment } from "react";
+import { forwardRef, Fragment, type ReactNode } from "react";
 import { cn } from "../../../lib/utils";
 import {
   Button,
@@ -9,9 +9,8 @@ import {
 } from "../../atoms/Button/Button";
 
 export interface SelectOption {
-  label: string;
+  label: string | ReactNode;
   value: string;
-  groupId?: string;
 }
 
 export interface SelectGroup {
@@ -31,19 +30,6 @@ export const Select = ({
   buttonProps,
   ...props
 }: SelectProps) => {
-  const isGrouped = options.some((option) => "options" in option);
-  const groups: SelectGroup[] = (
-    isGrouped ? options : [{ options }]
-  ) as SelectGroup[];
-
-  const getOptions = (group: SelectGroup) => {
-    return group.options.map((option) => (
-      <SelectItem key={option.value} value={option.value}>
-        {option.label}
-      </SelectItem>
-    ));
-  };
-
   return (
     <RadixSelect.Root {...props}>
       <RadixSelect.Trigger asChild>
@@ -52,10 +38,40 @@ export const Select = ({
           <ButtonRightIcon icon="lucide:chevron-down" />
         </Button>
       </RadixSelect.Trigger>
+      <SelectContent options={options} />
+    </RadixSelect.Root>
+  );
+};
+
+interface SelectContentProps extends RadixSelect.SelectContentProps {
+  options: SelectOption[] | SelectGroup[];
+}
+
+export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>(
+  ({ options, position = "popper", className, ...props }, ref) => {
+    const isGrouped = options.some((option) => "options" in option);
+    const groups: SelectGroup[] = (
+      isGrouped ? options : [{ options }]
+    ) as SelectGroup[];
+
+    const getOptions = (group: SelectGroup) => {
+      return group.options.map((option) => (
+        <SelectItem key={option.value} value={option.value}>
+          {option.label}
+        </SelectItem>
+      ));
+    };
+
+    return (
       <RadixSelect.Portal>
         <RadixSelect.Content
-          className="mt-1 overflow-hidden bg-brand-3 rounded-md shadow-2xl border border-brand-6"
-          position="popper"
+          ref={ref}
+          className={cn(
+            "mt-1 overflow-hidden bg-brand-3 rounded-md shadow-2xl border border-brand-6 z-50",
+            className,
+          )}
+          position={position}
+          {...props}
         >
           <ScrollButton direction="up" />
           <RadixSelect.Viewport>
@@ -78,9 +94,9 @@ export const Select = ({
           <ScrollButton direction="down" />
         </RadixSelect.Content>
       </RadixSelect.Portal>
-    </RadixSelect.Root>
-  );
-};
+    );
+  },
+);
 
 const SelectItem = forwardRef<HTMLDivElement, RadixSelect.SelectItemProps>(
   ({ children, className, ...props }, ref) => (

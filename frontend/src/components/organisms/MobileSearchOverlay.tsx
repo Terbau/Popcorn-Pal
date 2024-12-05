@@ -1,5 +1,5 @@
 import { cn } from "../../lib/utils";
-import { MovieSearchDropdown } from "./MovieSearchDropdown";
+import { SearchDropdown } from "./SearchDropdown";
 import * as RadixDialog from "@radix-ui/react-dialog";
 
 interface MobileSearchOverlayProps extends RadixDialog.DialogProps {
@@ -20,7 +20,7 @@ export const MobileSearchOverlay = ({
             "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           )}
         >
-          <MovieSearchDropdown
+          <SearchDropdown
             isMobile
             onMobileOverlayClose={() => onOpenChange?.(false)}
           />

@@ -5,7 +5,7 @@ import "@fontsource/playfair-display"; // Importerer Playfair Display fonten
 import "@fontsource/roboto"; // Importerer Roboto fonten
 import { useAuth } from "../../lib/context/authContext";
 import { useState } from "react";
-import { MovieSearchDropdown } from "./MovieSearchDropdown";
+import { SearchDropdown } from "./SearchDropdown";
 import { ProfileDropdown } from "../molecules/ProfileDropdown";
 import { Sheet } from "../molecules/Sheet/Sheet";
 import { MobileSearchOverlay } from "./MobileSearchOverlay";
@@ -120,7 +120,7 @@ export const Navbar = () => {
           </LoadingButton> */}
 
           <div className="hidden md:block">
-            <MovieSearchDropdown />
+            <SearchDropdown />
           </div>
 
           <button

@@ -27,3 +27,20 @@ export const GET_USER = gql(`
     }
   }
 `);
+
+export const SEARCH_USERS = gql(`
+  query SearchUsers($query: String!, $page: Int, $pageSize: Int) {
+    searchUsers(query: $query, page: $page, pageSize: $pageSize) {
+      results {
+        id
+        email
+        firstName
+        lastName
+        avatarUrl
+        createdAt
+        updatedAt
+      }
+      totalResults
+    }
+  }
+`);

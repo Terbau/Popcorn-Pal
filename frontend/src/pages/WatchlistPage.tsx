@@ -76,9 +76,9 @@ export default function WatchlistPage() {
     variables: {
       id: userId ?? "",
     },
-    skip: !userId || !!currentUser,
+    skip: !userId || currentUser?.id === userId,
   });
-  const user = currentUser ?? apiUser;
+  const user = currentUser?.id === userId ? currentUser : apiUser;
 
   const { watchlistItems, totalResults, loading } = useWatchlistItems(
     {
