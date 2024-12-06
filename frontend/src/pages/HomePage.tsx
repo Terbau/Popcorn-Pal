@@ -1,17 +1,22 @@
 import { MovieCarousel } from "../components/molecules/MovieCarousel";
 import { SlideShow } from "../components/molecules/SlideShow";
-import { FilterableMovieSection } from "../components/organisms/FilterableMovieSection";
 import { useFeaturedMovies } from "@/lib/hooks/useFeaturedMovies";
 import { useMovies } from "@/lib/hooks/useMovies";
+import { InformationView } from "@/components/molecules/InformationView";
+import { DiscoverAnimation } from "@/components/organisms/HomepageAnimations/DiscoverAnimation";
+import { useAuth } from "@/lib/context/authContext";
+import { WatchlistAnimation } from "@/components/organisms/HomepageAnimations/WatchlistAnimation";
+import { ForYouAnimation } from "@/components/organisms/HomepageAnimations/ForYouAnimation";
 
 export default function HomePage() {
+  const { currentUser } = useAuth();
   const { movies: featuredMovies } = useFeaturedMovies();
   const { movies: top10Movies, loading: top10MoviesLoading } = useMovies({
     orderBy: "externalRating",
     orderDirection: "desc",
     pageSize: 10,
   });
-  const { movies: allMovies, loading: allMoviesLoading } = useMovies({
+  useMovies({
     orderBy: "externalRating",
     orderDirection: "desc",
     pageSize: 30, // need pagination here in the future
@@ -20,18 +25,43 @@ export default function HomePage() {
   return (
     <>
       <SlideShow movies={featuredMovies ?? []} />
-      <div className="max-w-screen-xl mx-auto w-[90vw] mb-16">
-        <div className="flex items-center justify-center mt-12 mb-4 sm:mb-24">
+      <div className=" mb-16">
+        <div className="flex items-center justify-center mt-12 mb-4 max-w-screen-xl mx-auto w-[90vw]">
           <MovieCarousel
             movieList={top10Movies ?? []}
             isLoading={top10MoviesLoading}
             label="Top Movies"
           />
         </div>
-        <FilterableMovieSection
-          movies={allMovies ?? []}
-          isLoading={allMoviesLoading}
-        />
+
+        <div className="mt-10">
+          <InformationView
+            title="Discover movies"
+            text="Explore a wide range of content tailored just for you."
+            buttonLink="/discover"
+            className="bg-brand-3"
+          >
+            <DiscoverAnimation />
+          </InformationView>
+          <InformationView
+            title="View a personalized feed"
+            text="Get recommendations, view updates from your friends, and more."
+            buttonLink="/discover"
+            reverse={true}
+          >
+            <ForYouAnimation />
+          </InformationView>
+          <InformationView
+            title="Track your watchlist"
+            text="Save your movies to your watchlist and keep track of your watching status."
+            buttonLink={
+              currentUser ? `/watchlist/${currentUser?.id}` : "/signin"
+            }
+            className="bg-brand-3"
+          >
+            <WatchlistAnimation />
+          </InformationView>
+        </div>
       </div>
     </>
   );

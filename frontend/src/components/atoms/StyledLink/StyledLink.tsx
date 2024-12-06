@@ -1,12 +1,17 @@
 import { cn } from "@/lib/utils";
 import { forwardRef } from "react";
-import { Link, type LinkProps } from "react-router-dom";
+import { OptionalLink, type OptionalLinkProps } from "../OptionalLink";
 
-export const StyledLink = forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ className, ...props }, ref) => (
-    <Link
+export const StyledLink = forwardRef<HTMLAnchorElement, OptionalLinkProps>(
+  ({ className, disabled = false, ...props }, ref) => (
+    <OptionalLink
       ref={ref}
-      className={cn("text-brand-11 hover:text-blue-10", className)}
+      disabled={disabled}
+      className={cn(
+        "text-brand-11",
+        { "hover:text-blue-10": !disabled },
+        className,
+      )}
       {...props}
     />
   ),

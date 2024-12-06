@@ -11,7 +11,7 @@ import {
   type ForYouItemProps,
 } from "../ForYouItem";
 
-export const FollowingCommentedOnMovie = ({ item }: ForYouItemProps) => {
+export const FollowingCommentedOnMovie = ({ item, ...props }: ForYouItemProps) => {
   const fullName = `${item.userFirstName} ${item.userLastName}`;
   const movieLink = `/movie/${item.movieId}`;
   const profileLink = `/profile/${item.userId}`;
@@ -28,7 +28,7 @@ export const FollowingCommentedOnMovie = ({ item }: ForYouItemProps) => {
   const action = item.commentIsReply ? "Replied" : "Commented";
 
   return (
-    <ForYouItemRoot>
+    <ForYouItemRoot {...props}>
       <ForYouItemLeftContainer>
         <ForYouMovieImage to={movieLink} src={item.moviePosterUrl ?? ""} />
         <ForYouItemTypeCircle

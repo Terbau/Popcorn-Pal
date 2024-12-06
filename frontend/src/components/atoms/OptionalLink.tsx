@@ -4,7 +4,7 @@
 import { forwardRef } from "react";
 import { Link, type LinkProps } from "react-router-dom";
 
-interface OptionalLinkProps extends LinkProps {
+export interface OptionalLinkProps extends LinkProps {
   disabled?: boolean;
 }
 
