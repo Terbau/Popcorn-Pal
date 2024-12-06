@@ -64,7 +64,7 @@ export const SearchResultDropdown = ({
               </span>
             )}
             {!isMobile && hasCloseButton && (
-              <button type="button" className="ml-auto">
+              <button type="button" className="ml-auto" aria-label="Search close">
                 <Icon
                   icon="iconamoon:close"
                   className="h-8 w-8 text-brand-11 hover:text-brand-12"

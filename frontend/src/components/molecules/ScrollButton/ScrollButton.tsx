@@ -23,6 +23,7 @@ export const ScrollButton = ({
       )}
       type="button"
       {...props}
+      aria-label={`${direction}`}
     >
       <Icon icon={icon} className="h-6 w-6 sm:h-8 sm:w-8" />
     </button>

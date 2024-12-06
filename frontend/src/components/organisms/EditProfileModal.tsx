@@ -253,6 +253,7 @@ export const EditProfileModal = ({
               variant="tertiary"
               color="brand"
               onClick={resetForm}
+              aria-label="Reset edit profile changes"
             >
               Reset
             </Button>

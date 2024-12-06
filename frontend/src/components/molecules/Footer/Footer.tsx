@@ -13,13 +13,18 @@ export const Footer = () => {
         <Link
           to="https://iconify.design/"
           className="flex flex-col items-center"
+          aria-label="Visit Iconify website"
         >
           <Icon icon="ph:smiley" width="3em" height="3em" />
           <p className="text-l hidden md:block font-bold text-purple-500 font-playfair">
             Iconify
           </p>
         </Link>
-        <Link to="https://www.imdb.com/" className="flex flex-col items-center">
+        <Link
+          to="https://www.imdb.com/"
+          className="flex flex-col items-center"
+          aria-label="Visit IMDB website"
+        >
           <Icon icon="mdi-movie-open-play" width="3em" height="3em" />
           <p className="text-l hidden md:block font-bold text-purple-500 font-playfair">
             IMDb

@@ -131,7 +131,7 @@ export const FilterableMovieListSidebar = ({
 
   return (
     <>
-      <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen} side="right">
+      <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen} side="right" description="Filter options">
         <aside className={cn("h-screen overflow-y-auto", className)} {...props}>
           {children}
         </aside>
@@ -224,6 +224,7 @@ export const FilterableMovieListHeader = ({
               className="md:hidden"
               variant="secondary"
               onClick={() => setSidebarOpen?.(true)}
+              aria-label="Open filters"
             >
               Open filters
             </Button>

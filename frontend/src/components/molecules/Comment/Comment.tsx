@@ -344,6 +344,7 @@ export const Comment = ({
                   )}
                   onClick={() => setReplyInputOpen((prev) => !prev)}
                   disabled={isDeleted}
+                  aria-label="Reply"
                 >
                   Reply
                 </button>

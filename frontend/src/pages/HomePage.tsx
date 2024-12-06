@@ -35,12 +35,12 @@ export default function HomePage() {
           />
         </div>
 
-        <div className="mt-10">
+        <div className="mt-10 overflow-hidden">
           <InformationView
             title="Discover movies"
             text="Explore a wide range of content tailored just for you."
             buttonLink="/discover"
-            className="dark:bg-brand-3 bg-cream-light"
+            className="dark:bg-brand-3 bg-cream-light overflow-hidden"
           >
             <DiscoverAnimation />
           </InformationView>
@@ -49,6 +49,7 @@ export default function HomePage() {
             text="Get recommendations, view updates from your friends, and more."
             buttonLink="/discover"
             reverse={true}
+            className="overflow-hidden"
           >
             <ForYouAnimation />
           </InformationView>
@@ -58,7 +59,7 @@ export default function HomePage() {
             buttonLink={
               currentUser ? `/watchlist/${currentUser?.id}` : "/signin"
             }
-            className="dark:bg-brand-3 bg-cream-light"
+            className="dark:bg-brand-3 bg-cream-light overflow-hidden"
           >
             <WatchlistAnimation />
           </InformationView>

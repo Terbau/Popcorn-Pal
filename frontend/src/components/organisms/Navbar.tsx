@@ -74,6 +74,7 @@ export const Navbar = ({ darkMode, toggleDarkMode }: NavBarProps) => {
           className="block md:hidden"
           onClick={() => setSidebarIsOpen(true)}
           data-cy="menu-button"
+          aria-label="Menu"
         >
           <Icon icon="material-symbols:menu" className="h-8 w-8" />
         </button>
@@ -129,6 +130,7 @@ export const Navbar = ({ darkMode, toggleDarkMode }: NavBarProps) => {
           onClick={toggleDarkMode}
           className="dark:text-brand-12 hover:bg-black hover:bg-opacity-10 dark:hover:bg-opacity-70 rounded-full p-1 transition duration-200"
           data-cy="toggle-dark-mode"
+          aria-label="Toggle dark mode"
         >
           {darkMode ? (
             <Icon icon="tdesign:mode-dark" width="24" height="24" />
@@ -147,6 +149,7 @@ export const Navbar = ({ darkMode, toggleDarkMode }: NavBarProps) => {
             onClick={() => setMobileSearchOverlayIsOpen(true)}
             className="lg:hidden dark:text-brand-12"
             data-cy="mobile-search-button"
+            aria-label="Search"
           >
             <Icon icon="ic:twotone-search" className="h-6 w-6 md:h-8 md:w-8" />
           </button>
@@ -158,7 +161,7 @@ export const Navbar = ({ darkMode, toggleDarkMode }: NavBarProps) => {
               data-cy="profile-dropdown"
             />
           ) : (
-            <Button asChild variant="secondary">
+            <Button asChild variant="secondary" aria-label="Sign in">
               <Link to="/signin" data-cy="signin-button">
                 Sign In
               </Link>
@@ -171,6 +174,7 @@ export const Navbar = ({ darkMode, toggleDarkMode }: NavBarProps) => {
             open={sidebarIsOpen}
             onOpenChange={setSidebarIsOpen}
             data-cy="sidebar"
+            ariaDescription="Side navbar"
           >
             <Separator orientation="horizontal" />
 

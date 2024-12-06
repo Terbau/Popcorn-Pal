@@ -68,7 +68,7 @@ export default function ForYouPage() {
       </p>
       {loading && <LoadingPageSpinner />}
       {!currentUser ? (
-        <Button asChild className="w-fit">
+        <Button asChild className="w-fit" aria-label="Sign into account">
           <Link to="/signin">Sign in</Link>
         </Button>
       ) : (

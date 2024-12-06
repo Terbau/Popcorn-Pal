@@ -41,7 +41,7 @@ export const InformationView = ({
           <p className="text-lg dark:text-white text-purple-medium mb-4">
             {text}
           </p>
-          <Button asChild>
+          <Button asChild aria-label={`Explore ${title}`}>
             <Link
               className="hover:scale-105 transition duration-200"
               to={buttonLink}
