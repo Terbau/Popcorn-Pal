@@ -24,6 +24,7 @@ export const InformationView = ({
     <div
       className={cn("relative w-full flex flex-col py-16 sm:py-20", className)}
       {...props}
+      data-cy="information-view"
     >
       <div
         className={`max-w-screen-lg w-[90vw] flex gap-8 flex-col ${
@@ -31,7 +32,10 @@ export const InformationView = ({
         } items-center justify-between mx-auto`}
       >
         <div className="flex flex-col justify-start items-center text-center mb-4 md:mb-0">
-          <h2 className="text-2xl dark:text-white font-bold mb-4 mt-0">
+          <h2
+            className="text-2xl dark:text-white font-bold mb-4 mt-0"
+            data-cy="information-view-title"
+          >
             {title}
           </h2>
           <p className="text-lg dark:text-white text-purple-medium mb-4">

@@ -39,11 +39,12 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
   };
 
   return (
-    <div className="w-full" data-cy="top10-movies">
+    <div className="w-full" data-cy="movie-carousel">
       {label && (
         <h2
           className="text-left text-4xl font-semibold dark:text-white mb-4 mt-1"
           id="carousel-label"
+          data-cy="movie-carousel-label"
         >
           {label}
         </h2>
@@ -80,17 +81,22 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
             )}
             role="list"
           >
-            {isLoading
-              ? Array.from({ length: 10 }).map((_, index) => (
-                <li key={index} className="shrink-0 p-4" role="listitem">
-                  <SkeletonMovieImage aria-label="Loading movie image" />
-                </li>
-              ))
-              : movieList?.map((movie, index) => (
+            {isLoading ? (
+              <>
+                <div data-cy="loading-indicator"></div>
+                {Array.from({ length: 10 }).map((_, index) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
+                  <li key={index} className="shrink-0 p-4" role="listitem">
+                    <SkeletonMovieImage />
+                  </li>
+                ))}
+              </>
+            ) : (
+              movieList?.map((movie, index) => (
                 <li
                   key={movie.id}
                   className="shrink-0 p-4 relative snap-center h-full"
-                  role="listitem"
+                  data-cy="movie-carousel-item"
                 >
                   <span
                     className="text-7xl xs:text-8xl sm:text-9xl font-extrabold text-white drop-shadow-md absolute -top-6 sm:-top-8 left-0 z-10"
@@ -105,13 +111,11 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
                     to={`/movie/${movie.id}`}
                     aria-label={`View details for ${movie.title}`}
                   >
-                    <MovieImage
-                      src={movie.posterUrl ?? ""}
-                      alt={movie.title}
-                    />
+                    <MovieImage src={movie.posterUrl ?? ""} alt={movie.title} />
                   </Link>
                 </li>
-              ))}
+              ))
+            )}
           </ul>
         </ScrollArea>
       </div>

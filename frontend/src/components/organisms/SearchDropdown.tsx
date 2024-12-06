@@ -245,6 +245,7 @@ export const SearchDropdown = ({
               ? movieSearchQuery
               : userSearchQuery
           }
+          data-cy="search-input"
           onFocus={() => handleOnOpenChange(true)}
           selectOptions={selectOptions}
           selectValue={selectedSearchOptionValue}
@@ -281,6 +282,7 @@ export const SearchDropdown = ({
               "md:gap-12 w-full grid grid-cols-[repeat(auto-fit,minmax(5rem,1fr))] xs:grid-cols-[repeat(auto-fit,minmax(7rem,1fr))] md:grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-4 sm:gap-6",
               { "px-6": isMobile },
             )}
+            data-cy="search-suggestions"
           >
             {movieResults?.map((result) => (
               <li key={result.id} className="relative mx-auto">

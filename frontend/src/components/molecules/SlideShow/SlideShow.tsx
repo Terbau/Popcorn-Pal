@@ -28,7 +28,7 @@ export const SlideShow = ({ movies }: SlideShowProps) => {
   }));
 
   return (
-    <div className="overflow-hidden" ref={emblaRef}>
+    <div className="overflow-hidden" ref={emblaRef} data-cy="slideshow">
       <div className="flex">
         {movieSlides?.map((slide, index) => (
           <div

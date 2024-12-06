@@ -1,8 +1,8 @@
 import { type ComponentProps, useContext, useEffect } from "react";
-import { TextAreaInput } from "../TextAreaInput/TextAreaInput";
+import { TextAreaInput } from "./TextAreaInput/TextAreaInput";
 import { Button, ButtonLeftIcon } from "@/components/atoms/Button/Button";
 import { cn } from "@/lib/utils";
-import { LoadingButton } from "../LoadingButton/LoadingButton";
+import { LoadingButton } from "./LoadingButton/LoadingButton";
 import { useCreateComment } from "@/lib/hooks/useCreateComment";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -106,15 +106,14 @@ export const AddComment = ({
       onSubmit={handleSubmit(onSubmit)}
       className={cn("flex flex-col gap-2", className)}
       {...props}
-      data-cy="comment-form" 
     >
       <TextAreaInput
         {...register("content", { required: "Content is required" })}
+        name= "content"
         placeholder={`Write a ${commentPrefix.toLowerCase()}...`}
         errorMessage={errors.content?.message}
         aria-invalid={errors.content ? "true" : "false"}
         autoFocus
-        data-cy="comment-input"
       />
       <div className="flex flex-row gap-2 items-center">
         <LoadingButton
@@ -122,18 +121,11 @@ export const AddComment = ({
           size="sm"
           variant="primary"
           isLoading={loading}
-          data-cy="submit-button"
         >
           {!loading && <ButtonLeftIcon icon="material-symbols:send-outline" />}
           {commentPrefix}
         </LoadingButton>
-        <Button
-          type="button"
-          size="sm"
-          variant="tertiary"
-          onClick={onClose}
-          data-cy="close-button"
-        >
+        <Button type="button" size="sm" variant="tertiary" onClick={onClose}>
           Close
         </Button>
         <span
@@ -150,4 +142,3 @@ export const AddComment = ({
     </form>
   );
 };
-

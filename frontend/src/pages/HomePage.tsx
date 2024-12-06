@@ -31,6 +31,7 @@ export default function HomePage() {
             movieList={top10Movies ?? []}
             isLoading={top10MoviesLoading}
             label="Top Movies"
+            data-cy="movie-carousel"
           />
         </div>
 

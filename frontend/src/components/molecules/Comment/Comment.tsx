@@ -81,8 +81,8 @@ export const Comment = ({
   const currentUserVoteType = currentUserHasUpvoted
     ? "UPVOTE"
     : currentUserHasDownvoted
-      ? "DOWNVOTE"
-      : undefined;
+    ? "DOWNVOTE"
+    : undefined;
 
   const [deleteComment] = useDeleteComment({
     onCompleted: () => {
@@ -359,7 +359,6 @@ export const Comment = ({
               </SimpleDropdownMenu>
             </div>
             {replyInputOpen && currentUser && (
-              // <div className="my-3">
               <AddComment
                 className="[&>div>textarea]:text-sm w-full my-3"
                 movieId={movieId}
@@ -369,7 +368,6 @@ export const Comment = ({
                 isOpen={replyInputOpen}
                 onClose={() => setReplyInputOpen(false)}
               />
-              // </div>
             )}
           </div>
         </div>
