@@ -10,7 +10,7 @@ import {
   ForYouMovieImage,
 } from "../ForYouItem";
 
-export const MovieSuggestion = ({ item }: ForYouItemProps) => {
+export const MovieSuggestion = ({ item, ...props }: ForYouItemProps) => {
   const movieLink = `/movie/${item.movieId}`;
   const textParts = [
     { text: "We recommend watching" },
@@ -18,7 +18,7 @@ export const MovieSuggestion = ({ item }: ForYouItemProps) => {
   ];
 
   return (
-    <ForYouItemRoot>
+    <ForYouItemRoot {...props}>
       <ForYouItemLeftContainer>
         <ForYouMovieImage to={movieLink} src={item.moviePosterUrl ?? ""} />
         <ForYouItemTypeCircle

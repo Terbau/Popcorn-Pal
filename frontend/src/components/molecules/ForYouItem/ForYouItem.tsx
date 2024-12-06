@@ -1,7 +1,13 @@
 import type { GetForYouItemsQuery } from "@/lib/graphql/generated/graphql";
 import { cn, formatRelativeTime, type ArrayElement } from "@/lib/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { forwardRef, type ReactNode, type ComponentProps } from "react";
+import {
+  forwardRef,
+  type ReactNode,
+  type ComponentProps,
+  createContext,
+  useContext,
+} from "react";
 import { CommentSuggestion } from "./Items/CommentSuggestion";
 import { MovieSuggestion } from "./Items/MovieSuggestion";
 import { UserSuggestion } from "./Items/UserSuggestion";
@@ -10,9 +16,12 @@ import { FollowingAddedMovieToWatchlist } from "./Items/FollowingAddedMovieToWat
 import { FollowingUpdatedWatchlistItem } from "./Items/FollowingUpdatedWatchlistItem";
 import { FollowingStartedFollowingSomeoneElse } from "./Items/FollowingStartedFollowingSomeoneElse";
 import { MovieImage, type MovieImageProps } from "../MovieImage/MovieImage";
-import { Link, type LinkProps } from "react-router-dom";
+import type { LinkProps } from "react-router-dom";
 import { StyledLink } from "@/components/atoms/StyledLink/StyledLink";
 import { Avatar, type AvatarProps } from "../Avatar/Avatar";
+import { OptionalLink } from "@/components/atoms/OptionalLink";
+
+const ForYouItemMockContext = createContext<boolean>(false);
 
 type ForYouItem = ArrayElement<
   GetForYouItemsQuery["getForYouItems"]["results"]
@@ -20,9 +29,14 @@ type ForYouItem = ArrayElement<
 
 export interface ForYouItemProps extends ComponentProps<"div"> {
   item: ForYouItem;
+  mocked?: boolean;
 }
 
-export const ForYouItem = ({ item, ...props }: ForYouItemProps) => {
+export const ForYouItem = ({
+  item,
+  mocked = false,
+  ...props
+}: ForYouItemProps) => {
   const Comp =
     {
       MOVIE_SUGGESTION: MovieSuggestion,
@@ -35,20 +49,28 @@ export const ForYouItem = ({ item, ...props }: ForYouItemProps) => {
       FOLLOWING_COMMENTED_ON_MOVIE: FollowingCommentedOnMovie,
     }[item.type] ?? CommentSuggestion;
 
-  return <Comp item={item} {...props} />;
+  return (
+    <ForYouItemMockContext.Provider value={mocked}>
+      <Comp item={item} {...props} />
+    </ForYouItemMockContext.Provider>
+  );
 };
 
 export const ForYouItemRoot = forwardRef<HTMLDivElement, ComponentProps<"div">>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(
-        "flex flex-row gap-4 sm:gap-6 bg-brand-3 border border-brand-6 rounded-md p-3",
-        className,
-      )}
-      {...props}
-    />
-  ),
+  ({ className, ...props }, ref) => {
+    const mocked = useContext(ForYouItemMockContext);
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "flex flex-row gap-4 bg-brand-3 border border-brand-6 rounded-md p-3",
+          !mocked ? "sm:gap-6" : "p-2",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
 );
 
 export const ForYouItemLeftContainer = forwardRef<
@@ -99,16 +121,21 @@ export const ForYouMovieImage = forwardRef<
       ...props
     },
     ref,
-  ) => (
-    <Link ref={ref} to={to} className={className}>
-      <MovieImage
-        alt={alt}
-        size={size}
-        hasHoverEffect={hasHoverEffect}
-        {...props}
-      />
-    </Link>
-  ),
+  ) => {
+    const mocked = useContext(ForYouItemMockContext);
+    return (
+      <OptionalLink ref={ref} to={to} className={className} disabled={mocked}>
+        <MovieImage
+          alt={alt}
+          size={!mocked ? size : "xs"}
+          overrideSizeChange={mocked}
+          hasHoverEffect={hasHoverEffect}
+          className={cn({ "ml-1": mocked })}
+          {...props}
+        />
+      </OptionalLink>
+    );
+  },
 );
 
 type ForYouAvatarProps = Omit<AvatarProps, "size"> &
@@ -117,11 +144,14 @@ type ForYouAvatarProps = Omit<AvatarProps, "size"> &
   };
 
 export const ForYouAvatar = forwardRef<HTMLAnchorElement, ForYouAvatarProps>(
-  ({ size = "xl", to, className, ...props }, ref) => (
-    <Link ref={ref} to={to} className={className}>
-      <Avatar size={size} {...props} />
-    </Link>
-  ),
+  ({ size = "xl", to, className, ...props }, ref) => {
+    const mocked = useContext(ForYouItemMockContext);
+    return (
+      <OptionalLink ref={ref} to={to} className={className} disabled={mocked}>
+        <Avatar size={!mocked ? size : "lg"} overrideSizeChange {...props} />
+      </OptionalLink>
+    );
+  },
 );
 
 type ForYouItemTypeCircleProps = ComponentProps<"div"> &
@@ -133,21 +163,30 @@ type ForYouItemTypeCircleProps = ComponentProps<"div"> &
 export const ForYouItemTypeCircle = forwardRef<
   HTMLDivElement,
   ForYouItemTypeCircleProps
->(({ bgColor, icon, to, className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "absolute -top-5 -right-3 sm:-top-6 sm:-right-4 rounded-full h-8 w-8 sm:w-12 sm:h-12 flex items-center justify-center border-4 border-brand-3",
-      bgColor,
-      className,
-    )}
-    {...props}
-  >
-    <Link to={to}>
-      <Icon icon={icon} className="sm:w-6 sm:h-6 text-brand-12" />
-    </Link>
-  </div>
-));
+>(({ bgColor, icon, to, className, ...props }, ref) => {
+  const mocked = useContext(ForYouItemMockContext);
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        "absolute rounded-full h-8 w-8 flex items-center justify-center border-4 border-brand-3",
+        bgColor,
+        !mocked
+          ? "-top-5 -right-3 sm:-top-6 sm:-right-4  sm:w-12 sm:h-12"
+          : "-top-3 -right-2",
+        className,
+      )}
+      {...props}
+    >
+      <OptionalLink to={to} disabled={mocked}>
+        <Icon
+          icon={icon}
+          className={cn("text-brand-12", !mocked ? "sm:w-6 sm:h-6" : "")}
+        />
+      </OptionalLink>
+    </div>
+  );
+});
 
 interface ForYouTextPart {
   text: string | ReactNode;
@@ -161,41 +200,52 @@ interface ForYouItemTitleProps extends ComponentProps<"h3"> {
 export const ForYouItemTitle = forwardRef<
   HTMLHeadingElement,
   ForYouItemTitleProps
->(({ parts, className, ...props }, ref) => (
-  <h3
-    ref={ref}
-    className={cn("font-bold text-base sm:text-lg", className)}
-    {...props}
-  >
-    <p className="space-x-1">
-      {parts.map(({ text, to }, index) =>
-        to ? (
-          // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
-          <StyledLink key={index} to={to} className="">
-            {text}
-          </StyledLink>
-        ) : (
-          // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
-          <span key={index}>{text}</span>
-        ),
+>(({ parts, className, ...props }, ref) => {
+  const mocked = useContext(ForYouItemMockContext);
+  return (
+    <h3
+      ref={ref}
+      className={cn(
+        "font-bold",
+        !mocked ? "text-base sm:text-lg" : "text-sm",
+        className,
       )}
-    </p>
-  </h3>
-));
+      {...props}
+    >
+      <p className="space-x-1">
+        {parts.map(({ text, to }, index) =>
+          to ? (
+            // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
+            <StyledLink key={index} to={to} disabled={mocked}>
+              {text}
+            </StyledLink>
+          ) : (
+            // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
+            <span key={index}>{text}</span>
+          ),
+        )}
+      </p>
+    </h3>
+  );
+});
 
 export const ForYouItemDescription = forwardRef<
   HTMLParagraphElement,
   ComponentProps<"p">
->(({ className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={cn(
-      "line-clamp-2 flex flex-row gap-1 items-center text-sm sm:text-base",
-      className,
-    )}
-    {...props}
-  />
-));
+>(({ className, ...props }, ref) => {
+  const mocked = useContext(ForYouItemMockContext);
+  return (
+    <p
+      ref={ref}
+      className={cn(
+        "line-clamp-2 flex flex-row gap-1 items-center",
+        !mocked ? "text-sm sm:text-base" : "text-xs",
+        className,
+      )}
+      {...props}
+    />
+  );
+});
 
 interface ForYouItemFooterProps extends ComponentProps<"p"> {
   prefix: string;
@@ -205,13 +255,20 @@ interface ForYouItemFooterProps extends ComponentProps<"p"> {
 export const ForYouItemFooter = forwardRef<
   HTMLParagraphElement,
   ForYouItemFooterProps
->(({ prefix, time, className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={cn("text-xs sm:text-sm text-brand-11 italic", className)}
-    {...props}
-  >
-    <span className="mr-1">{prefix}</span>
-    {time && formatRelativeTime(time)}
-  </p>
-));
+>(({ prefix, time, className, ...props }, ref) => {
+  const mocked = useContext(ForYouItemMockContext);
+  return (
+    <p
+      ref={ref}
+      className={cn(
+        " text-brand-11 italic",
+        !mocked ? "text-xs sm:text-sm" : "text-xss",
+        className,
+      )}
+      {...props}
+    >
+      <span className="mr-1">{prefix}</span>
+      {time && formatRelativeTime(time)}
+    </p>
+  );
+});

@@ -7,6 +7,7 @@ export interface MovieImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   alt: string;
   badgeProps?: BadgeProps;
   hasHoverEffect?: boolean;
+  overrideSizeChange?: boolean;
   size?: "xs" | "sm" | "md" | "lg";
 }
 
@@ -15,6 +16,7 @@ export const MovieImage = ({
   alt,
   badgeProps,
   hasHoverEffect = true,
+  overrideSizeChange = false,
   size = "md",
   className,
   ...props
@@ -25,10 +27,17 @@ export const MovieImage = ({
   const transformedSrc = transformAndResizeImageUrl(src, 264);
 
   const sizeClass = {
-    xs: "h-16 xs:h-20 md:h-24",
-    sm: "h-28 xs:h-[9rem] md:h-52",
-    md: "h-32 xs:h-[10.5rem] md:h-60",
-    lg: "h-40 xs:h-48 md:h-72",
+    xs: "h-16",
+    sm: "h-28",
+    md: "h-32",
+    lg: "h-40",
+  }[size];
+
+  const responsiveSizeClass = {
+    xs: "xs:h-20 md:h-24",
+    sm: "xs:h-[9rem] md:h-52",
+    md: "xs:h-[10.5rem] md:h-60",
+    lg: "xs:h-48 md:h-72",
   }[size];
 
   return (
@@ -37,6 +46,7 @@ export const MovieImage = ({
         "aspect-[2/3] shrink-0 rounded-lg relative",
         { "hover:scale-105 duration-300": hasHoverEffect },
         sizeClass,
+        { [responsiveSizeClass]: !overrideSizeChange },
         className,
       )}
     >

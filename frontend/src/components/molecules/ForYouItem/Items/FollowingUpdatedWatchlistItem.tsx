@@ -12,7 +12,7 @@ import {
 } from "../ForYouItem";
 import { Badge } from "@/components/atoms/Badge/Badge";
 
-export const FollowingUpdatedWatchlistItem = ({ item }: ForYouItemProps) => {
+export const FollowingUpdatedWatchlistItem = ({ item, ...props }: ForYouItemProps) => {
   const fullName = `${item.userFirstName} ${item.userLastName}`;
   const movieLink = `/movie/${item.movieId}`;
   const profileLink = `/profile/${item.userId}`;
@@ -23,14 +23,14 @@ export const FollowingUpdatedWatchlistItem = ({ item }: ForYouItemProps) => {
       text: "updated",
     },
     { text: item.movieTitle ?? "", to: movieLink },
-    { text: "to their watchlist!" },
+    { text: "on their watchlist!" },
   ];
   const watchlistItemOption = watchlistItemLabelsOptions.find(
     (option) => option.value === item.watchlistItemLabel,
   );
 
   return (
-    <ForYouItemRoot>
+    <ForYouItemRoot {...props}>
       <ForYouItemLeftContainer>
         <ForYouMovieImage to={movieLink} src={item.moviePosterUrl ?? ""} />
         <ForYouItemTypeCircle

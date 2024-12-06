@@ -15,10 +15,7 @@ import { DetailedMovieCard } from "@/components/molecules/DetailedMovieCard/Deta
 import { Link, useParams } from "react-router-dom";
 import { GenreSidebarFilter } from "@/components/organisms/GenreSidebarFilter";
 import { useWatchlistItems } from "@/lib/hooks/useWatchlistItems";
-import {
-  type WatchlistItemLabel,
-  WatchlistItemLabelSidebarFilter,
-} from "@/components/organisms/WatchlistItemLabel/WatchlistItemLabelSidebarFilter";
+import { WatchlistItemLabelSidebarFilter } from "@/components/organisms/WatchlistItemLabel/WatchlistItemLabelSidebarFilter";
 import { useUser } from "@/lib/hooks/useUser";
 import { useAuth } from "@/lib/context/authContext";
 import { Avatar } from "@/components/molecules/Avatar/Avatar";
@@ -27,6 +24,7 @@ import { ConfirmModal } from "@/components/molecules/ConfirmModal/ConfirmModal";
 import { useDeleteWatchlistItem } from "@/lib/hooks/useDeleteWatchlistItem";
 import { toast } from "react-toastify";
 import { Skeleton } from "@/components/atoms/Skeleton/Skeleton";
+import { watchlistItemLabels as originalWatchlistItemLabels } from "@/components/organisms/WatchlistItemLabel/WatchlistItemLabelSidebarFilter";
 
 export default function WatchlistPage() {
   const { userId } = useParams();
@@ -64,7 +62,7 @@ export default function WatchlistPage() {
 
   const [possiblyUndefinedWatchlistItemLabels, setWatchlistItemLabels] =
     useSessionStorageState("watchlistItemLabels", {
-      defaultValue: [] as WatchlistItemLabel[],
+      defaultValue: originalWatchlistItemLabels.slice(),
       listenStorageChange: true,
     });
   const watchlistItemLabels = useMemo(
@@ -177,13 +175,8 @@ export default function WatchlistPage() {
             <WatchlistItemLabelSidebarFilter
               checkedWatchlistItemLabels={watchlistItemLabels}
               onCheckedWatchlistItemsLabelChange={setWatchlistItemLabels}
-              isLoading={loading}
             />
-            <GenreSidebarFilter
-              genres={genres}
-              onGenresChange={setGenres}
-              isLoading={loading}
-            />
+            <GenreSidebarFilter genres={genres} onGenresChange={setGenres} />
           </FilterableMovieListSidebar>
           <FilterableMovieListContent>
             <FilterableMovieListHeader />

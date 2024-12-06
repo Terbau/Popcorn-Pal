@@ -12,7 +12,10 @@ import {
 } from "../ForYouItem";
 import { Badge } from "@/components/atoms/Badge/Badge";
 
-export const FollowingAddedMovieToWatchlist = ({ item }: ForYouItemProps) => {
+export const FollowingAddedMovieToWatchlist = ({
+  item,
+  ...props
+}: ForYouItemProps) => {
   const fullName = `${item.userFirstName} ${item.userLastName}`;
   const movieLink = `/movie/${item.movieId}`;
   const profileLink = `/profile/${item.userId}`;
@@ -29,7 +32,7 @@ export const FollowingAddedMovieToWatchlist = ({ item }: ForYouItemProps) => {
   );
 
   return (
-    <ForYouItemRoot>
+    <ForYouItemRoot {...props}>
       <ForYouItemLeftContainer>
         <ForYouMovieImage to={movieLink} src={item.moviePosterUrl ?? ""} />
         <ForYouItemTypeCircle

@@ -13,6 +13,7 @@ import {
 
 export const UserSuggestion = ({
   item,
+  ...props
 }: ForYouItemProps) => {
   const fullName = `${item.userFirstName} ${item.userLastName}`;
   const initials = createInitials(item.userFirstName, item.userLastName);
@@ -23,7 +24,7 @@ export const UserSuggestion = ({
   ];
 
   return (
-    <ForYouItemRoot>
+    <ForYouItemRoot {...props}>
       <ForYouItemLeftContainer>
         <ForYouAvatar to={profileLink} fallback={initials} />
         <ForYouItemTypeCircle
