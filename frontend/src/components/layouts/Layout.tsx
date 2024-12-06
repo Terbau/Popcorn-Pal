@@ -3,7 +3,7 @@ import "@fontsource/playfair-display";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../../lib/context/authContext";
 import { useCallback, useContext, useEffect } from "react";
-import { Footer } from "../molecules/Footer";
+import { Footer } from "../molecules/Footer/Footer";
 import { Bounce, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";

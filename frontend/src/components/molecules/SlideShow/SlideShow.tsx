@@ -1,10 +1,11 @@
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { Icon } from "@iconify/react";
-import { Button } from "../atoms/Button/Button";
-import { transformAndResizeImageUrl } from "../../lib/utils";
+
 import { Link } from "react-router-dom";
 import type { GetFeaturedMoviesQuery } from "@/lib/graphql/generated/graphql";
+import { transformAndResizeImageUrl } from "@/lib/utils";
+import { Button } from "@/components/atoms/Button/Button";
 
 interface SlideShowProps {
   movies: GetFeaturedMoviesQuery["getFeaturedMovies"];

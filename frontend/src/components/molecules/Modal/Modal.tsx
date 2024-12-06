@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import * as RadixDialog from "@radix-ui/react-dialog";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { cn } from "../../../lib/utils";
 import { useContext } from "react";
 import { ThemeContext } from "@/App";
@@ -30,7 +31,7 @@ export const Modal = ({
   if (!themeContext) {
     throw new Error("bla bla");
   }
-  const { theme, setTheme } = themeContext;
+  const { theme } = themeContext;
 
   return (
     <div className={`${theme} dark`}>
@@ -43,6 +44,31 @@ export const Modal = ({
                 maxWidthClass,
               )}
             >
+              {hasCloseButton && (
+                <RadixDialog.Close asChild>
+                  <button
+                    type="button"
+                    className="absolute top-3 right-3 text-brand-10"
+                    aria-label="Close"
+                  >
+                    <Icon
+                      icon="iconamoon:close"
+                      className="h-8 w-8 text-brand-11 hover:text-brand-12"
+                    />
+                  </button>
+                </RadixDialog.Close>
+              )}
+
+              {title ? (
+                <RadixDialog.Title className="text-xl font-semibold text-brand-11">
+                  {title}
+                </RadixDialog.Title>
+              ) : (
+                <VisuallyHidden.Root>
+                  <RadixDialog.Title>Modal</RadixDialog.Title>
+                </VisuallyHidden.Root>
+              )}
+
               {hasCloseButton && (
                 <RadixDialog.Close asChild>
                   <button

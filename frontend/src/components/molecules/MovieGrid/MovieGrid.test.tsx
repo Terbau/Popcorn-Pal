@@ -1,0 +1,222 @@
+import { render, screen, cleanup } from "@testing-library/react";
+import { describe, it, afterEach, expect } from "vitest";
+import { MemoryRouter } from "react-router-dom";
+import { MovieGrid } from "./MovieGrid";
+
+describe("MovieGrid Component", () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  const mockMovies = [
+    {
+      id: "tt0468569",
+      title: "The Dark Knight",
+      plot: "When a menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman, James Gordon and Harvey Dent must work together to put an end to the madness.",
+      runtime: 9120,
+      yearReleased: 2008,
+      releasedAt: "2008-07-18T00:00:00.000Z",
+      certificate: "PG-13",
+      externalRating: 9,
+      externalMovieMeterRank: 82,
+      externalVotes: 2949383,
+      posterUrl:
+        "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_QL75_UX1383_CR0,0,1383,2048_.jpg",
+      posterHeight: 2048,
+      posterWidth: 1383,
+      landscapePosterUrl:
+        "https://m.media-amazon.com/images/M/MV5BYWQ1NGYyYTQtNDAxZi00MDhjLTg0MWYtYTAyOTVkZTMyZjkzXkEyXkFqcGc@._V1_.jpg",
+      landscapePosterHeight: 1080,
+      landscapePosterWidth: 1920,
+      showcaseOnHomePage: false,
+      createdAt: "2024-11-24T21:41:40.145Z",
+      updatedAt: "2024-11-26T12:35:02.679Z",
+      creators: [
+        {
+          id: "nm0634240",
+          name: "Christopher Nolan",
+        },
+      ],
+      genres: [
+        {
+          id: "Action",
+          name: "Action",
+        },
+        {
+          id: "Crime",
+          name: "Crime",
+        },
+        {
+          id: "Drama",
+          name: "Drama",
+        },
+        {
+          id: "Thriller",
+          name: "Thriller",
+        },
+      ],
+      stars: [
+        {
+          id: "nm0000288",
+          name: "Christian Bale",
+        },
+        {
+          id: "nm0000323",
+          name: "Michael Caine",
+        },
+        {
+          id: "nm0001173",
+          name: "Aaron Eckhart",
+        },
+        {
+          id: "nm0005132",
+          name: "Heath Ledger",
+        },
+      ],
+    },
+    {
+      id: "tt1344854",
+      title: "MHz (Megahertz)",
+      plot: "A strung-out radio DJ searches for answers in an alternate universe with the inventor of radio himself, Nikola Tesla. This unlikely pairing heals old wounds and allows Tesla to reclaim his power, going head-to-head with titans of industry and arch rivals Edison, Marconi, and JP Morgan.",
+      runtime: 5820,
+      yearReleased: 2009,
+      releasedAt: null,
+      certificate: "",
+      externalRating: 9,
+      externalMovieMeterRank: 243623,
+      externalVotes: 9,
+      posterUrl:
+        "https://m.media-amazon.com/images/M/MV5BM2I5NTdiZTAtMWFlNS00NzU5LWIyNzAtNzY5OWMxZDRiOWY1XkEyXkFqcGc@._V1_QL75_UX1280_CR0,0,1280,720_.jpg",
+      posterHeight: 720,
+      posterWidth: 1280,
+      landscapePosterUrl:
+        "https://m.media-amazon.com/images/M/MV5BM2I5NTdiZTAtMWFlNS00NzU5LWIyNzAtNzY5OWMxZDRiOWY1XkEyXkFqcGc@._V1_.jpg",
+      landscapePosterHeight: 720,
+      landscapePosterWidth: 1280,
+      showcaseOnHomePage: false,
+      createdAt: "2024-11-08T10:16:00.023Z",
+      updatedAt: "2024-11-08T10:16:00.021Z",
+      creators: [
+        {
+          id: "nm3239291",
+          name: "Lee Pepper",
+        },
+      ],
+      genres: [
+        {
+          id: "Fantasy",
+          name: "Fantasy",
+        },
+      ],
+      stars: [
+        {
+          id: "nm0107285",
+          name: "Frank Brennan",
+        },
+        {
+          id: "nm0212278",
+          name: "David de Vries",
+        },
+        {
+          id: "nm2445109",
+          name: "John Ammerman",
+        },
+        {
+          id: "nm3256779",
+          name: "Paul Ciliano",
+        },
+      ],
+    },
+    {
+      id: "tt0050083",
+      title: "12 Angry Men",
+      plot: "The jury in a New York City murder trial is frustrated by a single member whose skeptical caution forces them to more carefully consider the evidence before jumping to a hasty verdict.",
+      runtime: 5760,
+      yearReleased: 1957,
+      releasedAt: "1957-04-10T00:00:00.000Z",
+      certificate: "Approved",
+      externalRating: 9,
+      externalMovieMeterRank: 241,
+      externalVotes: 895151,
+      posterUrl:
+        "https://m.media-amazon.com/images/M/MV5BYjE4NzdmOTYtYjc5Yi00YzBiLWEzNDEtNTgxZGQ2MWVkN2NiXkEyXkFqcGc@._V1_QL75_UX974_CR0,0,974,1500_.jpg",
+      posterHeight: 1500,
+      posterWidth: 974,
+      landscapePosterUrl:
+        "https://m.media-amazon.com/images/M/MV5BZTYxYzg3YTktMDNiZi00MGQxLThjYjMtOTI3MmQzMDU5YWQyXkEyXkFqcGc@._V1_.jpg",
+      landscapePosterHeight: 954,
+      landscapePosterWidth: 1704,
+      showcaseOnHomePage: false,
+      createdAt: "2024-11-26T09:47:19.050Z",
+      updatedAt: "2024-11-26T12:16:49.827Z",
+      creators: [
+        {
+          id: "nm0001486",
+          name: "Sidney Lumet",
+        },
+      ],
+      genres: [
+        {
+          id: "Crime",
+          name: "Crime",
+        },
+        {
+          id: "Drama",
+          name: "Drama",
+        },
+      ],
+      stars: [
+        {
+          id: "nm0000020",
+          name: "Henry Fonda",
+        },
+        {
+          id: "nm0000842",
+          name: "Martin Balsam",
+        },
+        {
+          id: "nm0002011",
+          name: "Lee J. Cobb",
+        },
+        {
+          id: "nm0275835",
+          name: "John Fiedler",
+        },
+      ],
+    },
+  ];
+
+  it("renders correctly and matches the snapshot", () => {
+    const { asFragment } = render(
+      <MemoryRouter>
+        <MovieGrid movies={mockMovies} />
+      </MemoryRouter>,
+    );
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it("renders the movie grid with movies", () => {
+    render(
+      <MemoryRouter>
+        <MovieGrid movies={mockMovies} />
+      </MemoryRouter>,
+    );
+
+    mockMovies.forEach((movie) => {
+      expect(screen.getByAltText(movie.title)).toBeInTheDocument();
+    });
+  });
+
+  it("renders no items when there are no movies and `isLoading` is false", () => {
+    render(
+      <MemoryRouter>
+        <MovieGrid movies={[]} isLoading={false} />
+      </MemoryRouter>,
+    );
+
+    const movieItems = screen.queryAllByTestId("movie-item");
+    const skeletons = screen.queryAllByTestId("movie-skeleton");
+    expect(movieItems).toHaveLength(0);
+    expect(skeletons).toHaveLength(0);
+  });
+});

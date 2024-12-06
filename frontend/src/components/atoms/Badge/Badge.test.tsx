@@ -19,7 +19,9 @@ it("renders correctly with asChild", () => {
 
 it("renders secondary variant correctly", () => {
   const { container } = render(<Badge variant="secondary" />);
-  expect(container.firstChild).toHaveClass("text-brand-11 bg-brand-3 border border-brand-7");
+  expect(container.firstChild).toHaveClass(
+    "text-brand-11 bg-brand-8 dark:bg-brand-3",
+  );
 });
 
 it("renders with size xs correctly", () => {

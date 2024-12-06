@@ -1,5 +1,4 @@
-import { MovieCarousel } from "../components/molecules/MovieCarousel";
-import { SlideShow } from "../components/molecules/SlideShow";
+import { MovieCarousel } from "../components/molecules/MovieCarousel/MovieCarousel";
 import { useFeaturedMovies } from "@/lib/hooks/useFeaturedMovies";
 import { useMovies } from "@/lib/hooks/useMovies";
 import { InformationView } from "@/components/molecules/InformationView";
@@ -7,6 +6,7 @@ import { DiscoverAnimation } from "@/components/organisms/HomepageAnimations/Dis
 import { useAuth } from "@/lib/context/authContext";
 import { WatchlistAnimation } from "@/components/organisms/HomepageAnimations/WatchlistAnimation";
 import { ForYouAnimation } from "@/components/organisms/HomepageAnimations/ForYouAnimation";
+import { SlideShow } from "@/components/molecules/SlideShow/SlideShow";
 
 export default function HomePage() {
   const { currentUser } = useAuth();

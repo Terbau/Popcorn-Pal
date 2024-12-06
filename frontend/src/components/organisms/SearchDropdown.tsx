@@ -3,7 +3,7 @@ import {
   SearchInput,
   type SearchInputSelectOption,
 } from "../molecules/SearchInput/SearchInput";
-import { SearchResultDropdown } from "../molecules/SearchResultDropdown";
+
 import { useLazyQuery } from "@apollo/client";
 import { cn, createInitials } from "../../lib/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -21,6 +21,7 @@ import * as RadixPopover from "@radix-ui/react-popover";
 import { Avatar } from "../molecules/Avatar/Avatar";
 import { highlightText } from "@/lib/utils/textUtils";
 import { useSessionStorageState } from "ahooks";
+import { SearchResultDropdown } from "../molecules/SearchResultDropdown/SearchResultDropdown";
 
 interface SearchDropdownProps {
   isMobile?: boolean;

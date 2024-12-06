@@ -7,7 +7,6 @@ import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import { AuthProvider } from "./lib/context/authContext";
 import { NuqsAdapter } from "nuqs/adapters/react";
-import { Theme } from "@radix-ui/themes";
 
 import ProfilePage from "./pages/ProfilePage";
 import MoviePage from "./pages/MoviePage";
@@ -27,34 +26,29 @@ function App() {
   return (
     <div className={`${theme === "dark" && "dark"}`}>
       <ThemeContext.Provider value={{ theme, setTheme }}>
-        <Theme>
-          <AuthProvider>
-            <BrowserRouter basename="/project2/">
-              <NuqsAdapter>
-                <ApolloProvider client={apolloClient}>
-                  <Routes>
-                    <Route path="/" element={<Layout />}>
-                      <Route index element={<HomePage />} />
-                      <Route path="/signup" element={<SignUpPage />} />
-                      <Route path="/signin" element={<SignInPage />} />
-                      <Route path="/discover" element={<DiscoverPage />} />
-                      <Route path="/foryou" element={<ForYouPage />} />
-                      <Route
-                        path="/profile/:userId"
-                        element={<ProfilePage />}
-                      />
-                      <Route path="/movie/:movieId" element={<MoviePage />} />
-                      <Route
-                        path="/watchlist/:userId"
-                        element={<WatchlistPage />}
-                      />
-                    </Route>
-                  </Routes>
-                </ApolloProvider>
-              </NuqsAdapter>
-            </BrowserRouter>
-          </AuthProvider>
-        </Theme>
+        <AuthProvider>
+          <BrowserRouter basename="/project2/">
+            <NuqsAdapter>
+              <ApolloProvider client={apolloClient}>
+                <Routes>
+                  <Route path="/" element={<Layout />}>
+                    <Route index element={<HomePage />} />
+                    <Route path="/signup" element={<SignUpPage />} />
+                    <Route path="/signin" element={<SignInPage />} />
+                    <Route path="/discover" element={<DiscoverPage />} />
+                    <Route path="/foryou" element={<ForYouPage />} />
+                    <Route path="/profile/:userId" element={<ProfilePage />} />
+                    <Route path="/movie/:movieId" element={<MoviePage />} />
+                    <Route
+                      path="/watchlist/:userId"
+                      element={<WatchlistPage />}
+                    />
+                  </Route>
+                </Routes>
+              </ApolloProvider>
+            </NuqsAdapter>
+          </BrowserRouter>
+        </AuthProvider>
       </ThemeContext.Provider>
     </div>
   );

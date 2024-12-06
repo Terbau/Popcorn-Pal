@@ -2,7 +2,7 @@ import { cn, createInitials, formatRelativeTime } from "@/lib/utils";
 import { type ComponentProps, useEffect, useState } from "react";
 import { Avatar } from "../Avatar/Avatar";
 import { ToggleIcon } from "../ToggleIcon/ToggleIcon";
-import { AddComment } from "../AddComment";
+import { AddComment } from "../AddComment/AddComment";
 import { useAuth } from "@/lib/context/authContext";
 import { useLocation } from "react-router-dom";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -13,7 +13,7 @@ import {
 import { toast } from "react-toastify";
 import { useDeleteComment } from "@/lib/hooks/useDeleteComment";
 import { OptionalLink } from "@/components/atoms/OptionalLink";
-import { EditComment } from "../EditComment";
+import { EditComment } from "../EditComment/EditComment";
 import { useUpsertCommentVote } from "@/lib/hooks/useUpsertCommentVote";
 import { useDeleteCommentVote } from "@/lib/hooks/useDeleteCommentVote";
 import { ConfirmModal } from "../ConfirmModal/ConfirmModal";
@@ -81,8 +81,8 @@ export const Comment = ({
   const currentUserVoteType = currentUserHasUpvoted
     ? "UPVOTE"
     : currentUserHasDownvoted
-    ? "DOWNVOTE"
-    : undefined;
+      ? "DOWNVOTE"
+      : undefined;
 
   const [deleteComment] = useDeleteComment({
     onCompleted: () => {

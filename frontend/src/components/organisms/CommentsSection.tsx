@@ -13,7 +13,7 @@ import {
   useState,
 } from "react";
 import { Button } from "../atoms/Button/Button";
-import { AddComment } from "../molecules/AddComment";
+import { AddComment } from "../molecules/AddComment/AddComment";
 import { CommentsContainer } from "./CommentsContainer";
 import { Separator } from "../atoms/Separator/Separator";
 import { useResponsive } from "ahooks";
@@ -50,7 +50,7 @@ export const CommentsSection = ({
 
   const [isLoadingMoreParentIds, setIsLoadingMoreParentIds] = useState<
     (string | null)[]
-  >([]);
+      >([]);
   const [commentInputOpen, setCommentInputOpen] = useState(false);
   const [maxCommentDepth, setMaxCommentDepth] = useState(
     MAX_COMMENT_DEPTH_DESKTOP,

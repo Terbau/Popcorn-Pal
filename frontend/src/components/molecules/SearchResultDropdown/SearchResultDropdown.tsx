@@ -1,8 +1,9 @@
-import { cn } from "../../lib/utils";
+
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { ScrollArea } from "./ScrollArea/ScrollArea";
-import { LoadingButton } from "./LoadingButton/LoadingButton";
 import * as RadixPopover from "@radix-ui/react-popover";
+import { ScrollArea } from "../ScrollArea/ScrollArea";
+import { cn } from "@/lib/utils";
+import { LoadingButton } from "../LoadingButton/LoadingButton";
 
 interface SearchResultDropdownProps extends RadixPopover.PopoverContentProps {
   amountSearchResults: number;

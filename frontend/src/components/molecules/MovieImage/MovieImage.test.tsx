@@ -8,35 +8,47 @@ describe("MovieImage Component", () => {
   };
 
   it("renders with default size (md)", () => {
-    render(<MovieImage {...defaultProps} alt="Default Size Image" />);
+    const { asFragment } = render(
+      <MovieImage {...defaultProps} alt="Default Size Image" />
+    );
     const container = screen.getByRole("img", { name: "Default Size Image" })
       .parentElement?.parentElement;
     expect(container).toHaveClass("h-32 xs:h-[10.5rem] md:h-60");
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("renders with small size", () => {
-    render(<MovieImage {...defaultProps} alt="Small Size Image" size="sm" />);
+    const { asFragment } = render(
+      <MovieImage {...defaultProps} alt="Small Size Image" size="sm" />
+    );
     const container = screen.getByRole("img", { name: "Small Size Image" })
       .parentElement?.parentElement;
     expect(container).toHaveClass("h-28 xs:h-[9rem] md:h-52");
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("renders with large size", () => {
-    render(<MovieImage {...defaultProps} alt="Large Size Image" size="lg" />);
+    const { asFragment } = render(
+      <MovieImage {...defaultProps} alt="Large Size Image" size="lg" />
+    );
     const container = screen.getByRole("img", { name: "Large Size Image" })
       .parentElement?.parentElement;
     expect(container).toHaveClass("h-40 xs:h-48 md:h-72");
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("applies hover effect by default", () => {
-    render(<MovieImage {...defaultProps} alt="Hover Effect Image" />);
+    const { asFragment } = render(
+      <MovieImage {...defaultProps} alt="Hover Effect Image" />
+    );
     const container = screen.getByRole("img", { name: "Hover Effect Image" })
       .parentElement?.parentElement;
     expect(container).toHaveClass("hover:scale-105");
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("does not apply hover effect when `hasHoverEffect` is false", () => {
-    render(
+    const { asFragment } = render(
       <MovieImage
         {...defaultProps}
         alt="No Hover Effect Image"
@@ -46,5 +58,6 @@ describe("MovieImage Component", () => {
     const container = screen.getByRole("img", { name: "No Hover Effect Image" })
       .parentElement?.parentElement;
     expect(container).not.toHaveClass("hover:scale-105");
+    expect(asFragment()).toMatchSnapshot();
   });
 });

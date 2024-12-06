@@ -48,10 +48,12 @@ export const Sheet = ({
               <button
                 type="button"
                 className="absolute top-4 right-4 text-brand-10"
+                aria-label="Close"
               >
                 <Icon
                   icon="iconamoon:close"
                   className="h-8 w-8 text-brand-11 hover:text-brand-12"
+                  aria-hidden="true"
                 />
               </button>
             </RadixDialog.Close>

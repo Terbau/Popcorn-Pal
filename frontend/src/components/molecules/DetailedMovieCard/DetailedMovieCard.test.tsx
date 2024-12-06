@@ -102,4 +102,30 @@ describe("DetailedMovieCard Component", () => {
     fireEvent.click(deleteButton);
     expect(handleDelete).toHaveBeenCalledTimes(1);
   });
+
+  it("matches snapshot with default movie data", () => {
+    const { asFragment } = render(
+      <MemoryRouter>
+        <DetailedMovieCard movie={defaultMovie} />
+      </MemoryRouter>
+    );
+    expect(asFragment()).toMatchSnapshot(); // Captures the entire DOM
+  });
+
+  it("matches snapshot with different movie data", () => {
+    const differentMovie = {
+      ...defaultMovie,
+      title: "Inception",
+      plot: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
+      yearReleased: 2010,
+      externalRating: 8.8,
+      externalVotes: 2100000,
+    };
+    const { asFragment } = render(
+      <MemoryRouter>
+        <DetailedMovieCard movie={differentMovie} />
+      </MemoryRouter>
+    );
+    expect(asFragment()).toMatchSnapshot(); // Captures the entire DOM with different movie data
+  });
 });
