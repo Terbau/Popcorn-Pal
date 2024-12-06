@@ -158,7 +158,6 @@ export const Navbar = ({ darkMode, toggleDarkMode }: NavBarProps) => {
             <ProfileDropdown
               open={profileDropdownIsOpen}
               onOpenChange={setProfileDropdownIsOpen}
-              darkMode={darkMode}
             />
           ) : (
             <Button asChild variant="secondary">
