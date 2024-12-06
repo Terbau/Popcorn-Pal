@@ -24,17 +24,10 @@ export interface ButtonProps
   asChild?: boolean;
 }
 
-// Make use of a context here in order for other components such as ButtonLeftIcon and
-// ButtonRightIcon to know the size of the parent button.
 const ButtonContext = createContext<
   { size: VariantProps<typeof buttonStyles>["size"] } | undefined
 >(undefined);
 
-// This previously had a prop leftIcon and rightIcon, but it was removed as asChild
-// requires only one child. The new solution uses another component pattern that is more
-// like how Radix UI components are built. This way, the Button component can be used
-// with a single child, and the ButtonLeftIcon and ButtonRightIcon components can be used
-// as children of the Button component.
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {

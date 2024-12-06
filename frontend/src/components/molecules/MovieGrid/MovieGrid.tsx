@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { MovieImage } from "./MovieImage/MovieImage";
-import { SkeletonMovieImage } from "./MovieImage/SkeletonMovieImage";
 import type { GetMoviesQuery } from "@/lib/graphql/generated/graphql";
+import { MovieImage } from "../MovieImage/MovieImage";
+import { SkeletonMovieImage } from "../MovieImage/SkeletonMovieImage";
 
 interface MovieGridProps {
   movies: GetMoviesQuery["getMovies"]["results"];

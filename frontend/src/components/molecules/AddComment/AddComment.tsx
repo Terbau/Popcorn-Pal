@@ -1,8 +1,8 @@
 import { type ComponentProps, useContext, useEffect } from "react";
-import { TextAreaInput } from "./TextAreaInput/TextAreaInput";
+import { TextAreaInput } from "../TextAreaInput/TextAreaInput";
 import { Button, ButtonLeftIcon } from "@/components/atoms/Button/Button";
 import { cn } from "@/lib/utils";
-import { LoadingButton } from "./LoadingButton/LoadingButton";
+import { LoadingButton } from "../LoadingButton/LoadingButton";
 import { useCreateComment } from "@/lib/hooks/useCreateComment";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

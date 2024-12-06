@@ -6,7 +6,7 @@ import "@fontsource/roboto"; // Importerer Roboto fonten
 import { useAuth } from "../../lib/context/authContext";
 import { useState } from "react";
 import { SearchDropdown } from "./SearchDropdown";
-import { ProfileDropdown } from "../molecules/ProfileDropdown";
+
 import { Sheet } from "../molecules/Sheet/Sheet";
 import { MobileSearchOverlay } from "./MobileSearchOverlay";
 import {
@@ -14,10 +14,11 @@ import {
   SidebarItemBadge,
   SidebarItemIcon,
   SidebarItemLabel,
-} from "../molecules/SidebarItem";
+} from "../molecules/SidebarItem/SidebarItem";
 import { Separator } from "../atoms/Separator/Separator";
 import { cn } from "@/lib/utils";
 import { Badge, type BadgeProps } from "../atoms/Badge/Badge";
+import { ProfileDropdown } from "../molecules/ProfileDropdown/ProfileDropdown";
 
 interface NavLink {
   label: string;

@@ -32,7 +32,7 @@ export const Select = ({
 }: SelectProps) => {
   return (
     <RadixSelect.Root {...props}>
-      <RadixSelect.Trigger asChild>
+      <RadixSelect.Trigger asChild aria-label={placeholder}>
         <Button {...buttonProps}>
           <RadixSelect.Value placeholder={placeholder} />
           <ButtonRightIcon icon="lucide:chevron-down" />
@@ -95,7 +95,7 @@ export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>(
         </RadixSelect.Content>
       </RadixSelect.Portal>
     );
-  },
+  }
 );
 
 const SelectItem = forwardRef<HTMLDivElement, RadixSelect.SelectItemProps>(
@@ -115,7 +115,7 @@ const SelectItem = forwardRef<HTMLDivElement, RadixSelect.SelectItemProps>(
         <Icon icon="ic:round-check" />
       </RadixSelect.ItemIndicator>
     </RadixSelect.Item>
-  ),
+  )
 );
 
 type ScrollButtonProps = (
@@ -134,6 +134,8 @@ const ScrollButton = forwardRef<HTMLDivElement, ScrollButtonProps>(
 
     return (
       <Comp
+        aria-label={`Scroll ${direction}`}
+        role="button"
         className={cn(
           "flex items-center justify-center h-6 bg-brand-6 cursor-default",
           className,
@@ -144,5 +146,6 @@ const ScrollButton = forwardRef<HTMLDivElement, ScrollButtonProps>(
         <Icon icon={`lucide:chevron-${direction}`} className="text-brand-11" />
       </Comp>
     );
-  },
+  }
 );
+

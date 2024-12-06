@@ -1,13 +1,13 @@
 import type { ComponentProps } from "react";
-import { TextAreaInput } from "./TextAreaInput/TextAreaInput";
 import { Button, ButtonLeftIcon } from "@/components/atoms/Button/Button";
 import { cn } from "@/lib/utils";
-import { LoadingButton } from "./LoadingButton/LoadingButton";
 import { useUpdateComment } from "@/lib/hooks/useUpdateComment";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { LoadingButton } from "../LoadingButton/LoadingButton";
+import { TextAreaInput } from "../TextAreaInput/TextAreaInput";
 
 const MIN_COMMENT_LENGTH = 1;
 const MAX_COMMENT_LENGTH = 500;

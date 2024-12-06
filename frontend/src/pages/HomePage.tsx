@@ -1,4 +1,4 @@
-import { MovieCarousel } from "../components/molecules/MovieCarousel";
+import { MovieCarousel } from "../components/molecules/MovieCarousel/MovieCarousel";
 import { SlideShow } from "../components/molecules/SlideShow";
 import { useFeaturedMovies } from "@/lib/hooks/useFeaturedMovies";
 import { useMovies } from "@/lib/hooks/useMovies";

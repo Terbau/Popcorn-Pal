@@ -1,11 +1,6 @@
-import { useAuth } from "../../lib/context/authContext";
-import { Avatar } from "./Avatar/Avatar";
 import { useMutation } from "@apollo/client";
-import { EditableAvatar } from "./Avatar/EditableAvatar";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { EditProfileModal } from "../organisms/EditProfileModal";
-import { createInitials } from "../../lib/utils";
 import { SIGN_OUT } from "@/lib/graphql/mutations/auth";
 import {
   DropdownMenuContent,
@@ -14,17 +9,17 @@ import {
   DropdownMenuRoot,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./DropdownMenu/DropdownMenu";
+} from "../DropdownMenu/DropdownMenu";
 import * as RadixDropdownMenu from "@radix-ui/react-dropdown-menu";
-
-interface ProfileDropdownProps extends RadixDropdownMenu.DropdownMenuProps {
-  darkMode: boolean;
-}
+import { useAuth } from "@/lib/context/authContext";
+import { createInitials } from "@/lib/utils";
+import { EditProfileModal } from "@/components/organisms/EditProfileModal";
+import { Avatar } from "../Avatar/Avatar";
+import { EditableAvatar } from "../Avatar/EditableAvatar";
 
 export const ProfileDropdown = ({
-  darkMode,
   ...props
-}: ProfileDropdownProps) => {
+}: RadixDropdownMenu.DropdownMenuProps) => {
   const { currentUser } = useAuth();
 
   const [editProfileIsOpen, setEditProfileIsOpen] = useState(false);

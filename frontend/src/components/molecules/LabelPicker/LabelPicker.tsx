@@ -55,6 +55,7 @@ export const LabelPickerItem = forwardRef<
         <RadixRadioGroup.Item
           id={id}
           value={value}
+          aria-label={label}
           className={cn(
             "rounded-full h-3 w-3 shadow-lg border flex items-center justify-center",
             `border-${color}-8`,
