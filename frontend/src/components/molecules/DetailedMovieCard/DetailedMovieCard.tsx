@@ -11,6 +11,7 @@ import { useResponsive } from "ahooks";
 import { OptionalLink } from "@/components/atoms/OptionalLink";
 import { cn } from "@/lib/utils/classUtils";
 import { Link } from "react-router-dom";
+import type { WatchlistItemLabel } from "@/components/organisms/WatchlistItemLabel/WatchlistItemLabelSidebarFilter";
 
 export interface DetailedMovieCardProps extends HTMLAttributes<HTMLDivElement> {
   movie: GetMovieQuery["getMovie"];
@@ -21,6 +22,7 @@ export interface DetailedMovieCardProps extends HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
   overrideMovieImageSize?: "xs" | "sm" | "md" | "lg";
   onDeleteClick?: () => void;
+  onWatchlistItemLabelUpdate?: (label: WatchlistItemLabel) => void;
 }
 
 export const DetailedMovieCard = forwardRef<
@@ -37,6 +39,7 @@ export const DetailedMovieCard = forwardRef<
       onDeleteClick,
       disabled = false,
       overrideMovieImageSize,
+      onWatchlistItemLabelUpdate,
       className,
       ...props
     },
@@ -151,6 +154,7 @@ export const DetailedMovieCard = forwardRef<
                 watchlistItem={watchlistItem}
                 badgeSize={badgeSize}
                 isEditable={isCurrentUser && !disabled}
+                onUpdate={onWatchlistItemLabelUpdate}
               />
             )}
             {href && (

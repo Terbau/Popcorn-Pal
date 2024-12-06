@@ -12,12 +12,14 @@ interface EditableWatchlistItemLabelBadgeProps {
   watchlistItem: NonNullable<GetWatchlistItemQuery["getWatchlistItem"]>;
   isEditable?: boolean;
   badgeSize?: BadgeProps["size"];
+  onUpdate?: (value: WatchlistItemLabel) => void;
 }
 
 export const EditableWatchlistItemLabelBadge = ({
   watchlistItem,
   isEditable = true,
   badgeSize = "md",
+  onUpdate,
 }: EditableWatchlistItemLabelBadgeProps) => {
   const label = watchlistItem.label as WatchlistItemLabel;
   const options = watchlistItemLabelsOptions.find(
@@ -28,6 +30,9 @@ export const EditableWatchlistItemLabelBadge = ({
   const color = options?.color;
 
   const [updateWatchlistItem] = useUpdateWatchlistItem({
+    onCompleted: () => {
+      toast.success("Watchlist label updated");
+    },
     onError: () => {
       toast.error("An error occurred while updating watchlist label");
     },
@@ -42,7 +47,7 @@ export const EditableWatchlistItemLabelBadge = ({
           label: newLabel,
         },
       },
-    });
+    }).then(() => onUpdate?.(newLabel));
   };
 
   if (!isEditable) {

@@ -84,7 +84,7 @@ export default function WatchlistPage() {
   });
   const user = currentUser?.id === userId ? currentUser : apiUser;
 
-  const { watchlistItems, totalResults, loading } = useWatchlistItems(
+  const { watchlistItems, totalResults, loading, refetch } = useWatchlistItems(
     {
       userId: userId ?? "",
       orderBy,
@@ -119,6 +119,10 @@ export default function WatchlistPage() {
       variables: {
         movieId: watchlistMovieIdToDelete,
       },
+    }).then(() => {
+      // Refetch the watchlist items after deleting a movie. This is because
+      // of an issue with invalidating the cache when deleting a watchlist item.
+      refetch();
     });
   };
 
@@ -198,16 +202,20 @@ export default function WatchlistPage() {
                   <DetailedMovieCard
                     key={watchlistItem.movieId}
                     movie={watchlistItem.movie}
+                    isCurrentUser={currentUser?.id === userId}
                     watchlistItem={watchlistItem}
                     href={`/movie/${watchlistItem.movieId}`}
                     hasDeleteButton
                     onDeleteClick={() =>
                       handleOnDeleteClick(watchlistItem.movieId)
                     }
+                    // An issue with apollo local state cache updates forces us to refetch until
+                    // that is fixed.
+                    onWatchlistItemLabelUpdate={() => refetch()}
                   />
                 ))
               ) : (
-                <p className="text-2xl mt-6 mx-auto md:ml-[20%]">
+                <p className="text-2xl dark:text-brand-11 mt-6 mx-auto md:ml-[20%]">
                   No movies found in watchlist
                 </p>
               )}

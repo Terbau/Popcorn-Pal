@@ -25,7 +25,7 @@ export const AlertDialog = ({
     <RadixAlertDialog.Root {...props}>
       <RadixAlertDialog.Portal>
         <RadixAlertDialog.Overlay className="fixed inset-0 bg-black bg-opacity-50 animate-[overlayShow_150ms_cubic-bezier(0.16,1,0.3,1)]"/>
-        <RadixAlertDialog.Content className="p-6 bg-brand-3 rounded-lg shadow-lg fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9/12 max-w-96 max-h-[85vh] animate-[contentShow_150ms_cubic-bezier(0.16,1,0.3,1)]">
+        <RadixAlertDialog.Content className="p-6 bg-brand-3 dark:text-brand-11 rounded-lg shadow-lg fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9/12 max-w-96 max-h-[85vh] animate-[contentShow_150ms_cubic-bezier(0.16,1,0.3,1)]">
           {title && (
             <RadixAlertDialog.Title className="text-lg font-semibold">
               {title}

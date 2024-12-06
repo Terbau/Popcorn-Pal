@@ -27,7 +27,6 @@ const middleware = new ApolloLink((operation, forward) => {
   }));
   return forward(operation).map((response) => {
     const cookies = document.cookie.split("; ");
-    console.log("cookies", cookies);
     const sessionCookie = cookies.find((cookie) =>
       cookie.startsWith("session="),
     );
@@ -80,8 +79,6 @@ export const apolloClient = new ApolloClient({
             keyArgs: ["query"],
             // what to do when merging fetchMore data
             merge(existing, incoming) {
-              console.log("existing", existing);
-              console.log("incoming", incoming);
               return {
                 ...incoming,
                 results: [...(existing?.results ?? []), ...incoming.results],
