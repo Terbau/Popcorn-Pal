@@ -1,4 +1,4 @@
-import { render} from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import { Checkbox } from "./Checkbox";
@@ -8,7 +8,7 @@ describe("Checkbox component", () => {
     const { container } = render(<Checkbox />);
     const checkbox = container.querySelector("button");
     expect(checkbox).toBeInTheDocument();
-    expect(checkbox).toHaveClass("bg-brand-3 h-6 w-6 rounded-md");
+    expect(checkbox).toHaveClass("dark:bg-brand-3 bg-cream h-6 w-6 rounded-md");
   });
 
   it("handles change events", async () => {
@@ -21,7 +21,7 @@ describe("Checkbox component", () => {
 
   it("renders as checked", () => {
     const { container } = render(<Checkbox checked />);
-    const indicator = container.querySelector(".text-brand-11");
+    const indicator = container.querySelector(".text-brand-9");
     expect(indicator).toBeInTheDocument();
   });
 

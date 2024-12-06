@@ -26,7 +26,7 @@ describe("FilterBar Component", () => {
   it("applies selected styles to selected items", () => {
     const { getAllByText } = render(<FilterBar {...defaultProps} />);
     const selectedItem = getAllByText("Item 2")[0];
-    expect(selectedItem).toHaveClass("outline outline-brand-9");
+    expect(selectedItem).toHaveClass("outline dark:outline-brand-9 outline-purple-border");
   });
 
   it("does not apply selected styles to non-selected items", () => {

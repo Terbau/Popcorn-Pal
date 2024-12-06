@@ -5,6 +5,7 @@ import { MockedProvider } from "@apollo/client/testing";
 import { ProfileDropdown } from "./ProfileDropdown";
 
 import { AuthContext } from "@/lib/context/authContext";
+import { ThemeContext } from "@/App";
 afterEach(() => {
   cleanup();
 });
@@ -30,7 +31,9 @@ it("renders the user's avatar and initials", () => {
         }}
       >
         <MemoryRouter>
-          <ProfileDropdown />
+          <ThemeContext.Provider value={{ theme: "dark", setTheme: () => {} }}>
+            <ProfileDropdown />
+          </ThemeContext.Provider>
         </MemoryRouter>
       </AuthContext.Provider>
     </MockedProvider>,

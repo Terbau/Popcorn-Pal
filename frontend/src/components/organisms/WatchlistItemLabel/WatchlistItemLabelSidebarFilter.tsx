@@ -2,7 +2,7 @@ import {
   SidebarCheckboxFilter,
   type SidebarCheckboxFilterItemProps,
   type SidebarCheckboxFilterProps,
-} from "../../molecules/SidebarCheckboxFilter";
+} from "../../molecules/SidebarCheckboxFilter/SidebarCheckboxFilter";
 import { useEffect, useMemo } from "react";
 import type { SetState } from "ahooks/lib/createUseStorageState";
 
