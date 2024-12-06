@@ -39,31 +39,33 @@ function App() {
   }, [theme]);
 
   return (
-    <ThemeContext.Provider value={{ theme: theme ?? "dark", setTheme }}>
-      <AuthProvider>
-        <BrowserRouter basename="/project2/">
-          <NuqsAdapter>
-            <ApolloProvider client={apolloClient}>
-              <Routes>
-                <Route path="/" element={<Layout />}>
-                  <Route index element={<HomePage />} />
-                  <Route path="/signup" element={<SignUpPage />} />
-                  <Route path="/signin" element={<SignInPage />} />
-                  <Route path="/discover" element={<DiscoverPage />} />
-                  <Route path="/foryou" element={<ForYouPage />} />
-                  <Route path="/profile/:userId" element={<ProfilePage />} />
-                  <Route path="/movie/:movieId" element={<MoviePage />} />
-                  <Route
-                    path="/watchlist/:userId"
-                    element={<WatchlistPage />}
-                  />
-                </Route>
-              </Routes>
-            </ApolloProvider>
-          </NuqsAdapter>
-        </BrowserRouter>
-      </AuthProvider>
-    </ThemeContext.Provider>
+    <div className={`${theme === "dark" && "dark"}`}>
+      <ThemeContext.Provider value={{ theme: theme ?? "dark", setTheme }}>
+        <AuthProvider>
+          <BrowserRouter basename="/project2/">
+            <NuqsAdapter>
+              <ApolloProvider client={apolloClient}>
+                <Routes>
+                  <Route path="/" element={<Layout />}>
+                    <Route index element={<HomePage />} />
+                    <Route path="/signup" element={<SignUpPage />} />
+                    <Route path="/signin" element={<SignInPage />} />
+                    <Route path="/discover" element={<DiscoverPage />} />
+                    <Route path="/foryou" element={<ForYouPage />} />
+                    <Route path="/profile/:userId" element={<ProfilePage />} />
+                    <Route path="/movie/:movieId" element={<MoviePage />} />
+                    <Route
+                      path="/watchlist/:userId"
+                      element={<WatchlistPage />}
+                    />
+                  </Route>
+                </Routes>
+              </ApolloProvider>
+            </NuqsAdapter>
+          </BrowserRouter>
+        </AuthProvider>
+      </ThemeContext.Provider>
+    </div>
   );
 }
 
