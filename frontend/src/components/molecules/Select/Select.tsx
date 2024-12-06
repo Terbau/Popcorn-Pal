@@ -67,7 +67,7 @@ export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>(
         <RadixSelect.Content
           ref={ref}
           className={cn(
-            "mt-1 overflow-hidden bg-brand-3 rounded-md shadow-2xl border border-brand-6 z-50",
+            "mt-1 overflow-hidden bg-cream dark:bg-brand-3 rounded-md shadow-2xl border border-purple-border dark:border-brand-6 z-50",
             className,
           )}
           position={position}
@@ -102,9 +102,9 @@ const SelectItem = forwardRef<HTMLDivElement, RadixSelect.SelectItemProps>(
   ({ children, className, ...props }, ref) => (
     <RadixSelect.Item
       className={cn(
-        "text-sm text-brand-11 rounded-sm flex items-center h-8 pl-8 pr-6 relative select-none",
+        "text-sm dark:text-brand-11 text-purple-text rounded-sm flex items-center h-8 pl-8 pr-6 relative select-none",
         "data-[disabled]:text-slate-9 data-[disabled]:pointer-events-none",
-        "data-[highlighted]:outline-0 data-[highlighted]:bg-brand-9",
+        "data-[highlighted]:outline-0 dark:data-[highlighted]:bg-brand-9 data-[highlighted]:bg-purple-lavender cursor-pointer",
         className,
       )}
       ref={ref}

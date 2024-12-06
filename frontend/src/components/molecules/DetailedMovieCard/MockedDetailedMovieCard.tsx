@@ -29,7 +29,7 @@ export const MockedDetailedMovieCard = ({
   return (
     <div
       className={cn(
-        "flex flex-row gap-1 bg-brand-3 rounded-lg relative overflow-hidden",
+        "flex flex-row gap-1 dark:bg-brand-3 bg-cream-tertiaryTest shadow-lg rounded-lg relative overflow-hidden",
         className,
       )}
       {...props}
@@ -52,16 +52,20 @@ export const MockedDetailedMovieCard = ({
       />
       <div className="flex flex-col justify-between p-2">
         <div>
-          <p className="flex flex-row gap-1 items-center text-sm">
+          <p className="flex flex-row gap-1 dark:text-brand-12 items-center text-sm">
             {movie?.title}
             <span className="text-xss text-brand-11 flex-shrink-0">
               ({movie?.yearReleased})
             </span>
           </p>
-          <span className="hidden xs:block text-xss truncate min-w-0">
+          <span className="hidden dark:text-brand-12 text-purple-medium xs:block text-xss truncate min-w-0">
             {genres}
           </span>
-          <p className={cn("mt-1.5 text-xss", lineClampClass)}>{movie?.plot}</p>
+          <p
+            className={cn("mt-1.5 text-xss dark:text-brand-12", lineClampClass)}
+          >
+            {movie?.plot}
+          </p>
         </div>
         {watchlistItemLabel && (
           <Badge

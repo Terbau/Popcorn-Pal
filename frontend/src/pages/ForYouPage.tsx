@@ -59,8 +59,10 @@ export default function ForYouPage() {
 
   return (
     <div className="max-w-screen-lg mx-auto w-[90vw]">
-      <h1 className="font-bold text-4xl mt-8 mb-3">For You</h1>
-      <p className="text-brand-11 mb-4">
+      <h1 className="font-bold dark:text-brand-12 text-4xl mt-8 mb-3">
+        For You
+      </h1>
+      <p className="dark:text-brand-11 text-purple-medium mb-4">
         This page has results tailored just for you! Your feed gets increasingly
         interesting the more people you follow!
       </p>

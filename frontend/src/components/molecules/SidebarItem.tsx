@@ -39,7 +39,7 @@ export const SidebarItem = forwardRef<HTMLButtonElement, SidebarItemProps>(
         <Comp
           ref={ref}
           className={cn(
-            "flex flex-row gap-3",
+            "flex flex-row gap-3 dark:text-brand-12",
             { "text-brand-11": isSelected },
             className,
           )}

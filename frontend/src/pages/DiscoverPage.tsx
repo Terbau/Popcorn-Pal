@@ -50,7 +50,7 @@ export default function DiscoverPage() {
 
   return (
     <div className="max-w-screen-lg mx-auto w-[90vw]">
-      <h1 className="mx-auto md:mx-0 font-bold text-5xl mt-6 w-fit">
+      <h1 className="mx-auto md:mx-0 dark:text-brand-12 font-bold text-5xl mt-6 w-fit">
         Discover
       </h1>
       <FilterableMovieList

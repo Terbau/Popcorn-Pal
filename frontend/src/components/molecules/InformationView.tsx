@@ -31,8 +31,12 @@ export const InformationView = ({
         } items-center justify-between mx-auto`}
       >
         <div className="flex flex-col justify-start items-center text-center mb-4 md:mb-0">
-          <h2 className="text-2xl text-white font-bold mb-4 mt-0">{title}</h2>
-          <p className="text-lg text-white mb-4">{text}</p>
+          <h2 className="text-2xl dark:text-white font-bold mb-4 mt-0">
+            {title}
+          </h2>
+          <p className="text-lg dark:text-white text-purple-medium mb-4">
+            {text}
+          </p>
           <Button asChild>
             <Link
               className="hover:scale-105 transition duration-200"

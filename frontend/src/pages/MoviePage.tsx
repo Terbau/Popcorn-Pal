@@ -124,9 +124,13 @@ export default function MoviePage() {
     <div className="max-w-screen-lg w-[90vw] mx-auto mt-8 md:mt-16 rounded-lg overflow-hidden">
       <button
         type="button"
-        className={cn("w-full bg-brand-2 overflow-hidden relative group", {
-          "h-32 md:h-56": !isViewingFullBanner,
-        })}
+        className={cn(
+          "w-full bg-brand-2 overflow-hidden relative group transition-all duration-500 ease-in-out",
+          {
+            "h-32 md:h-56": !isViewingFullBanner,
+            // "h-56 md:h-96": isViewingFullBanner,
+          },
+        )}
         onClick={() => setIsViewingFullBanner((prev) => !prev)}
       >
         {landscapePosterUrl && (
@@ -137,15 +141,17 @@ export default function MoviePage() {
           />
         )}
         <div className="absolute bottom-0 w-full flex flex-row justify-center mb-2">
-          <div className="flex flex-col items-center rounded-2xl font-medium px-8 py-1 transition-opacity opacity-0 group-hover:opacity-100 group-hover:bg-black/90">
+          <div className="flex flex-col items-center rounded-2xl font-medium px-8 py-1 transition-opacity opacity-0 group-hover:opacity-100 group-hover:bg-cream dark:group-hover:bg-black/90">
             <Icon
               icon="si:expand-more-fill"
-              className={cn("w-6 h-6", { "rotate-180": isViewingFullBanner })}
+              className={cn("w-6 h-6", {
+                "rotate-180": isViewingFullBanner,
+              })}
             />
           </div>
         </div>
       </button>
-      <div className="bg-brand-3 relative flex flex-col pb-6 md:pb-12 -mt-2">
+      <div className="dark:bg-brand-3 bg-cream-tertiaryTest relative flex flex-col pb-6 md:pb-12 -mt-2">
         <div className="flex flex-row gap-4 w-full h-24 md:h-36 px-4 sm:px-10">
           <MovieImage
             src={movie.posterUrl ?? ""}
@@ -199,7 +205,7 @@ export default function MoviePage() {
         </div>
         <section className="px-5 sm:px-12 grid gap-4 grid-cols-[2fr]">
           <div className="flex flex-wrap gap-2 items-center">
-            <h1 className="text-2xl md:text-3xl font-semibold w-fit">
+            <h1 className="text-2xl md:text-3xl dark:text-brand-12 font-semibold w-fit">
               {movie.title}
             </h1>
             <span className="text-sm text-brand-11 mr-1">
@@ -212,8 +218,10 @@ export default function MoviePage() {
               />
             )}
           </div>
-          <p className="mt-1 m">{movie.plot}</p>
-          <ul className="flex flex-row gap-2 items-start overflow-x-auto w-full h-fit py-2">
+          <p className="mt-1 m dark:text-brand-12 text-purple-medium">
+            {movie.plot}
+          </p>
+          <ul className="flex flex-row gap-2 items-start overflow-x-auto w-full h-fit py-2 pl-1">
             {movie.genres?.map((genre) => (
               <Link
                 key={genre.id}
@@ -221,7 +229,7 @@ export default function MoviePage() {
                 onClick={() => setDiscoverGenres([genre.id])}
               >
                 <Badge color="slate" variant="secondary" size="sm" asChild>
-                  <li className="w-fit h-fit whitespace-nowrap">
+                  <li className="w-fit h-fit whitespace-nowrap hover:scale-105 bg-black transition duration-200">
                     {genre.name}
                   </li>
                 </Badge>

@@ -81,8 +81,8 @@ export const Comment = ({
   const currentUserVoteType = currentUserHasUpvoted
     ? "UPVOTE"
     : currentUserHasDownvoted
-      ? "DOWNVOTE"
-      : undefined;
+    ? "DOWNVOTE"
+    : undefined;
 
   const [deleteComment] = useDeleteComment({
     onCompleted: () => {
@@ -260,7 +260,7 @@ export const Comment = ({
               <OptionalLink
                 to={`/profile/${userId}`}
                 disabled={isDeleted}
-                className={cn("text-sm font-semibold w-fit")}
+                className={cn("text-sm dark:text-brand-12 font-semibold w-fit")}
               >
                 {fullName}
               </OptionalLink>
@@ -268,7 +268,9 @@ export const Comment = ({
               <span
                 className={cn(
                   "text-xs truncate",
-                  isDeleted ? "text-slate-10" : "text-brand-11",
+                  isDeleted
+                    ? "text-slate-10"
+                    : "dark:text-brand-11 text-purple-medium",
                 )}
               >
                 {formatRelativeTime(createdAt)}
@@ -276,7 +278,7 @@ export const Comment = ({
               {updatedAt && !isDeleted && (
                 <>
                   <span className="hidden sm:block">•</span>
-                  <span className="text-xs text-brand-11 hidden sm:block">
+                  <span className="text-xs text-purple-medium dark:text-brand-11 hidden sm:block">
                     edited {formatRelativeTime(updatedAt)}
                   </span>
                 </>
@@ -291,15 +293,21 @@ export const Comment = ({
                 onClose={() => setEditInputOpen(false)}
               />
             ) : (
-              <p className="text-sm">{fixedContent}</p>
+              <p className="text-sm text-purple-text dark:text-brand-12">
+                {fixedContent}
+              </p>
             )}
             <div className={cn("flex flex-row gap-2 items-center mt-0.5")}>
               <ToggleIcon
                 className={cn(
                   "h-5 w-5",
-                  isDeleted ? "text-slate-7" : "text-brand-12",
+                  isDeleted
+                    ? "text-slate-7"
+                    : "dark:text-brand-12 text-brand-10",
                   { "text-orange-9": currentUserHasUpvoted },
-                  { "text-slate-7": currentUserHasUpvoted && isDeleted },
+                  {
+                    "text-slate-7": currentUserHasUpvoted && isDeleted,
+                  },
                 )}
                 aria-label="Upvote"
                 toggledIcon="icon-park-solid:up-two"
@@ -308,11 +316,13 @@ export const Comment = ({
                 onPressedChange={handleUpvoteClick}
                 disabled={isDeleted || !currentUser}
               />
-              <p className="text-sm">{voteRatio}</p>
+              <p className="text-sm dark:text-brand-12">{voteRatio}</p>
               <ToggleIcon
                 className={cn(
                   "h-5 w-5",
-                  isDeleted ? "text-slate-7" : "text-brand-12",
+                  isDeleted
+                    ? "text-slate-7"
+                    : "dark:text-brand-12 text-brand-10",
                   { "text-orange-9": currentUserHasDownvoted },
                   { "text-slate-7": currentUserHasDownvoted && isDeleted },
                 )}
@@ -340,7 +350,7 @@ export const Comment = ({
               )}
 
               <SimpleDropdownMenu groups={moreOptionsGroups}>
-                <div className="px-2 mt-0.5 py-0.5 hover:bg-brand-4 rounded-full">
+                <div className="px-2 mt-0.5 py-0.5 hover:bg-slate-12 dark:hover:bg-brand-4 rounded-full">
                   <Icon
                     icon="lucide:more-horizontal"
                     className="text-brand-10"

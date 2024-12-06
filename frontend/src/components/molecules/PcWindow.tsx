@@ -9,7 +9,7 @@ export const PcWindow = ({
   return (
     <div
       className={cn(
-        "relative h-64 aspect-video bg-black/70 rounded-lg border border-blue-7 shadow-lg flex flex-col overflow-hidden",
+        "relative h-64 aspect-video dark:bg-black/70 bg-cream-secondary rounded-lg border border-purple-border dark:border-blue-7 shadow-lg flex flex-col overflow-hidden",
         className,
       )}
       {...props}

@@ -1,6 +1,8 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import * as RadixDialog from "@radix-ui/react-dialog";
 import { cn } from "../../../lib/utils";
+import { useContext } from "react";
+import { ThemeContext } from "@/App";
 
 export interface ModalProps extends RadixDialog.DialogProps {
   title?: string;
@@ -23,46 +25,54 @@ export const Modal = ({
     lg: "max-w-2xl",
     xl: "max-w-3xl",
   }[maxWidth];
+  const themeContext = useContext(ThemeContext);
+
+  if (!themeContext) {
+    throw new Error("bla bla");
+  }
+  const { theme, setTheme } = themeContext;
 
   return (
-    <RadixDialog.Root {...props}>
-      <RadixDialog.Portal>
-        <RadixDialog.Overlay className="bg-black/60 py-6 fixed top-0 bottom-0 right-0 left-0 grid place-items-center z-40 overflow-y-auto">
-          <RadixDialog.Content
-            className={cn(
-              "flex flex-col gap-5 bg-brand-3 relative rounded-lg shadow-lg w-[90vw] p-6 z-50 border border-brand-5 focus:outline-0",
-              maxWidthClass,
-            )}
-          >
-            {hasCloseButton && (
-              <RadixDialog.Close asChild>
-                <button
-                  type="button"
-                  className="absolute top-3 right-3 text-brand-10"
-                >
-                  <Icon
-                    icon="iconamoon:close"
-                    className="h-8 w-8 text-brand-11 hover:text-brand-12"
-                  />
-                </button>
-              </RadixDialog.Close>
-            )}
-            <div>
-              {title && (
-                <RadixDialog.Title className="text-xl font-semibold text-brand-11">
-                  {title}
-                </RadixDialog.Title>
+    <div className={`${theme} dark`}>
+      <RadixDialog.Root {...props}>
+        <RadixDialog.Portal>
+          <RadixDialog.Overlay className="bg-black/60 py-6 fixed top-0 bottom-0 right-0 left-0 grid place-items-center z-40 overflow-y-auto">
+            <RadixDialog.Content
+              className={cn(
+                "flex flex-col gap-5 dark:bg-brand-3 bg-cream relative rounded-lg shadow-lg w-[90vw] p-6 z-50 border border-brand-5 focus:outline-0",
+                maxWidthClass,
               )}
-              {description && (
-                <RadixDialog.Description className="text-sm mt-2">
-                  {description}
-                </RadixDialog.Description>
+            >
+              {hasCloseButton && (
+                <RadixDialog.Close asChild>
+                  <button
+                    type="button"
+                    className="absolute top-3 right-3 text-brand-10"
+                  >
+                    <Icon
+                      icon="iconamoon:close"
+                      className="h-8 w-8 text-brand-11 hover:text-brand-12"
+                    />
+                  </button>
+                </RadixDialog.Close>
               )}
-            </div>
-            {children}
-          </RadixDialog.Content>
-        </RadixDialog.Overlay>
-      </RadixDialog.Portal>
-    </RadixDialog.Root>
+              <div>
+                {title && (
+                  <RadixDialog.Title className="text-xl font-semibold text-brand-11">
+                    {title}
+                  </RadixDialog.Title>
+                )}
+                {description && (
+                  <RadixDialog.Description className="text-sm text-purple-text dark:text-brand-12 mt-2">
+                    {description}
+                  </RadixDialog.Description>
+                )}
+              </div>
+              {children}
+            </RadixDialog.Content>
+          </RadixDialog.Overlay>
+        </RadixDialog.Portal>
+      </RadixDialog.Root>
+    </div>
   );
 };

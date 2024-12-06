@@ -84,7 +84,7 @@ export const DetailedMovieCard = forwardRef<
         className={cn(
           // The grid cols comnes from a bug where truncate doesn't work with computed widths like when
           // flex grow is used.
-          "group rounded-lg overflow-hidden bg-brand-3 w-full grid grid-cols-[4.75rem,1fr] xs:grid-cols-[6.2rem,1fr] md:grid-cols-[8.75rem,1fr]",
+          "group rounded-lg overflow-hidden bg-cream shadow-lg dark:bg-brand-3 w-full grid grid-cols-[4.75rem,1fr] xs:grid-cols-[6.2rem,1fr] md:grid-cols-[8.75rem,1fr]",
           className,
         )}
         {...props}
@@ -105,7 +105,7 @@ export const DetailedMovieCard = forwardRef<
             <div className="flex flex-row items-center gap-1 ">
               <h3
                 title={movie?.title}
-                className="xs:text-lg sm:text-xl font-semibold truncate min-w-0 "
+                className="xs:text-lg sm:text-xl dark:text-brand-12 font-semibold truncate min-w-0 "
               >
                 {movie?.title}
               </h3>
@@ -131,11 +131,11 @@ export const DetailedMovieCard = forwardRef<
                 {hasImdbRating && getImdbBadge("hidden sm:block")}
               </div>
             </div>
-            <span className="hidden xs:block text-xs truncate min-w-0">
+            <span className="hidden xs:block dark:text-brand-11 text-purple-medium text-xs truncate min-w-0">
               {genres}
             </span>
 
-            <p className="text-xs md:text-sm mt-2 xs:mt-4 max-h-16 md:max-h-[8.5rem] text-ellipsis overflow-hidden line-clamp-2 xs:line-clamp-2 md:line-clamp-4">
+            <p className="text-xs dark:text-brand-12 md:text-sm mt-2 xs:mt-4 max-h-16 md:max-h-[8.5rem] text-ellipsis overflow-hidden line-clamp-2 xs:line-clamp-2 md:line-clamp-4">
               {movie?.plot}
             </p>
           </div>
@@ -150,7 +150,7 @@ export const DetailedMovieCard = forwardRef<
             {href && (
               <OptionalLink
                 to={href}
-                className="ml-auto cursor-pointer flex flex-row gap-1 items-center text-brand-11 hover:bg-brand-4 px-3 py-1 rounded-full text-xs md:text-base"
+                className="ml-auto cursor-pointer flex flex-row gap-1 items-center dark:text-brand-11 text-purple-medium hover:bg-purple-hover dark:hover:bg-brand-4 px-3 py-1 rounded-full text-xs md:text-base"
                 aria-label={`Go to ${movie?.title} page`}
                 disabled={disabled}
               >

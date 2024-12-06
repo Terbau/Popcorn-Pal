@@ -15,7 +15,10 @@ export const TextAreaInput = forwardRef<
   return (
     <div className="flex flex-col gap-1">
       {label && (
-        <label htmlFor={id} className="text-brand-11 mb-1 font-semibold">
+        <label
+          htmlFor={id}
+          className="dark:text-brand-11 text-purple-medium mb-1 font-semibold"
+        >
           {label}
         </label>
       )}
@@ -23,7 +26,7 @@ export const TextAreaInput = forwardRef<
         id={id}
         ref={ref}
         className={cn(
-          "px-3 py-2 bg-brand-3 border border-brand-6 placeholder-brand-10 outline-none rounded-md text-brand-12",
+          "px-3 py-2 bg-cream dark:bg-brand-3 border border-purple-lavender dark:border-brand-6 placeholder-brand-10 outline-none rounded-md text-purple-medium dark:text-brand-12",
           "focus:ring-1 focus:ring-brand-9",
           className,
         )}

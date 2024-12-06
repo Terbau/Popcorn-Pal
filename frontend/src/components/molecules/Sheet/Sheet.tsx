@@ -28,12 +28,12 @@ export const Sheet = ({
         <RadixDialog.Content
           className={cn(
             sheetStyles({ side }),
-            "flex flex-col gap-3",
+            "flex flex-col gap-3 bg-cream dark:bg-brand-3",
             className,
           )}
         >
           {title && (
-            <RadixDialog.Title className="text-2xl font-medium">
+            <RadixDialog.Title className="text-2xl dark:text-brand-12 font-medium">
               {title}
             </RadixDialog.Title>
           )}

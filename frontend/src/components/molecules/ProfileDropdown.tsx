@@ -17,9 +17,14 @@ import {
 } from "./DropdownMenu/DropdownMenu";
 import * as RadixDropdownMenu from "@radix-ui/react-dropdown-menu";
 
+interface ProfileDropdownProps extends RadixDropdownMenu.DropdownMenuProps {
+  darkMode: boolean;
+}
+
 export const ProfileDropdown = ({
+  darkMode,
   ...props
-}: RadixDropdownMenu.DropdownMenuProps) => {
+}: ProfileDropdownProps) => {
   const { currentUser } = useAuth();
 
   const [editProfileIsOpen, setEditProfileIsOpen] = useState(false);
@@ -51,7 +56,7 @@ export const ProfileDropdown = ({
       <DropdownMenuContent
         sideOffset={16}
         align="end"
-        className="max-h-[calc(100vh-5rem)] overflow-y-auto"
+        className="max-h-[calc(100vh-5rem)] bg-cream dark:bg-brand-3 overflow-y-auto"
       >
         <div className="p-4 flex flex-row gap-3">
           {/* Need to use an unstyles item here */}
@@ -64,7 +69,7 @@ export const ProfileDropdown = ({
             />
           </RadixDropdownMenu.Item>
           <div>
-            <p className="text-lg font-bold">
+            <p className="text-lg font-bold text-purple-text dark:text-brand-12">
               {currentUser.firstName} {currentUser.lastName}
             </p>
             <p className="text-sm text-brand-8">{currentUser.email}</p>
@@ -85,7 +90,10 @@ export const ProfileDropdown = ({
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => logout()}>
+        <DropdownMenuItem
+          onClick={() => logout()}
+          className="bg-slate-12 dark:bg-brand-3"
+        >
           <DropdownMenuItemIcon icon="ic:round-logout" />
           Logout
         </DropdownMenuItem>

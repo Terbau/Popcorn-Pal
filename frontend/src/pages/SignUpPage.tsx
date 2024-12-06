@@ -56,7 +56,7 @@ export default function SignUpPage() {
 
   return (
     <div className="max-w-screen-md p-6 mx-auto">
-      <h1 className="text-2xl font-bold mb-8">Sign Up</h1>
+      <h1 className="text-2xl dark:text-brand-12 font-bold mb-8">Sign Up</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full flex flex-col gap-4"

@@ -52,7 +52,7 @@ export const SidebarCheckboxFilter = forwardRef<
           (isLoading ? (
             <Skeleton className="w-1/2 h-5 md:h-6 mb-1" />
           ) : (
-            <h2 className="text-2xl mb-1">{title}</h2>
+            <h2 className="text-2xl dark:text-brand-12 mb-1">{title}</h2>
           ))}
         {isLoading ? (
           <Skeleton className="w-1/4" />
@@ -102,7 +102,7 @@ export const SidebarCheckboxFilterItem = ({
         onClick={() => onClick?.()}
         value={value}
       />
-      <label htmlFor={id} className="text-brand-11">
+      <label htmlFor={id} className="dark:text-brand-11 text-purple-text">
         {label}
       </label>
     </li>

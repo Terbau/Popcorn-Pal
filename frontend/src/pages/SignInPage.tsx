@@ -46,7 +46,10 @@ export default function SignInPage() {
 
   return (
     <div className="max-w-screen-md p-6 mx-auto" data-cy="sign-in-page">
-      <h1 className="text-2xl font-bold mb-8" data-cy="page-title">
+      <h1
+        className="text-2xl font-bold mb-8 text-purple-text dark:text-brand-12"
+        data-cy="page-title"
+      >
         Sign In
       </h1>
       <form

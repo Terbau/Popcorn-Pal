@@ -181,9 +181,9 @@ const getColorStyles = (
     case "primary":
       return `bg-${color}-9 hover:bg-${color}-10 focus-within:ring-${color}-7 focus-within:ring-offset-2 ${overriddenTextColor}`;
     case "secondary":
-      return `text-${color}-11 bg-${color}-3 border border-${color}-7 hover:border-${color}-8 focus-within:ring-${color}-7`;
+      return `dark:text-${color}-11 text-purple-text dark:bg-${color}-3 border hover:bg-cream-light transition duration-200 hover:border-purple-border hover:text-purple-medium dark:border-${color}-7 dark:hover:border-${color}-8 dark:focus-within:ring-${color}-7`;
     case "tertiary":
-      return `text-${color}-9 hover:text-${color}-10 focus-within:ring-${color}-7`;
+      return `dark:text-${color}-9 dark:hover:text-${color}-10 dark:focus-within:ring-${color}-7 text-purple-text hover:text-purple-medium focus-within:ring-purple-lavender`;
     default:
       throw new Error("Invalid variant");
   }
