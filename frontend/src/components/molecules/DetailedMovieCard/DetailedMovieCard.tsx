@@ -7,16 +7,18 @@ import type {
   GetWatchlistItemQuery,
 } from "@/lib/graphql/generated/graphql";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Link } from "react-router-dom";
 import { EditableWatchlistItemLabelBadge } from "@/components/organisms/WatchlistItemLabel/EditableWatchlistItemLabelBadge";
 import { useResponsive } from "ahooks";
+import { OptionalLink } from "@/components/atoms/OptionalLink";
 
-interface DetailedMovieCardProps extends HTMLAttributes<HTMLDivElement> {
+export interface DetailedMovieCardProps extends HTMLAttributes<HTMLDivElement> {
   movie: GetMovieQuery["getMovie"];
   watchlistItem?: GetWatchlistItemQuery["getWatchlistItem"];
   href?: string;
   isCurrentUser?: boolean;
   hasDeleteButton?: boolean;
+  disabled?: boolean;
+  overrideMovieImageSize?: "xs" | "sm" | "md" | "lg";
   onDeleteClick?: () => void;
 }
 
@@ -32,6 +34,8 @@ export const DetailedMovieCard = forwardRef<
       isCurrentUser = false,
       hasDeleteButton,
       onDeleteClick,
+      disabled = false,
+      overrideMovieImageSize,
       className,
       ...props
     },
@@ -46,9 +50,10 @@ export const DetailedMovieCard = forwardRef<
 
     const getImdbBadge = useCallback(
       (className?: string, hasImdbText = true) => (
-        <Link
+        <OptionalLink
           className={className}
           to={`https://www.imdb.com/title/${movie?.id}/`}
+          disabled={disabled}
         >
           <Badge
             color="yellow"
@@ -66,9 +71,9 @@ export const DetailedMovieCard = forwardRef<
               <Icon icon="material-symbols:star" />
             )}
           </Badge>
-        </Link>
+        </OptionalLink>
       ),
-      [movie?.externalRating, movie?.id],
+      [movie?.externalRating, movie?.id, disabled],
     );
 
     const hasImdbRating = (movie?.externalVotes ?? 0) > 0;
@@ -89,7 +94,7 @@ export const DetailedMovieCard = forwardRef<
             src={movie?.posterUrl ?? ""}
             alt={`${movie?.title} poster`}
             hasHoverEffect={false}
-            size="sm"
+            size={overrideMovieImageSize ?? "sm"}
             className="rounded-none [&>div]:rounded-none"
           />
           {hasImdbRating &&
@@ -110,7 +115,7 @@ export const DetailedMovieCard = forwardRef<
                 </span>
               )}
               <div className="ml-auto flex flex-row gap-3">
-                {hasDeleteButton && isCurrentUser && (
+                {hasDeleteButton && isCurrentUser && !disabled && (
                   <button
                     type="button"
                     className="shrink-0 hidden group-focus-within:block group-hover:block"
@@ -139,17 +144,19 @@ export const DetailedMovieCard = forwardRef<
               <EditableWatchlistItemLabelBadge
                 watchlistItem={watchlistItem}
                 badgeSize={badgeSize}
+                isEditable={isCurrentUser && !disabled}
               />
             )}
             {href && (
-              <Link
+              <OptionalLink
                 to={href}
                 className="ml-auto cursor-pointer flex flex-row gap-1 items-center text-brand-11 hover:bg-brand-4 px-3 py-1 rounded-full text-xs md:text-base"
                 aria-label={`Go to ${movie?.title} page`}
+                disabled={disabled}
               >
                 Read more
                 <Icon icon="majesticons:open" />
-              </Link>
+              </OptionalLink>
             )}
           </div>
         </div>

@@ -40,6 +40,9 @@ export default {
         xss: "375px",
         xs: "425px",
       },
+      fontSize: {
+        "xss": "0.625rem",
+      },
       colors: {
         primary: "#030d26",
         inherit: "inherit",
@@ -60,6 +63,19 @@ export default {
         playfair: ["Playfair Display", "serif"],
         roboto: ["Roboto", "sans-serif"],
       },
+      keyframes: {
+        "scroll-y": {
+          "0%": {
+            transform: "translateY(0)",
+          },
+          "100%": {
+            transform: "translateY(-80%)",
+          },
+        },
+      },
+      animation: {
+        "scroll-y": "scroll-y 20s linear infinite",
+      }
     },
   },
   plugins: [tailwindcssRadixColorsPlugin, tailwindcssAnimatePlugin],

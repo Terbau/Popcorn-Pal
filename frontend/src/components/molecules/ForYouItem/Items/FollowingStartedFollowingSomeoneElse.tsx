@@ -14,6 +14,7 @@ import { Avatar } from "../../Avatar/Avatar";
 
 export const FollowingStartedFollowingSomeoneElse = ({
   item,
+  ...props
 }: ForYouItemProps) => {
   const fullName = `${item.userFirstName} ${item.userLastName}`;
   const targetFullName = `${item.targetUserFirstName} ${item.targetUserLastName}`;
@@ -44,7 +45,7 @@ export const FollowingStartedFollowingSomeoneElse = ({
   ];
 
   return (
-    <ForYouItemRoot>
+    <ForYouItemRoot {...props}>
       <ForYouItemLeftContainer>
         <ForYouAvatar to={profileLink} fallback={initials} />
         <ForYouItemTypeCircle
