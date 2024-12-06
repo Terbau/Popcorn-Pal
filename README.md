@@ -180,7 +180,10 @@ The actual environment variables needed to run the application can be found in o
 ### End to end tests
 
 ### Components tests
-
+To run all tests for components, make sure you are currently in the frontend folder, and run:
+```
+npm run test
+```
 ## Common pitfalls
 
 - **Unresponsive page**
