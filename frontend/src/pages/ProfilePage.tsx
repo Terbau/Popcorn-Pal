@@ -80,7 +80,7 @@ export default function ProfilePage() {
         <div className="w-full bg-brand-2 h-32 md:h-56" />
         <div className="bg-brand-3 relative flex flex-col px-6 md:px-12 pb-6 md:pb-12">
           <div className="absolute top-3 right-3 sm:top-5 sm:right-5 flex flex-row gap-3 z-10">
-            {isCurrentUser ? (
+            {isCurrentUser && (
               <Button
                 size="sm"
                 variant="secondary"
@@ -88,25 +88,31 @@ export default function ProfilePage() {
               >
                 Edit profile
               </Button>
-            ) : followerInfo?.currentUserIsFollowing ? (
-              <LoadingButton
-                size="sm"
-                variant="secondary"
-                isLoading={deleteFollowLoading}
-                onClick={() => deleteFollow({ variables: { userId: user.id } })}
-              >
-                Unfollow
-              </LoadingButton>
-            ) : (
-              <LoadingButton
-                size="sm"
-                variant="primary"
-                isLoading={createFollowLoading}
-                onClick={() => createFollow({ variables: { userId: user.id } })}
-              >
-                Follow
-              </LoadingButton>
             )}
+            {currentUser &&
+              (followerInfo?.currentUserIsFollowing ? (
+                <LoadingButton
+                  size="sm"
+                  variant="secondary"
+                  isLoading={deleteFollowLoading}
+                  onClick={() =>
+                    deleteFollow({ variables: { userId: user.id } })
+                  }
+                >
+                  Unfollow
+                </LoadingButton>
+              ) : (
+                <LoadingButton
+                  size="sm"
+                  variant="primary"
+                  isLoading={createFollowLoading}
+                  onClick={() =>
+                    createFollow({ variables: { userId: user.id } })
+                  }
+                >
+                  Follow
+                </LoadingButton>
+              ))}
           </div>
           <div className="flex gap-2 sm:gap-8 flex-row items-center w-full -translate-y-1/2 absolute top-0 left-0 px-3 md:px-8">
             {isCurrentUser ? (
