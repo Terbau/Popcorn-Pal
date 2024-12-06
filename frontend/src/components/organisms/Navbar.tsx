@@ -39,6 +39,11 @@ const NAV_LINKS: NavLink[] = [
     to: "/discover",
     icon: "fluent:movies-and-tv-16-regular",
   },
+  {
+    label: "For You",
+    to: "/foryou",
+    icon: "ri:dvd-ai-fill",
+  },
 ] as const;
 
 export const Navbar = () => {
@@ -69,9 +74,9 @@ export const Navbar = () => {
         >
           <Icon
             icon="emojione:popcorn"
-            className="h-8 w-8 md:h-12 md:w-12 hidden xss:block"
+            className="h-8 w-8 md:h-12 md:w-12 hidden sm:block"
           />
-          <p className="text-base xss:lg  md:text-2xl font-bold text-purple-500 whitespace-nowrap drop-shadow-[0_0_10px_rgba(128,90,213,0.8)]">
+          <p className="text-base xss:lg md:hidden lg:block md:text-2xl font-bold text-purple-500 whitespace-nowrap drop-shadow-[0_0_10px_rgba(128,90,213,0.8)]">
             POPCORN PAL
           </p>
         </Link>

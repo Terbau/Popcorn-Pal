@@ -53,6 +53,8 @@ export default {
         brand: createCustomColorScale("brand"),
         yellow: createColorScale("yellow"),
         orange: createColorScale("orange"),
+        teal: createColorScale("teal"),
+        pink: createColorScale("pink"),
       },
       fontFamily: {
         playfair: ["Playfair Display", "serif"],

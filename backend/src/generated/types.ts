@@ -64,10 +64,37 @@ export type FollowerInfo = {
   userId: Scalars['ID']['output'];
 };
 
+export type ForYouItem = {
+  __typename?: 'ForYouItem';
+  commentContent?: Maybe<Scalars['String']['output']>;
+  commentId?: Maybe<Scalars['ID']['output']>;
+  commentIsReply?: Maybe<Scalars['Boolean']['output']>;
+  movieId?: Maybe<Scalars['ID']['output']>;
+  moviePosterUrl?: Maybe<Scalars['String']['output']>;
+  movieTitle?: Maybe<Scalars['String']['output']>;
+  targetUserAvatarUrl?: Maybe<Scalars['String']['output']>;
+  targetUserFirstName?: Maybe<Scalars['String']['output']>;
+  targetUserId?: Maybe<Scalars['ID']['output']>;
+  targetUserLastName?: Maybe<Scalars['String']['output']>;
+  timestamp?: Maybe<Scalars['DateTime']['output']>;
+  type: Scalars['String']['output'];
+  userAvatarUrl?: Maybe<Scalars['String']['output']>;
+  userFirstName?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['ID']['output']>;
+  userLastName?: Maybe<Scalars['String']['output']>;
+  watchlistItemLabel?: Maybe<Scalars['String']['output']>;
+};
+
 export type Genre = {
   __typename?: 'Genre';
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+};
+
+export type GetForYouItemsResult = {
+  __typename?: 'GetForYouItemsResult';
+  maybeHasMore: Scalars['Boolean']['output'];
+  results: Array<ForYouItem>;
 };
 
 export type Movie = {
@@ -224,6 +251,7 @@ export type Query = {
   getComment?: Maybe<RecursiveComment>;
   getFeaturedMovies: Array<Movie>;
   getFollowerInfo: FollowerInfo;
+  getForYouItems: GetForYouItemsResult;
   getGenres: Array<Genre>;
   getMovie?: Maybe<Movie>;
   getMovies: PaginatedMoviesResult;
@@ -244,6 +272,12 @@ export type QueryGetCommentArgs = {
 
 export type QueryGetFollowerInfoArgs = {
   userId: Scalars['ID']['input'];
+};
+
+
+export type QueryGetForYouItemsArgs = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  seed: Scalars['Float']['input'];
 };
 
 
@@ -476,7 +510,9 @@ export type ResolversTypes = ResolversObject<{
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   FollowerInfo: ResolverTypeWrapper<FollowerInfo>;
+  ForYouItem: ResolverTypeWrapper<ForYouItem>;
   Genre: ResolverTypeWrapper<Genre>;
+  GetForYouItemsResult: ResolverTypeWrapper<GetForYouItemsResult>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Movie: ResolverTypeWrapper<Movie>;
@@ -513,7 +549,9 @@ export type ResolversParentTypes = ResolversObject<{
   DateTime: Scalars['DateTime']['output'];
   Float: Scalars['Float']['output'];
   FollowerInfo: FollowerInfo;
+  ForYouItem: ForYouItem;
   Genre: Genre;
+  GetForYouItemsResult: GetForYouItemsResult;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   Movie: Movie;
@@ -578,9 +616,36 @@ export type FollowerInfoResolvers<ContextType = any, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type ForYouItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['ForYouItem'] = ResolversParentTypes['ForYouItem']> = ResolversObject<{
+  commentContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  commentId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  commentIsReply?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  movieId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  moviePosterUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  movieTitle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  targetUserAvatarUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  targetUserFirstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  targetUserId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  targetUserLastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  timestamp?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  userAvatarUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  userFirstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  userId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  userLastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  watchlistItemLabel?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type GenreResolvers<ContextType = any, ParentType extends ResolversParentTypes['Genre'] = ResolversParentTypes['Genre']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type GetForYouItemsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['GetForYouItemsResult'] = ResolversParentTypes['GetForYouItemsResult']> = ResolversObject<{
+  maybeHasMore?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  results?: Resolver<Array<ResolversTypes['ForYouItem']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -668,6 +733,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getComment?: Resolver<Maybe<ResolversTypes['RecursiveComment']>, ParentType, ContextType, Partial<QueryGetCommentArgs>>;
   getFeaturedMovies?: Resolver<Array<ResolversTypes['Movie']>, ParentType, ContextType>;
   getFollowerInfo?: Resolver<ResolversTypes['FollowerInfo'], ParentType, ContextType, RequireFields<QueryGetFollowerInfoArgs, 'userId'>>;
+  getForYouItems?: Resolver<ResolversTypes['GetForYouItemsResult'], ParentType, ContextType, RequireFields<QueryGetForYouItemsArgs, 'seed'>>;
   getGenres?: Resolver<Array<ResolversTypes['Genre']>, ParentType, ContextType>;
   getMovie?: Resolver<Maybe<ResolversTypes['Movie']>, ParentType, ContextType, RequireFields<QueryGetMovieArgs, 'id'>>;
   getMovies?: Resolver<ResolversTypes['PaginatedMoviesResult'], ParentType, ContextType, Partial<QueryGetMoviesArgs>>;
@@ -747,7 +813,9 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Creator?: CreatorResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   FollowerInfo?: FollowerInfoResolvers<ContextType>;
+  ForYouItem?: ForYouItemResolvers<ContextType>;
   Genre?: GenreResolvers<ContextType>;
+  GetForYouItemsResult?: GetForYouItemsResultResolvers<ContextType>;
   Movie?: MovieResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   PaginatedMoviesResult?: PaginatedMoviesResultResolvers<ContextType>;

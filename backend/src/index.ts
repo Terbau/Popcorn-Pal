@@ -43,6 +43,7 @@ import { searchUsers } from "./resolvers/queries/searchUsers.js";
 import { getFollowerInfo } from "./resolvers/queries/getFollowerInfo.js";
 import { createFollow } from "./resolvers/mutations/createFollow.js";
 import { deleteFollow } from "./resolvers/mutations/deleteFollow.js";
+import { getForYouItems } from "./resolvers/queries/getForYouItems.js";
 
 const FILE_UPLOAD_MAX_SIZE = 1 * 1024 * 1024;
 
@@ -73,6 +74,7 @@ const resolvers: {
     getWatchlistItems,
     getWatchlistItem,
     getFollowerInfo,
+    getForYouItems,
   },
   Mutation: {
     signUp,
