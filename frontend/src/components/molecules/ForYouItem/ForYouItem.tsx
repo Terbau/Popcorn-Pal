@@ -43,7 +43,7 @@ export const ForYouItemRoot = forwardRef<HTMLDivElement, ComponentProps<"div">>(
     <div
       ref={ref}
       className={cn(
-        "flex flex-row gap-6 bg-brand-3 border border-brand-6 rounded-md p-3",
+        "flex flex-row gap-4 sm:gap-6 bg-brand-3 border border-brand-6 rounded-md p-3",
         className,
       )}
       {...props}
@@ -137,7 +137,7 @@ export const ForYouItemTypeCircle = forwardRef<
   <div
     ref={ref}
     className={cn(
-      "absolute -top-6 -right-4 rounded-full h-8 w-8 sm:w-12 sm:h-12 flex items-center justify-center border-4 border-brand-3",
+      "absolute -top-5 -right-3 sm:-top-6 sm:-right-4 rounded-full h-8 w-8 sm:w-12 sm:h-12 flex items-center justify-center border-4 border-brand-3",
       bgColor,
       className,
     )}
@@ -164,23 +164,22 @@ export const ForYouItemTitle = forwardRef<
 >(({ parts, className, ...props }, ref) => (
   <h3
     ref={ref}
-    className={cn(
-      "font-bold text-base sm:text-lg flex flex-row gap-1",
-      className,
-    )}
+    className={cn("font-bold text-base sm:text-lg", className)}
     {...props}
   >
-    {parts.map(({ text, to }, index) =>
-      to ? (
-        // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
-        <StyledLink key={index} to={to}>
-          {text}
-        </StyledLink>
-      ) : (
-        // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
-        <span key={index}>{text}</span>
-      ),
-    )}
+    <p className="space-x-1">
+      {parts.map(({ text, to }, index) =>
+        to ? (
+          // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
+          <StyledLink key={index} to={to} className="">
+            {text}
+          </StyledLink>
+        ) : (
+          // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
+          <span key={index}>{text}</span>
+        ),
+      )}
+    </p>
   </h3>
 ));
 
