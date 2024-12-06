@@ -40,6 +40,7 @@ export const WatchlistItemLabelPickerPopover = ({
             options={watchlistItemLabelsOptions}
             value={label}
             onValueChange={onLabelChange}
+            data-cy="label-picker" 
           />
           <RadixPopover.Close
             className="absolute top-4 right-3 text-brand-10"

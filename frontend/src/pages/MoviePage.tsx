@@ -113,11 +113,11 @@ export default function MoviePage() {
 
   const landscapePosterUrl = movie.landscapePosterUrl
     ? transformAndResizeImageUrl(
-      movie.landscapePosterUrl,
-      1920, // Resize image to 1280 width to save bandwidth
-      movie.landscapePosterWidth ?? 0,
-      movie.landscapePosterHeight ?? 0,
-    )
+        movie.landscapePosterUrl,
+        1920, // Resize image to 1280 width to save bandwidth
+        movie.landscapePosterWidth ?? 0,
+        movie.landscapePosterHeight ?? 0,
+      )
     : null;
 
   return (
@@ -132,6 +132,7 @@ export default function MoviePage() {
           },
         )}
         onClick={() => setIsViewingFullBanner((prev) => !prev)}
+        data-cy="toggle-banner-button"
       >
         {landscapePosterUrl && (
           <img
@@ -163,6 +164,7 @@ export default function MoviePage() {
             <Link
               to={`https://www.imdb.com/title/${movie?.id}/`}
               target="_blank"
+              data-cy="imdb-link" // Cypress testing attribute
             >
               <Badge color="yellow" variant="secondary" size={size}>
                 {movie?.externalRating ?? "N/A"}
@@ -171,29 +173,32 @@ export default function MoviePage() {
               </Badge>
             </Link>
             <div className="ml-auto flex flex-wrap gap-x-3 gap-y-1 text-sm sm:text-base items-center">
-              <button type="button">
-                <Badge
-                  size={size}
-                  variant="secondary"
-                  color="red"
-                  onClick={() => setLiked((prev) => !prev)}
-                >
+              <button
+                type="button"
+                onClick={() => setLiked((prev) => !prev)}
+                data-cy="like-button"
+              >
+                <Badge size={size} variant="secondary" color="red">
                   {liked ? "Liked" : "Like"}
                 </Badge>
               </button>
               {currentUser &&
                 (watchlistItem ? (
-                  <button type="button" onClick={handleWatchlistButtonClick}>
+                  <button
+                    type="button"
+                    onClick={handleWatchlistButtonClick}
+                    data-cy="remove-watchlist-button"
+                  >
                     <Badge size={size} variant="secondary">
                       Remove from watchlist
                     </Badge>
                   </button>
                 ) : (
                   <WatchlistItemLabelPickerPopover
-                    label={undefined} // Set to undefined to prevent showing the selection
+                    label={undefined}
                     onLabelChange={onLabelChange}
                   >
-                    <button type="button">
+                    <button type="button" data-cy="add-watchlist-button">
                       <Badge size={size} variant="primary">
                         Add to watchlist
                       </Badge>
@@ -205,7 +210,10 @@ export default function MoviePage() {
         </div>
         <section className="px-5 sm:px-12 grid gap-4 grid-cols-[2fr]">
           <div className="flex flex-wrap gap-2 items-center">
-            <h1 className="text-2xl md:text-3xl dark:text-brand-12 font-semibold w-fit">
+            <h1
+              className="text-2xl md:text-3xl dark:text-brand-12 font-semibold w-fit"
+              data-cy="movie-title"
+            >
               {movie.title}
             </h1>
             <span className="text-sm text-brand-11 mr-1">
@@ -215,6 +223,7 @@ export default function MoviePage() {
               <EditableWatchlistItemLabelBadge
                 watchlistItem={watchlistItem}
                 badgeSize="sm"
+                data-cy="watchlist-label-badge"
               />
             )}
           </div>
@@ -227,6 +236,7 @@ export default function MoviePage() {
                 key={genre.id}
                 to="/discover"
                 onClick={() => setDiscoverGenres([genre.id])}
+                data-cy={`genre-link-${genre.id}`}
               >
                 <Badge color="slate" variant="secondary" size="sm" asChild>
                   <li className="w-fit h-fit whitespace-nowrap hover:scale-105 bg-black transition duration-200">
@@ -243,6 +253,7 @@ export default function MoviePage() {
           movieId={movieId}
           rootParentId={rootParentId}
           setRootParentId={setRootParentId}
+          data-cy="comments-section"
         />
       </div>
     </div>

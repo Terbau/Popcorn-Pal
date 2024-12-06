@@ -64,7 +64,7 @@ export default function SignInPage() {
           type="email"
           errorMessage={errors.email?.message}
           aria-invalid={errors.email ? "true" : "false"}
-          data-cy="email-input"
+          data-cy="email-input" 
         />
         <TextInput
           {...register("password", { required: "Password is required" })}
@@ -93,7 +93,7 @@ export default function SignInPage() {
         </LoadingButton>
 
         {error && (
-          <p className="text-red-11 text-sm" data-cy="error-message">
+          <p className="text-red-11 text-sm" data-cy="error-message"> // Cypress ID for error message
             {error.message}
           </p>
         )}
