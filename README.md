@@ -67,7 +67,7 @@ Developed by:
 - Kaisa Øyre Larsen
 - Brinje Marie Haugli
 
-## Design Choises
+## Design Choices
 
 ### Choice of data
 
@@ -79,7 +79,7 @@ We chose to use movie data for our project. This type of data is very versatile 
 
 We have two different options for searching: movie-search and user-search. Both options supply real time suggestions and results. To avoid searching too many times, we decided to use a debounce function that only allows fetching results every 300ms.
 
-When searching for a movie, we showcase the result in a paginated manner. Using a trigram algorithm for our movie search, we don't limit the search results only to full matches. We fell this makes the search experience much better, especially since it allows for searching an infinite\* result set.
+When searching for a movie, we showcase the result in a paginated manner. Using a trigram algorithm for our movie search, we don't limit the search results only to full matches. We felt this makes the search experience much better, especially since it allows for searching an infinite\* result set.
 
 For the user search we use a modified full match algorithm. A score is given for the results based on some relevancy paramaters, like if the match occured early in the name, or if a fullmatch has occurred.
 
@@ -107,11 +107,11 @@ In components that are not built using Radix Primitives, we provide accessible f
 
 We use apollo local state for global state management. Apollo client provides `InMemoryCache` which is a powerful state management tool. We use their merge functions where possible and then manually update state where it makes sense. This results in no extra requests being made for fetching invalidated data after mutations, except for mutations in `WatchlistPage`.
 
-In `WatchlistPage` all data is made invalid when a mutation change related to adding/removing watchlist items happens. This is because the data simply doesn't make sense to update locally as it would require way to complicated logic to order the mutated object locally according to our sorting and filtering options. This means that the invididual watchlist items are managed by the state, but the paginated result is not. We also stumbled upon a limitatin in apollo local state here. There is no way (that we could find) to get objects from the apollo state based on a partial key. This means that we had to develop our own utility function for iterating over the state and invalidating partial keyed objects.
+In `WatchlistPage` all data is made invalid when a mutation change related to adding/removing watchlist items happens. This is because the data simply doesn't make sense to update locally as it would require way to complicated logic to order the mutated object locally according to our sorting and filtering options. This means that the invididual watchlist items are managed by the state, but the paginated result is not. We also stumbled upon a limitation in apollo local state here. There is no way (that we could find) to get objects from the apollo state based on a partial key. This means that we had to develop our own utility function for iterating over the state and invalidating partial keyed objects.
 
 ### Choices related to reusable code
 
-Our components are heavily inspired by the "building block" philosophy that Radix Primitives and shadcn uses. This means that almost all our components are easy and intuitive to use, while also being providing flexibility.
+Our components are heavily inspired by the "building block" philosophy that Radix Primitives and shadcn uses. This means that almost all our components are easy and intuitive to use, while also providing flexibility.
 
 Our component philosophy is to always try to provide components that are built by our own building blocks. In order to easily distinguish between the role of a component, and how it would be used, we decided to use an atomic component folder structure. This folder structure allows us to put smaller and more primitive components in "atoms", components that usually uses a couple atoms in while being a bit more complicated in "molecules", and the most complex components in organisms. Typical components that fall into the organisms category are components like the navbar, larger sections and complex data components like `EditProfileModal` and `FilterableMovieSection`.
 
