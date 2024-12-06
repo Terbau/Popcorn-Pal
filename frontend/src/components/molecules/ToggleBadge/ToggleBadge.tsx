@@ -1,6 +1,6 @@
 import * as RadixToggle from "@radix-ui/react-toggle";
 import { Badge, type BadgeProps } from "../../atoms/Badge/Badge";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 
 export type ToggleBadgeProps = RadixToggle.ToggleProps & BadgeProps;
 

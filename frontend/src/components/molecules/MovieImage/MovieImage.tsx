@@ -1,6 +1,7 @@
 import type { ImgHTMLAttributes } from "react";
-import { cn, transformAndResizeImageUrl } from "../../../lib/utils";
 import { Badge, type BadgeProps } from "../../atoms/Badge/Badge";
+import { transformAndResizeImageUrl } from "@/lib/utils/imageUtils";
+import { cn } from "@/lib/utils/classUtils";
 
 export interface MovieImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;

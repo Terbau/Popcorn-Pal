@@ -4,7 +4,6 @@ import type {
   UpdateCommentMutationVariables,
 } from "../graphql/generated/graphql";
 import { UPDATE_COMMENT } from "../graphql/mutations/comment";
-import { apolloClient } from "../graphql/apolloClient";
 
 export const useUpdateComment = (
   options?: MutationHookOptions<
@@ -14,25 +13,21 @@ export const useUpdateComment = (
 ) => {
   const [updateComment, other] = useMutation(UPDATE_COMMENT, {
     ...options,
-    onCompleted: (args) => {
-      try {
-        apolloClient.cache.modify({
-          id: apolloClient.cache.identify({
-            __typename: "RecursiveComment",
-            id: args.updateComment.id,
-          }),
-          fields: {
-            content() {
-              return args.updateComment.content;
-            },
-            updatedAt() {
-              return args.updateComment.updatedAt;
-            },
+    update: (cache, { data }) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: "RecursiveComment",
+          id: data?.updateComment.id,
+        }),
+        fields: {
+          content() {
+            return data?.updateComment.content;
           },
-        });
-      } finally {
-        options?.onCompleted?.(args);
-      }
+          updatedAt() {
+            return data?.updateComment.updatedAt;
+          },
+        },
+      });
     },
   });
 

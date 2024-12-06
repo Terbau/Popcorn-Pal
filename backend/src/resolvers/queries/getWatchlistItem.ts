@@ -1,5 +1,5 @@
 import { db } from "../../db/index.js";
-import { fetchMovies } from "../../functions.js";
+import { fetchMovies } from "../../functions/movies.js";
 import type { QueryResolvers } from "../../types";
 
 export const getWatchlistItem: QueryResolvers["getWatchlistItem"] = async (

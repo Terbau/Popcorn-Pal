@@ -7,7 +7,7 @@ import {
 } from "react";
 import { Badge, type BadgeProps } from "../../atoms/Badge/Badge";
 import { Icon, type IconProps } from "@iconify/react/dist/iconify.js";
-import { cn } from "../../../lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 
 interface SidebarItemProps extends HTMLAttributes<HTMLButtonElement> {
   isSelected?: boolean;

@@ -5,7 +5,6 @@ import {
 } from "../molecules/SearchInput/SearchInput";
 
 import { useLazyQuery } from "@apollo/client";
-import { cn, createInitials } from "../../lib/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { SEARCH_MOVIES } from "@/lib/graphql/queries/movie";
 import type {
@@ -19,9 +18,10 @@ import { Link } from "react-router-dom";
 import { MovieImage } from "../molecules/MovieImage/MovieImage";
 import * as RadixPopover from "@radix-ui/react-popover";
 import { Avatar } from "../molecules/Avatar/Avatar";
-import { highlightText } from "@/lib/utils/textUtils";
+import { createInitials, highlightText } from "@/lib/utils/textUtils";
 import { useSessionStorageState } from "ahooks";
 import { SearchResultDropdown } from "../molecules/SearchResultDropdown/SearchResultDropdown";
+import { cn } from "@/lib/utils/classUtils";
 
 interface SearchDropdownProps {
   isMobile?: boolean;
@@ -31,6 +31,7 @@ interface SearchDropdownProps {
 const MOVIE_PAGE_SIZE = 30;
 const USER_PAGE_SIZE = 5;
 
+// The different search options
 const selectOptions: SearchInputSelectOption[] = [
   {
     label: "Movies",
@@ -131,6 +132,9 @@ export const SearchDropdown = ({
     }
   };
 
+  // This effect is responsible for fetching movieData whenever
+  // the state variable `movieSearchQuery` changes. It also cancels
+  // the debounce if the query is empty.
   useEffect(() => {
     if (!hasValidMovieSearchQuery) {
       setResultDropdownIsOpen(false);
@@ -151,6 +155,9 @@ export const SearchDropdown = ({
     cancelDebounceMovieSearch,
   ]);
 
+  // This effect is responsible for fetching the user search results whenever
+  // the state variable `userSearchQuery` changes. It also cancels the debounce
+  // if the query is empty.
   useEffect(() => {
     if (!hasValidUserSearchQuery) {
       setResultDropdownIsOpen(false);
@@ -171,7 +178,7 @@ export const SearchDropdown = ({
     cancelDebounceUserSearch,
   ]);
 
-  // This effect is responsible for fetching more movieData whenever
+  // This effect is responsible for fetching more data whenever
   // the state variable `currentMoviePage` changes.
   useEffect(() => {
     const handleFetchMore = async () => {
@@ -190,6 +197,7 @@ export const SearchDropdown = ({
     }
   }, [currentMoviePage, fetchMoreMovies]);
 
+  // We need to store the results in a separate state variable
   useEffect(() => {
     if (movieData) {
       setMovieQueryResult(movieData.searchMovies);
@@ -272,6 +280,7 @@ export const SearchDropdown = ({
           isMobile={isMobile}
           onClose={() => handleOnOpenChange(false)}
           onFetchMore={() => setCurrentMoviePage((prev) => prev + 1)}
+          // Fix focus issues because of how radix primitives works
           onFocusOutside={(e) =>
             (e.target === searchInputRef.current ||
               e.target === searchInputClearButtonRef.current) &&
@@ -306,6 +315,9 @@ export const SearchDropdown = ({
               ? "w-screen px-8"
               : "w-72 bg-brand-4 border border-brand-7",
           )}
+          // Fix focus issues because of how radix primitives works. We dont
+          // want to close the search results when the user clicks or focuses
+          // on the input or clear button.
           onOpenAutoFocus={(e) => e.preventDefault()}
           onCloseAutoFocus={(e) => e.preventDefault()}
           onFocusOutside={(e) =>

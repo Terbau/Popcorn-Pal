@@ -14,6 +14,7 @@ const GetRecursiveCommmentsSchema = z.object({
 
 export const getRecursiveComments: QueryResolvers["getRecursiveComments"] =
   async (_, args, { user }) => {
+    // Use schema validation to ensure that the arguments are correct
     const {
       movieId,
       parentId,

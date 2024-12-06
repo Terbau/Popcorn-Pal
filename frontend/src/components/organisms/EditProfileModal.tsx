@@ -10,8 +10,8 @@ import { AvatarInput } from "../molecules/AvatarInput/AvatarInput";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "../atoms/Button/Button";
 import { toast } from "react-toastify";
-import { createInitials } from "../../lib/utils";
 import { UPDATE_USER } from "@/lib/graphql/mutations/user";
+import { createInitials } from "@/lib/utils/textUtils";
 
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
@@ -81,6 +81,7 @@ export const EditProfileModal = ({
     },
   });
 
+  // Create custom reset function that also resets the avatar
   const resetForm = useCallback(() => {
     setIsFormReset(true);
     reset(undefined, {

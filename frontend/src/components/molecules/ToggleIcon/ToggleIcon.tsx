@@ -1,5 +1,5 @@
+import { cn } from "@/lib/utils/classUtils";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { cn } from "../../../lib/utils";
 import * as RadixToggle from "@radix-ui/react-toggle";
 
 export interface ToggleIconProps extends RadixToggle.ToggleProps {

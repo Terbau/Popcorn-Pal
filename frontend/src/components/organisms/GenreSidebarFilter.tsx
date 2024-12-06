@@ -24,6 +24,7 @@ export const GenreSidebarFilter = ({
   ...props
 }: GenreSidebarFilterProps) => {
   const { genres: allGenres, loading } = useGenres({
+    // Set initial genres after fetched
     onCompleted: (data) => {
       if (data.getGenres && genres.length === 0) {
         onGenresChange?.(data.getGenres.map((genre) => genre.id));
@@ -56,6 +57,7 @@ export const GenreSidebarFilter = ({
     }
   };
 
+  // Handle all genres checked change
   const handleAllGenresCheckedChange = () => {
     if (genres.length === allGenres.length) {
       onGenresChange?.([]);

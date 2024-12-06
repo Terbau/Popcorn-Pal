@@ -125,6 +125,7 @@ const startServer = async () => {
       maxFiles: 1,
     }),
     expressMiddleware(server, {
+      // build a custom context to handle user authentication
       context: async ({ req, res }) => {
         const cookies = req.headers.cookie
           ? cookie.parse(req.headers.cookie)

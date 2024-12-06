@@ -1,7 +1,7 @@
 // Provides a simple and fast dropdown menu component. Consider using the building blocks provided at the end of this file
 // for more complex use cases.
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import {
   DropdownMenuContent,
   DropdownMenuItem,

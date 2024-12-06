@@ -12,8 +12,9 @@ import {
 import { EditableAvatar } from "../Avatar/EditableAvatar";
 import * as RadixLabel from "@radix-ui/react-label";
 import type { AvatarProps } from "../Avatar/Avatar";
-import { cn, useCombinedRefs } from "../../../lib/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useCombinedRefs } from "@/lib/utils/typeUtils";
+import { cn } from "@/lib/utils/classUtils";
 
 interface AvatarInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {

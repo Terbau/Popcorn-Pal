@@ -1,4 +1,3 @@
-import { cn, createInitials, formatRelativeTime } from "@/lib/utils";
 import { type ComponentProps, useEffect, useState } from "react";
 import { Avatar } from "../Avatar/Avatar";
 import { ToggleIcon } from "../ToggleIcon/ToggleIcon";
@@ -17,6 +16,9 @@ import { EditComment } from "../EditComment/EditComment";
 import { useUpsertCommentVote } from "@/lib/hooks/useUpsertCommentVote";
 import { useDeleteCommentVote } from "@/lib/hooks/useDeleteCommentVote";
 import { ConfirmModal } from "../ConfirmModal/ConfirmModal";
+import { createInitials } from "@/lib/utils/textUtils";
+import { cn } from "@/lib/utils/classUtils";
+import { formatRelativeTime } from "@/lib/utils/dateUtils";
 
 export interface CommentProps extends ComponentProps<"div"> {
   commentId: string;

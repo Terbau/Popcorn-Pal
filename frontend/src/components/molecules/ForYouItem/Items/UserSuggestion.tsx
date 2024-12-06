@@ -1,4 +1,4 @@
-import { createInitials } from "@/lib/utils";
+import { createInitials } from "@/lib/utils/textUtils";
 import {
   ForYouAvatar,
   ForYouItemFooter,
@@ -11,10 +11,7 @@ import {
   type ForYouItemProps,
 } from "../ForYouItem";
 
-export const UserSuggestion = ({
-  item,
-  ...props
-}: ForYouItemProps) => {
+export const UserSuggestion = ({ item, ...props }: ForYouItemProps) => {
   const fullName = `${item.userFirstName} ${item.userLastName}`;
   const initials = createInitials(item.userFirstName, item.userLastName);
   const profileLink = `/profile/${item.userId}`;

@@ -11,6 +11,7 @@ export const upsertCommentVote: MutationResolvers["upsertCommentVote"] = async (
     throw new Error("Not authenticated");
   }
 
+  // Validate the input
   const { type } = CommentVoteSchema.pick({ type: true }).parse(input);
 
   // Do an upsert here. The `onConflict` method is used to handle conflicts and

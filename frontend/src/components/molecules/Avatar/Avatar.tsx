@@ -1,5 +1,5 @@
+import { cn } from "@/lib/utils/classUtils";
 import * as RadixAvatar from "@radix-ui/react-avatar";
-import { cn } from "../../../lib/utils";
 import { forwardRef } from "react";
 
 export interface AvatarProps extends RadixAvatar.AvatarProps {

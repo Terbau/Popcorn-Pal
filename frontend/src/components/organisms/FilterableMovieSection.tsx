@@ -3,8 +3,8 @@ import {
   FilterBar,
   type FilterBarItem,
 } from "../molecules/FilterBar/FilterBar";
-import { MovieGrid } from "../molecules/MovieGrid";
 import type { GetMoviesQuery } from "@/lib/graphql/generated/graphql";
+import { MovieGrid } from "../molecules/MovieGrid/MovieGrid";
 
 interface FilterableMovieSectionProps {
   movies: GetMoviesQuery["getMovies"]["results"];

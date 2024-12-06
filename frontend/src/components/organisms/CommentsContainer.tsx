@@ -1,7 +1,7 @@
 import type { useRecursiveComments } from "@/lib/hooks/useRecursiveComments";
 import type { ComponentProps } from "react";
 import { Comment } from "../molecules/Comment/Comment";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import { MoreComments } from "@/components/molecules/Comment/MoreComments";
 import { LoadingButton } from "@/components/molecules/LoadingButton/LoadingButton";
 
@@ -21,6 +21,9 @@ interface CommentsContainerProps extends ComponentProps<"div"> {
   onNavigateToComment?: (commentId: string) => void;
 }
 
+// This component is a recursive component that renders comments and their children
+// in a nested fashion. It is used in the CommentsSection component. Trying to wrap your
+// head around this component can be difficult.
 export const CommentsContainer = ({
   parentId,
   comments,

@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { SIGN_OUT } from "@/lib/graphql/mutations/auth";
 import {
   DropdownMenuContent,
@@ -12,7 +12,7 @@ import {
 } from "../DropdownMenu/DropdownMenu";
 import * as RadixDropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useAuth } from "@/lib/context/authContext";
-import { createInitials } from "@/lib/utils";
+import { createInitials } from "@/lib/utils/textUtils";
 import { EditProfileModal } from "@/components/organisms/EditProfileModal";
 import { Avatar } from "../Avatar/Avatar";
 import { EditableAvatar } from "../Avatar/EditableAvatar";
@@ -29,6 +29,11 @@ export const ProfileDropdown = ({
   if (!currentUser) {
     return null;
   }
+
+  const handleLogout = useCallback(async () => {
+    await logout();
+    window.location.reload();
+  }, [logout]);
 
   const initials = createInitials(currentUser.firstName, currentUser.lastName);
 
@@ -86,7 +91,7 @@ export const ProfileDropdown = ({
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onClick={() => logout()}
+          onClick={handleLogout}
           className="bg-slate-12 dark:bg-brand-3"
         >
           <DropdownMenuItemIcon icon="ic:round-logout" />

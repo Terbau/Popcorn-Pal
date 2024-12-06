@@ -1,11 +1,7 @@
 import { searchImdb } from "../../imdb/index.js";
-import {
-  fetchSearchResults,
-  fetchTotalSearchResults,
-  upsertMoviesByMovieIds,
-} from "../../functions.js";
 import { z } from "zod";
 import type { QueryResolvers } from "../../types.js";
+import { fetchSearchResults, fetchTotalSearchResults, upsertMoviesByMovieIds } from "../../functions/movies.js";
 
 const MINIMUM_MOVIES_BEFORE_EXTERNAL_SEARCH = 5;
 const MINIMUM_MOVIES_SIMILARITY_THRESHOLD_FOR_EXTERNAL_FETCH = 0.25;
@@ -24,6 +20,8 @@ export const searchMovies: QueryResolvers["searchMovies"] = async (
   _,
   { query, page, pageSize },
 ) => {
+
+  // Use schema validation to ensure that the arguments are correct
   const {
     query: validatedQuery,
     page: validatedPage,

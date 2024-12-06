@@ -16,16 +16,11 @@ export default function HomePage() {
     orderDirection: "desc",
     pageSize: 10,
   });
-  useMovies({
-    orderBy: "externalRating",
-    orderDirection: "desc",
-    pageSize: 30, // need pagination here in the future
-  });
 
   return (
     <>
       <SlideShow movies={featuredMovies ?? []} />
-      <div className=" mb-16">
+      <div className="mb-16">
         <div className="flex items-center justify-center mt-12 mb-4 max-w-screen-xl mx-auto w-[90vw]">
           <MovieCarousel
             movieList={top10Movies ?? []}
@@ -35,7 +30,7 @@ export default function HomePage() {
           />
         </div>
 
-        <div className="mt-10 overflow-hidden">
+        <div className="mt-16 sm:mt-24">
           <InformationView
             title="Discover movies"
             text="Explore a wide range of content tailored just for you."

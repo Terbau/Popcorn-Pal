@@ -1,6 +1,6 @@
+import { cn } from "@/lib/utils/classUtils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import type { ButtonHTMLAttributes } from "react";
-import { cn } from "../../../lib/utils";
 
 export interface ScrollButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {

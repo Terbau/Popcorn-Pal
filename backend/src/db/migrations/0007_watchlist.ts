@@ -13,9 +13,11 @@ export async function up(db: Kysely<Database>): Promise<void> {
     { createdAt: true },
     db.schema,
   )
-    .addColumn("user_id", "uuid", (col) => col.notNull().references("user.id"))
+    .addColumn("user_id", "uuid", (col) =>
+      col.notNull().references("user.id").onDelete("cascade"),
+    )
     .addColumn("movie_id", "text", (col) =>
-      col.notNull().references("movie.id"),
+      col.notNull().references("movie.id").onDelete("cascade"),
     )
     .addColumn("label", sql`watchlist_item_label`, (col) => col.notNull())
     .addColumn("updated_at", "timestamptz")

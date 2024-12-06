@@ -1,7 +1,7 @@
-import { fetchMovies } from "../../functions.js";
 import { fetchMovieImages } from "../../imdb/index.js";
 import { db } from "../../db/index.js";
 import type { QueryResolvers } from "../../types.js";
+import { fetchMovies } from "../../functions/movies.js";
 
 export const getMovie: QueryResolvers["getMovie"] = async (_, { id }) => {
   const { results: movies } = await fetchMovies([id]);

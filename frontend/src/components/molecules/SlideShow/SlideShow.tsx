@@ -4,8 +4,8 @@ import { Icon } from "@iconify/react";
 
 import { Link } from "react-router-dom";
 import type { GetFeaturedMoviesQuery } from "@/lib/graphql/generated/graphql";
-import { transformAndResizeImageUrl } from "@/lib/utils";
 import { Button } from "@/components/atoms/Button/Button";
+import { transformAndResizeImageUrl } from "@/lib/utils/imageUtils";
 
 interface SlideShowProps {
   movies: GetFeaturedMoviesQuery["getFeaturedMovies"];
@@ -14,6 +14,7 @@ interface SlideShowProps {
 export const SlideShow = ({ movies }: SlideShowProps) => {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()]);
 
+  // Resize the image so that we don't load a large image
   const movieSlides = movies?.map((movie) => ({
     id: movie.id,
     image: transformAndResizeImageUrl(
@@ -31,18 +32,15 @@ export const SlideShow = ({ movies }: SlideShowProps) => {
     <div className="overflow-hidden" ref={emblaRef} data-cy="slideshow">
       <div className="flex">
         {movieSlides?.map((slide, index) => (
-          <div
-            className="relative flex-shrink-0 w-full h-[28rem]"
-            key={slide.id}
-          >
+          <div className="relative flex-shrink-0 w-full sm:h-[28rem]" key={slide.id}>
             <img
               src={slide.image}
               alt={`Slide ${index + 1}`}
-              className="w-full object-cover object-right-top"
+              className="w-full object-cover"
             />
             <div className="absolute flex items-end bottom-0 left-0 dark:bg-gradient-to-b dark:from-transparent dark:to-primary h-full text-white p-6 text-4xl w-full font-roboto">
               <div className="pl-2">
-                <p className="font-bold text-4xl">{slide.text}</p>
+                <p className="font-bold text-2xl sm:text-4xl">{slide.text}</p>
                 <div className="flex items-center space-x-2">
                   <Icon
                     icon="noto:star"

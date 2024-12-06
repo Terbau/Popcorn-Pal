@@ -1,12 +1,12 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import * as RadixSelect from "@radix-ui/react-select";
 import { forwardRef, Fragment, type ReactNode } from "react";
-import { cn } from "../../../lib/utils";
 import {
   Button,
   type ButtonProps,
   ButtonRightIcon,
 } from "../../atoms/Button/Button";
+import { cn } from "@/lib/utils/classUtils";
 
 export interface SelectOption {
   label: string | ReactNode;
@@ -44,6 +44,8 @@ export const Select = ({
 };
 
 interface SelectContentProps extends RadixSelect.SelectContentProps {
+  // Allow for both SelectOption and SelectGroup to be passed in.
+  // This is for the developer's convenience.
   options: SelectOption[] | SelectGroup[];
 }
 
@@ -135,7 +137,6 @@ const ScrollButton = forwardRef<HTMLDivElement, ScrollButtonProps>(
     return (
       <Comp
         aria-label={`Scroll ${direction}`}
-        role="button"
         className={cn(
           "flex items-center justify-center h-6 bg-brand-6 cursor-default",
           className,

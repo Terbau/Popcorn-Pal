@@ -1,7 +1,7 @@
 import { forwardRef, type HTMLAttributes } from "react";
-import { cn } from "../../../lib/utils";
 import { cva, type VariantProps } from "cva";
 import { Slot } from "@radix-ui/react-slot";
+import { cn } from "@/lib/utils/classUtils";
 
 export type BadgeColor =
   | "brand"
@@ -82,7 +82,7 @@ const getColorStyles = (
     case "primary":
       return `bg-${color}-9 ${overriddenTextColor}`;
     case "secondary":
-      return `text-${color}-11 bg-${color}-8 dark:bg-${color}-3 border border-${color}-10 dark:border-${color}-7`;
+      return `text-${color}-11 dark:text-${color}-11 bg-${color}-5 dark:bg-${color}-3 border border-${color}-10 dark:border-${color}-7`;
     default:
       throw new Error("Invalid variant");
   }

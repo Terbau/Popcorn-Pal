@@ -1,11 +1,11 @@
 import { type FC, useRef } from "react";
 import { Link } from "react-router-dom";
-import { cn } from "../../../lib/utils";
 import { ScrollButton } from "../ScrollButton/ScrollButton";
 import { MovieImage } from "../MovieImage/MovieImage";
 import { SkeletonMovieImage } from "../MovieImage/SkeletonMovieImage";
 import { ScrollArea } from "../ScrollArea/ScrollArea";
 import type { GetMoviesQuery } from "@/lib/graphql/generated/graphql";
+import { cn } from "@/lib/utils/classUtils";
 
 interface MovieCarouselProps {
   movieList: GetMoviesQuery["getMovies"]["results"];
@@ -53,7 +53,6 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
       {/* Scrollable Movie Container */}
       <div
         className="relative w-full h-56 xs:h-64 sm:h-[19rem]"
-        role="region"
         aria-labelledby="carousel-label"
       >
         <div className="h-full w-full absolute flex flex-row items-center justify-between">
@@ -79,8 +78,8 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
               "flex gap-3 sm:gap-6 md:gap-12 w-full h-full snap-x scroll-smooth",
               { "pt-8": !!label },
             )}
-            role="list"
           >
+<<<<<<< Updated upstream
             {isLoading ? (
               <>
                 <div data-cy="loading-indicator"></div>
@@ -97,6 +96,19 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
                   key={movie.id}
                   className="shrink-0 p-4 relative snap-center h-full"
                   data-cy="movie-carousel-item"
+=======
+            {isLoading
+              ? Array.from({ length: 10 }).map((_, index) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                <li key={index} className="shrink-0 p-4">
+                  <SkeletonMovieImage aria-label="Loading movie image" />
+                </li>
+              ))
+              : movieList?.map((movie, index) => (
+                <li
+                  key={movie.id}
+                  className="shrink-0 p-4 relative snap-center h-full"
+>>>>>>> Stashed changes
                 >
                   <span
                     className="text-7xl xs:text-8xl sm:text-9xl font-extrabold text-white drop-shadow-md absolute -top-6 sm:-top-8 left-0 z-10"

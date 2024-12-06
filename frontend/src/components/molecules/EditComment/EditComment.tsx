@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 import { Button, ButtonLeftIcon } from "@/components/atoms/Button/Button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import { useUpdateComment } from "@/lib/hooks/useUpdateComment";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

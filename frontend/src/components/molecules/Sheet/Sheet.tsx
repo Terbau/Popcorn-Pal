@@ -1,7 +1,7 @@
 import * as RadixDialog from "@radix-ui/react-dialog";
 import { cva, type VariantProps } from "cva";
-import { cn } from "../../../lib/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { cn } from "@/lib/utils/classUtils";
 
 export interface SheetProps
   extends RadixDialog.DialogProps,

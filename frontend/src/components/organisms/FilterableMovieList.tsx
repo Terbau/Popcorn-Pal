@@ -8,7 +8,7 @@ import {
   useMemo,
 } from "react";
 import { Sheet } from "../molecules/Sheet/Sheet";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import { Skeleton } from "../atoms/Skeleton/Skeleton";
 import { Pagination } from "../molecules/Pagination/Pagination";
 import { Button } from "../atoms/Button/Button";
@@ -57,6 +57,8 @@ interface FilterableMovieListProps extends ComponentProps<"div"> {
   isLoading?: boolean;
 }
 
+// These components are building blocks for the filterable movie list. They are used in
+// DiscoverPage and WatchlistPage.
 export const FilterableMovieList = ({
   totalResults,
   orderBy,
@@ -132,7 +134,7 @@ export const FilterableMovieListSidebar = ({
   return (
     <>
       <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen} side="right" description="Filter options">
-        <aside className={cn("h-screen overflow-y-auto", className)} {...props}>
+        <aside className={cn("h-screen overflow-y-auto flex flex-col gap-6", className)} {...props}>
           {children}
         </aside>
       </Sheet>

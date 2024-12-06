@@ -1,6 +1,6 @@
 import { forwardRef, useId } from "react";
 import * as RadixRadioGroup from "@radix-ui/react-radio-group";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import { Badge, type BadgeColor } from "@/components/atoms/Badge/Badge";
 
 // Allow all badge colors to be used as label picker item colors.

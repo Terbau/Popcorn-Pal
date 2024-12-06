@@ -4,7 +4,6 @@ import type {
   UpsertCommentVoteMutationVariables,
 } from "../graphql/generated/graphql";
 import { UPSERT_COMMENT_VOTE } from "../graphql/mutations/comment";
-import { apolloClient } from "../graphql/apolloClient";
 
 // We need the current type in order to update the cache correctly.
 export interface UseUpsertCommentVoteProps {
@@ -20,35 +19,31 @@ export const useUpsertCommentVote = (
 ) => {
   const [upsertCommentVote, other] = useMutation(UPSERT_COMMENT_VOTE, {
     ...options,
-    onCompleted: (args) => {
-      try {
-        apolloClient.cache.modify({
-          id: apolloClient.cache.identify({
-            __typename: "RecursiveComment",
-            id: args.upsertCommentVote.commentId,
-          }),
-          fields: {
-            hasUpvoted() {
-              return args.upsertCommentVote.type === "UPVOTE";
-            },
-            hasDownvoted() {
-              return args.upsertCommentVote.type === "DOWNVOTE";
-            },
-            voteRatio(existing) {
-              const changeAmount = type !== undefined ? 2 : 1;
-
-              return (
-                existing +
-                (args.upsertCommentVote.type === "UPVOTE"
-                  ? changeAmount
-                  : -changeAmount)
-              );
-            },
+    update: (cache, { data }) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: "RecursiveComment",
+          id: data?.upsertCommentVote.commentId,
+        }),
+        fields: {
+          hasUpvoted() {
+            return data?.upsertCommentVote.type === "UPVOTE";
           },
-        });
-      } finally {
-        options?.onCompleted?.(args);
-      }
+          hasDownvoted() {
+            return data?.upsertCommentVote.type === "DOWNVOTE";
+          },
+          voteRatio(existing) {
+            const changeAmount = type !== undefined ? 2 : 1;
+
+            return (
+              existing +
+              (data?.upsertCommentVote.type === "UPVOTE"
+                ? changeAmount
+                : -changeAmount)
+            );
+          },
+        },
+      });
     },
   });
 

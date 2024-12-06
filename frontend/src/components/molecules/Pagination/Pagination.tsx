@@ -1,5 +1,5 @@
 import { Button, type ButtonProps } from "@/components/atoms/Button/Button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import type { ComponentProps } from "react";
 

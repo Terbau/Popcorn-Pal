@@ -15,6 +15,7 @@ export const updateComment: MutationResolvers["updateComment"] = async (
     throw new Error("Unauthorized");
   }
 
+  // Use schema validation to ensure that the arguments are correct
   const { content } = UpdateCommentSchema.parse(input);
 
   const comment = await db

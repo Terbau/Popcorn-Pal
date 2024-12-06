@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { MovieImage } from "../components/molecules/MovieImage/MovieImage";
-import { cn, transformAndResizeImageUrl } from "../lib/utils";
 import { Badge } from "../components/atoms/Badge/Badge";
 import { LoadingPageSpinner } from "../components/atoms/Spinner/LoadingPageSpinner";
 import { useMovie } from "@/lib/hooks/useMovie";
@@ -17,17 +16,25 @@ import type { WatchlistItemLabel } from "@/components/organisms/WatchlistItemLab
 import { useResponsive, useSessionStorageState } from "ahooks";
 import { EditableWatchlistItemLabelBadge } from "@/components/organisms/WatchlistItemLabel/EditableWatchlistItemLabelBadge";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { cn } from "@/lib/utils/classUtils";
+import { transformAndResizeImageUrl } from "@/lib/utils/imageUtils";
 
 export default function MoviePage() {
   const { movieId } = useParams();
   const { currentUser } = useAuth();
 
   const [isViewingFullBanner, setIsViewingFullBanner] = useState(false);
+
+  // We need to store the root parent comment id in the URL so that we control
+  // what comment is viewed as the root of the section.
   const [rootParentId, setRootParentId] = useQueryState("commentId");
   const setDiscoverGenres = useSessionStorageState("discoverGenres", {
     defaultValue: [] as string[],
   })[1];
 
+  // This is used so that we can update the prop sent to some components. These props
+  // are not as easy to change with tailwind responsive classes, and therefore this
+  // is a workaround.
   const { md } = useResponsive();
   const size = md ? "md" : "sm";
 
@@ -72,6 +79,7 @@ export default function MoviePage() {
     },
   );
 
+  // Handle watchlist delete button click
   const handleWatchlistButtonClick = useCallback(() => {
     if (!currentUser || !movieId) return;
 
@@ -84,6 +92,7 @@ export default function MoviePage() {
     }
   }, [currentUser, movieId, watchlistItem, deleteWatchlistItem]);
 
+  // Handle watchlist label change
   const onLabelChange = useCallback(
     (label: WatchlistItemLabel | undefined) => {
       if (!currentUser || !movieId) return;
@@ -120,7 +129,7 @@ export default function MoviePage() {
     : null;
 
   return (
-    <div className="max-w-screen-lg w-[90vw] mx-auto mt-8 md:mt-16 rounded-lg overflow-hidden">
+    <div className="max-w-screen-lg w-[90vw] mx-auto mt-8 md:mt-16 rounded-lg overflow-hidden shadow-lg">
       <button
         type="button"
         className={cn(

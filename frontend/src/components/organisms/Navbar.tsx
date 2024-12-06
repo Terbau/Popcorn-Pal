@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "../atoms/Button/Button";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import "@fontsource/playfair-display"; 
+import "@fontsource/playfair-display";
 import "@fontsource/roboto";
 import { useAuth } from "../../lib/context/authContext";
 import { useState } from "react";
@@ -16,7 +16,7 @@ import {
   SidebarItemLabel,
 } from "../molecules/SidebarItem/SidebarItem";
 import { Separator } from "../atoms/Separator/Separator";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import { Badge, type BadgeProps } from "../atoms/Badge/Badge";
 import { ProfileDropdown } from "../molecules/ProfileDropdown/ProfileDropdown";
 
@@ -125,21 +125,7 @@ export const Navbar = ({ darkMode, toggleDarkMode }: NavBarProps) => {
             })}
           </ul>
         </nav>
-
-        <button
-          onClick={toggleDarkMode}
-          className="dark:text-brand-12 hover:bg-black hover:bg-opacity-10 dark:hover:bg-opacity-70 rounded-full p-1 transition duration-200"
-          data-cy="toggle-dark-mode"
-          aria-label="Toggle dark mode"
-        >
-          {darkMode ? (
-            <Icon icon="tdesign:mode-dark" width="24" height="24" />
-          ) : (
-            <Icon icon="tdesign:mode-light" width="24" height="24" />
-          )}
-        </button>
-
-        <div className="ml-auto flex flex-row items-center gap-2 xss:gap-4">
+        <div className="ml-auto w-fit flex flex-row items-center xss:gap-4">
           <div className="hidden lg:block">
             <SearchDropdown data-cy="search-dropdown" />
           </div>
@@ -152,6 +138,18 @@ export const Navbar = ({ darkMode, toggleDarkMode }: NavBarProps) => {
             aria-label="Search"
           >
             <Icon icon="ic:twotone-search" className="h-6 w-6 md:h-8 md:w-8" />
+          </button>
+
+          <button
+            type="button"
+            onClick={toggleDarkMode}
+            className="dark:text-brand-12 hover:bg-black hover:bg-opacity-10 dark:hover:bg-opacity-70 rounded-full p-1 transition duration-200"
+          >
+            {darkMode ? (
+              <Icon icon="tdesign:mode-dark" width="24" height="24" />
+            ) : (
+              <Icon icon="tdesign:mode-light" width="24" height="24" />
+            )}
           </button>
 
           {currentUser ? (

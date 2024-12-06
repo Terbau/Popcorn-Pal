@@ -1,5 +1,5 @@
+import { cn } from "@/lib/utils/classUtils";
 import { forwardRef, useId, type InputHTMLAttributes } from "react";
-import { cn } from "../../../lib/utils";
 
 interface TextAreaInputProps extends InputHTMLAttributes<HTMLTextAreaElement> {
   label?: string;

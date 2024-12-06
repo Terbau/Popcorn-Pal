@@ -1,9 +1,9 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import * as RadixDialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { cn } from "../../../lib/utils";
 import { useContext } from "react";
 import { ThemeContext } from "@/App";
+import { cn } from "@/lib/utils/classUtils";
 
 export interface ModalProps extends RadixDialog.DialogProps {
   title?: string;
@@ -26,10 +26,13 @@ export const Modal = ({
     lg: "max-w-2xl",
     xl: "max-w-3xl",
   }[maxWidth];
+
+  // Get the theme directly from the context as the modal is portal-ed
+  // to the body.
   const themeContext = useContext(ThemeContext);
 
   if (!themeContext) {
-    throw new Error("bla bla");
+    throw new Error("Modal must be used within a ThemeProvider");
   }
   const { theme } = themeContext;
 

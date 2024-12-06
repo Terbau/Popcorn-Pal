@@ -1,5 +1,5 @@
 import { db } from "../../db/index.js";
-import { fetchMovies } from "../../functions.js";
+import { fetchMovies } from "../../functions/movies.js";
 import type { MutationResolvers } from "../../types";
 import { WatchlistItemSchema } from "../../types/watchlist.js";
 
@@ -13,6 +13,7 @@ export const updateWatchlistItem: MutationResolvers["updateWatchlistItem"] =
       throw new Error("Unauthorized");
     }
 
+    // Use schema validation to ensure that the arguments are correct
     const { label } = UpdateWatchlistItemSchema.parse(input);
 
     const watchlistItem = await db

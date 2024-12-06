@@ -7,6 +7,11 @@ import type {
 } from "./types";
 import { convertMovie, convertSeries } from "./utils.js";
 
+/**
+ * Fetches the IMDb data for the given IDs
+ * @param ids - The IMDb IDs to fetch
+ * @returns The IMDb data
+ */
 export async function getItemsByIds(ids: string[]): Promise<ImdbLookupResult> {
   if (ids.length === 0) {
     return {};
@@ -37,6 +42,11 @@ export async function getItemsByIds(ids: string[]): Promise<ImdbLookupResult> {
   return newItems;
 }
 
+/**
+ * Searches IMDb for the given query
+ * @param query - The query to search for
+ * @returns The search results
+ */
 export async function searchImdb(
   query: string,
 ): Promise<ImdbSearchResultEntry[]> {
@@ -66,6 +76,11 @@ export async function searchImdb(
   return entries;
 }
 
+/**
+ * Fetches the images for the given movie ID
+ * @param movieId - The IMDb ID of the movie
+ * @returns The images
+ */
 export async function fetchMovieImages(
   movieId: string,
 ): Promise<ImdbImageLookupImageData[]> {

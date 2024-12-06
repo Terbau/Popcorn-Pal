@@ -17,13 +17,12 @@ export const Layout = () => {
   const themeContext = useContext(ThemeContext);
 
   if (!themeContext) {
-    throw new Error("bla bla");
+    throw new Error("Modal must be used within a ThemeProvider");
   }
   const { theme, setTheme } = themeContext;
 
   const toggleDarkMode = () => {
     setTheme(theme === "dark" ? "light" : "dark");
-    document.body.classList.toggle("dark");
   };
 
   const { refetch } = useCurrentUser({
@@ -56,9 +55,7 @@ export const Layout = () => {
 
   return (
     <div className={`layout-container ${theme}`}>
-      <div
-        className={`w-full dark:bg-primary bg-cream-secondary min-h-screen flex flex-col font-roboto`}
-      >
+      <div className="w-full dark:bg-primary bg-cream-secondary min-h-screen flex flex-col font-roboto">
         <Navbar darkMode={theme === "dark"} toggleDarkMode={toggleDarkMode} />
         <main className="mb-16 flex-grow">
           <Outlet />

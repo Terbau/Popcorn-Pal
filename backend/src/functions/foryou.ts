@@ -10,6 +10,11 @@ import type {
   ForYouUserSuggestion,
 } from "../types/foryou.js";
 
+/**
+ * Fetches the For You movie suggestions
+ * @param limit - The maximum number of movie suggestions to fetch
+ * @returns The movie suggestions
+ */
 export const fetchForYouMovieSuggestions = async (
   limit: number,
 ): Promise<ForYouMovieSuggestion[]> => {
@@ -32,6 +37,14 @@ export const fetchForYouMovieSuggestions = async (
   }));
 };
 
+/**
+ * Fetches the For You user suggestions
+ * @param userId - The user ID
+ * @param seed - The seed for the random number generator
+ * @param limit - The maximum number of user suggestions to fetch
+ * @param offset - The offset to start fetching user suggestions from
+ * @returns The user suggestions
+ */
 export const fetchForYouUserSuggestions = async (
   userId: string,
   seed: number,
@@ -71,6 +84,14 @@ export const fetchForYouUserSuggestions = async (
   }));
 };
 
+/**
+ * Fetches the For You comment suggestions
+ * @param userId - The user ID
+ * @param seed - The seed for the random number generator
+ * @param limit - The maximum number of comment suggestions to fetch
+ * @param offset - The offset to start fetching comment suggestions from
+ * @returns The comment suggestions
+ */
 export const fetchForYouCommentSuggestion = async (
   userId: string,
   seed: number,
@@ -110,12 +131,19 @@ export const fetchForYouCommentSuggestion = async (
   }));
 };
 
-// Follower is someone you are following and following is the target
+/**
+ * Fetches the For You following started following someone else items
+ * @param userId - The user ID
+ * @param limit - The maximum number of items to fetch
+ * @param offset - The offset to start fetching items from
+ * @returns The following started following someone else items
+ */
 export const fetchForYouFollowingStartedFollowingSomeoneElse = async (
   userId: string,
   limit: number,
   offset: number,
 ): Promise<ForYouFollowingStartedFollowingSomeoneElse[]> => {
+  // Follower is someone you are following and following is the target
   const data = await db
     .selectFrom("userFollow")
     .innerJoin(
@@ -159,6 +187,13 @@ export const fetchForYouFollowingStartedFollowingSomeoneElse = async (
   }));
 };
 
+/**
+ * Fetches the For You following added movie to watchlist items
+ * @param userId - The user ID
+ * @param limit - The maximum number of items to fetch
+ * @param offset - The offset to start fetching items from
+ * @returns The following added movie to watchlist items
+ */
 export const fetchForYouFollowingAddedMovieToWatchlist = async (
   userId: string,
   limit: number,
@@ -198,6 +233,13 @@ export const fetchForYouFollowingAddedMovieToWatchlist = async (
   }));
 };
 
+/**
+ * Fetches the For You following updated watchlist item items
+ * @param userId - The user ID
+ * @param limit - The maximum number of items to fetch
+ * @param offset - The offset to start fetching items from
+ * @returns The following updated watchlist item items
+ */
 export const fetchForYouFollowingUpdatedWatchlistItem = async (
   userId: string,
   limit: number,
@@ -238,6 +280,13 @@ export const fetchForYouFollowingUpdatedWatchlistItem = async (
   }));
 };
 
+/**
+ * Fetches the For You following commented on movie items
+ * @param userId - The user ID
+ * @param limit - The maximum number of items to fetch
+ * @param offset - The offset to start fetching items from
+ * @returns The following commented on movie items
+ */
 export const fetchForYouFollowingCommentedOnMovie = async (
   userId: string,
   limit: number,

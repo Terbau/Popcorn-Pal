@@ -29,12 +29,15 @@ export default function DiscoverPage() {
   const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
   const [pageSize] = useQueryState("pageSize", parseAsInteger.withDefault(20));
 
+  // Store the genres in session storage so that they are persisted when the user
+  // navigates away from the page and comes back.
   const [possiblyUndefinedGenres, setGenres] = useSessionStorageState(
     "discoverGenres",
     {
       defaultValue: [] as string[],
     },
   );
+  // Ensure that genres is never undefined
   const genres = useMemo(
     () => possiblyUndefinedGenres ?? [],
     [possiblyUndefinedGenres],

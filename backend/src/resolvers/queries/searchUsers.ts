@@ -9,8 +9,10 @@ const SearchUsersSchema = z.object({
 });
 
 export const searchUsers: QueryResolvers["searchUsers"] = async (_, args) => {
+  // Use schema validation to ensure that the arguments are correct
   const { query, page, pageSize } = SearchUsersSchema.parse(args);
 
+  // Convert the page and pageSize to limit and offset
   const limit = pageSize;
   const offset = page * pageSize;
 

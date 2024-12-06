@@ -2,6 +2,8 @@
 
 import { useCallback, useRef, useState } from "react";
 
+// Create a custom hook that debounces a function. All other implementations
+// didn't have the cancel function as well as the isPending state.
 export const useDebounce = (
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   fn: (...args: any[]) => void,

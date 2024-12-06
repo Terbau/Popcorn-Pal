@@ -22,6 +22,11 @@ const months = [
   "Dec",
 ];
 
+/**
+ * Parses a date string in the format "01 Jan 2000" to a Date object
+ * @param date - The date string to parse
+ * @returns The parsed Date object
+ */
 export const parseDate = (date: string): Date => {
   // Format "01 Jan 2000"
   const [day, month, year] = date.split(" ");
@@ -32,6 +37,13 @@ export const parseDate = (date: string): Date => {
   );
 };
 
+/**
+ * Transforms an image URL to include specified width and height parameters.
+ * @param url - The original image URL.
+ * @param width - The desired width of the image.
+ * @param height - The desired height of the image.
+ * @returns The transformed image URL with the specified width and height.
+ */
 export const transformImageUrl = (
   url: string,
   width: number,
@@ -43,6 +55,14 @@ export const transformImageUrl = (
   );
 };
 
+/**
+ * Transforms and resizes an image URL to a target width while maintaining the aspect ratio.
+ * @param url - The original image URL.
+ * @param width - The original width of the image.
+ * @param height - The original height of the image.
+ * @param targetWidth - The target width for the resized image.
+ * @returns The transformed and resized image URL.
+ */
 export const transformAndResizeImageUrl = (
   url: string,
   width: number,
@@ -53,6 +73,13 @@ export const transformAndResizeImageUrl = (
   return transformImageUrl(url, targetWidth, targetHeight);
 };
 
+/**
+ * Creates a srcset attribute value for responsive images.
+ * @param url - The original image URL.
+ * @param widths - An array of widths for the srcset.
+ * @param height - The height of the image.
+ * @returns The srcset attribute value.
+ */
 export const createSrcSet = (
   url: string,
   width: number,

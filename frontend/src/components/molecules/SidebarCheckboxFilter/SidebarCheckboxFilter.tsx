@@ -1,11 +1,10 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import { forwardRef, useId, type HTMLAttributes } from "react";
 
 import { Slot } from "@radix-ui/react-slot";
 import { Skeleton } from "@/components/atoms/Skeleton/Skeleton";
 import { Separator } from "@/components/atoms/Separator/Separator";
 import { Checkbox } from "@/components/atoms/Checkbox/Checkbox";
-
 
 export interface SidebarCheckboxFilterItemProps {
   label: string;
