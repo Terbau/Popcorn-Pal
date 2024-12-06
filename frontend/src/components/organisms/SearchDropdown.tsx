@@ -319,7 +319,7 @@ export const SearchDropdown = ({
                   <Link
                     to={`/profile/${result.id}`}
                     onClick={() => handleOnOpenChange(false)}
-                    className="flex flex-row items-center gap-2 px-4 py-3 hover:bg-brand-5 outline-0 overflow-hidden focus:ring-2 focus:ring-brand-11"
+                    className="flex flex-row items-center gap-2 px-4 py-3 dark:bg-brand-3 bg-cream hover:bg-purple-hover dark:hover:bg-brand-5 outline-0 overflow-hidden dark:text-brand-12 focus:ring-2 focus:ring-brand-11"
                   >
                     <Avatar
                       src={result.avatarUrl ?? undefined}
@@ -351,8 +351,10 @@ export const SearchDropdown = ({
               ))}
             </ul>
           ) : (
-            <div className="flex flex-row justify-center items-center p-4">
-              <span className="text-sm text-brand-11">No results found</span>
+            <div className="flex flex-row justify-center bg-cream dark:bg-brand-4 items-center p-4">
+              <span className="text-sm dark:text-brand-11">
+                No results found
+              </span>
             </div>
           )}
         </RadixPopover.Content>

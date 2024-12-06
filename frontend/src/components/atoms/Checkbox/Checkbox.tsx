@@ -10,13 +10,13 @@ export const Checkbox = forwardRef<
   <RadixCheckbox.Root
     ref={ref}
     className={cn(
-      "bg-brand-3 h-6 w-6 rounded-md flex items-center justify-center shadow-md border border-brand-6",
-      "hover:border-brand-8 focus:ring-2 focus:ring-brand-6",
+      "dark:bg-brand-3 bg-cream h-6 w-6 rounded-md flex items-center justify-center shadow-md border border-purple-border dark:border-brand-6",
+      "hover:border-brand-8 focus:ring-2 dark:focus:ring-brand-6 focus:ring-purple-lavender",
       className,
     )}
     {...props}
   >
-    <RadixCheckbox.Indicator className="text-brand-11">
+    <RadixCheckbox.Indicator className="dark:text-brand-11 text-brand-9">
       <Icon icon="material-symbols:check" />
     </RadixCheckbox.Indicator>
   </RadixCheckbox.Root>

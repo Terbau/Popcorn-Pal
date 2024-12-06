@@ -41,7 +41,7 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
   return (
     <div className="w-full" data-cy="top10-movies">
       {label && (
-        <h2 className="text-left text-4xl font-semibold text-white mb-4 mt-1">
+        <h2 className="text-left text-4xl font-semibold dark:text-white mb-4 mt-1">
           {label}
         </h2>
       )}
@@ -65,33 +65,33 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
           >
             {isLoading
               ? Array.from({ length: 10 }).map((_, index) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
-                <li key={index} className="shrink-0 p-4">
-                  <SkeletonMovieImage />
-                </li>
-              ))
+                  // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
+                  <li key={index} className="shrink-0 p-4">
+                    <SkeletonMovieImage />
+                  </li>
+                ))
               : movieList?.map((movie, index) => (
-                <li
-                  key={movie.id}
-                  className="shrink-0 p-4 relative snap-center h-full"
-                >
-                  {/* Large Background Number */}
-                  <span className="text-7xl xs:text-8xl sm:text-9xl font-extrabold text-white drop-shadow-md absolute -top-6 sm:-top-8 left-0 z-10">
-                    {index + 1}
-                  </span>
-
-                  {/* Movie Poster */}
-                  <Link
-                    className="relative ml-auto h-full"
-                    to={`/movie/${movie.id}`}
+                  <li
+                    key={movie.id}
+                    className="shrink-0 p-4 relative snap-center h-full"
                   >
-                    <MovieImage
-                      src={movie.posterUrl ?? ""}
-                      alt={movie.title}
-                    />
-                  </Link>
-                </li>
-              ))}
+                    {/* Large Background Number */}
+                    <span className="text-7xl xs:text-8xl sm:text-9xl font-extrabold text-white drop-shadow-md absolute -top-6 sm:-top-8 left-0 z-10">
+                      {index + 1}
+                    </span>
+
+                    {/* Movie Poster */}
+                    <Link
+                      className="relative ml-auto h-full"
+                      to={`/movie/${movie.id}`}
+                    >
+                      <MovieImage
+                        src={movie.posterUrl ?? ""}
+                        alt={movie.title}
+                      />
+                    </Link>
+                  </li>
+                ))}
           </ul>
         </ScrollArea>
       </div>

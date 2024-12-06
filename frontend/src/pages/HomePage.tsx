@@ -39,7 +39,7 @@ export default function HomePage() {
             title="Discover movies"
             text="Explore a wide range of content tailored just for you."
             buttonLink="/discover"
-            className="bg-brand-3"
+            className="dark:bg-brand-3 bg-cream-light"
           >
             <DiscoverAnimation />
           </InformationView>
@@ -57,7 +57,7 @@ export default function HomePage() {
             buttonLink={
               currentUser ? `/watchlist/${currentUser?.id}` : "/signin"
             }
-            className="bg-brand-3"
+            className="dark:bg-brand-3 bg-cream-light"
           >
             <WatchlistAnimation />
           </InformationView>

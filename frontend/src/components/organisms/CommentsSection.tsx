@@ -50,7 +50,7 @@ export const CommentsSection = ({
 
   const [isLoadingMoreParentIds, setIsLoadingMoreParentIds] = useState<
     (string | null)[]
-      >([]);
+  >([]);
   const [commentInputOpen, setCommentInputOpen] = useState(false);
   const [maxCommentDepth, setMaxCommentDepth] = useState(
     MAX_COMMENT_DEPTH_DESKTOP,
@@ -173,7 +173,7 @@ export const CommentsSection = ({
       className={cn("flex flex-col", className)}
       {...props}
     >
-      <h2 className="text-xl font-semibold mb-3 flex flex-row items-center gap-2">
+      <h2 className="text-xl font-semibold dark:text-brand-12 mb-3 flex flex-row items-center gap-2">
         Comments
         {isSingleCommentThread && (
           <span className="text-brand-11 text-sm font-normal">
@@ -218,7 +218,7 @@ export const CommentsSection = ({
         <ParentIdContext.Provider value={rootParentId}>
           {loading && <Spinner />}
           {!loading && fixedComments.length === 0 && (
-            <p className="text-brand-11">
+            <p className="dark:text-brand-11 text-purple-text">
               {isSingleCommentThread ? "Comment not found" : "No comments yet"}
             </p>
           )}

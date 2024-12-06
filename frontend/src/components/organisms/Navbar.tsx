@@ -28,6 +28,11 @@ interface NavLink {
   badgeProps?: BadgeProps;
 }
 
+interface NavBarProps {
+  darkMode: boolean;
+  toggleDarkMode: () => void;
+}
+
 const NAV_LINKS: NavLink[] = [
   {
     label: "Home",
@@ -46,7 +51,7 @@ const NAV_LINKS: NavLink[] = [
   },
 ] as const;
 
-export const Navbar = () => {
+export const Navbar = ({ darkMode, toggleDarkMode }: NavBarProps) => {
   const { pathname } = useLocation();
   const { currentUser } = useAuth();
 
@@ -58,7 +63,7 @@ export const Navbar = () => {
   const currentPath = pathname.split("/")[1];
 
   return (
-    <header className="sticky top-0 bg-brand-3 w-full h-20 z-20 border-b border-brand-6">
+    <header className="sticky top-0 dark:bg-brand-3 bg-cream w-full h-20 z-20 border-b border-purple-border dark:border-brand-6">
       <div className="relative w-full h-full flex flex-row md:justify-start px-3 xss:px-5 items-center gap-1 xs:gap-3 sm:gap-6 md:gap-12 font-roboto">
         <button
           type="button"
@@ -76,7 +81,8 @@ export const Navbar = () => {
             icon="emojione:popcorn"
             className="h-8 w-8 md:h-12 md:w-12 hidden sm:block"
           />
-          <p className="text-base xss:lg md:hidden lg:block md:text-2xl font-bold text-purple-500 whitespace-nowrap drop-shadow-[0_0_10px_rgba(128,90,213,0.8)]">
+          {/* Original text color on title was text-purple-500 */}
+          <p className="text-base xss:lg md:hidden lg:block md:text-2xl font-bold text-purple-text dark:text-purple-5 whitespace-nowrap drop-shadow-[0_0_10px_rgba(128,90,213,0.8)]">
             POPCORN PAL
           </p>
         </Link>
@@ -94,7 +100,7 @@ export const Navbar = () => {
                   <Comp
                     to={link.to}
                     className={cn(
-                      "text-base text-brand-11 h-full flex items-center",
+                      "text-base dark:text-brand-11 text-purple-text h-full flex items-center",
                       { "hover:text-brand-10": !link.disabled },
                       {
                         "border-b-[3px] border-brand-9 pt-[3px]":
@@ -112,6 +118,16 @@ export const Navbar = () => {
             })}
           </ul>
         </nav>
+        <button
+          onClick={toggleDarkMode}
+          className="dark:text-brand-12 hover:bg-black hover:bg-opacity-10 dark:hover:bg-opacity-70 rounded-full p-1 transition duration-200"
+        >
+          {darkMode ? (
+            <Icon icon="tdesign:mode-dark" width="24" height="24" />
+          ) : (
+            <Icon icon="tdesign:mode-light" width="24" height="24" />
+          )}
+        </button>
 
         <div className="ml-auto flex flex-row items-center gap-2 xss:gap-4">
           {/* More to a more fitting place */}
@@ -124,14 +140,14 @@ export const Navbar = () => {
             Random Movie
           </LoadingButton> */}
 
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <SearchDropdown />
           </div>
 
           <button
             type="button"
             onClick={() => setMobileSearchOverlayIsOpen(true)}
-            className="md:hidden"
+            className="lg:hidden dark:text-brand-12"
           >
             {/* Search icon */}
             <Icon icon="ic:twotone-search" className="h-6 w-6 md:h-8 md:w-8" />
@@ -141,6 +157,7 @@ export const Navbar = () => {
             <ProfileDropdown
               open={profileDropdownIsOpen}
               onOpenChange={setProfileDropdownIsOpen}
+              darkMode={darkMode}
             />
           ) : (
             <Button asChild variant="secondary">

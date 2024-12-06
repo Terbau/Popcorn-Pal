@@ -21,7 +21,7 @@ export const DropdownMenuContent = forwardRef<
     <RadixDropdownMenu.Content
       ref={ref}
       className={cn(
-        "border border-brand-5 z-30 min-w-64 bg-brand-3 rounded-md shadow-2xl",
+        "border border-purple-border dark:border-brand-5 z-30 min-w-64 bg-brand-3 rounded-md shadow-2xl",
         className,
       )}
       {...props}
@@ -36,9 +36,9 @@ export const DropdownMenuItem = forwardRef<
   return (
     <RadixDropdownMenu.Item
       className={cn(
-        "text-sm text-brand-12 rounded-sm pl-3 pr-4 py-2.5 relative cursor-pointer select-none outline-none flex flex-row items-center gap-2",
+        "text-sm dark:text-brand-12 text-purple-text rounded-sm pl-3 pr-4 py-2.5 relative cursor-pointer select-none outline-none flex flex-row items-center gap-2",
         'data-[disabled="true"]:text-slate-11 data-[disabled="true"]:pointer-events-none',
-        "data-[highlighted]:text-brand-11 data-[highlighted]:bg-brand-4",
+        "data-[highlighted]:text-purple-medium data-[highlighted]:bg-cream-secondary dark:data-[highlighted]:text-brand-11 dark:data-[highlighted]:bg-brand-4",
         className,
       )}
       ref={ref}
@@ -48,7 +48,12 @@ export const DropdownMenuItem = forwardRef<
 });
 
 export const DropdownMenuItemIcon = ({ className, ...props }: IconProps) => {
-  return <Icon className={cn("text-brand-11 h-4 w-4", className)} {...props} />;
+  return (
+    <Icon
+      className={cn("dark:text-brand-11 text-purple-text h-4 w-4", className)}
+      {...props}
+    />
+  );
 };
 
 export const DropdownMenuSeparator = ({
@@ -57,7 +62,7 @@ export const DropdownMenuSeparator = ({
 }: RadixDropdownMenu.DropdownMenuSeparatorProps) => {
   return (
     <RadixDropdownMenu.Separator
-      className={cn("h-px bg-brand-6", className)}
+      className={cn("h-px dark:bg-brand-6 bg-purple-border", className)}
       {...props}
     />
   );

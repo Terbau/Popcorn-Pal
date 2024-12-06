@@ -60,7 +60,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     return (
       <div
         className={cn(
-          "bg-brand-4 rounded-lg font-roboto flex flex-row text-brand-11",
+          "dark:bg-brand-4 bg-cream-secondary border border-purple-border dark:border-0 rounded-lg font-roboto flex flex-row text-brand-11",
           className,
         )}
       >
@@ -69,7 +69,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             value={selectedOption?.value}
             onValueChange={onSelectValueChange}
           >
-            <RadixSelect.Trigger className="flex flex-row items-center gap-0.5 border-r border-brand-5 pr-2 pl-3 py-1 rounded-l-lg outline-0 focus:ring-2 focus:ring-brand-11">
+            <RadixSelect.Trigger className="flex flex-row items-center gap-0.5 border-r dark:border-brand-5 border-purple-border pr-2 pl-3 py-1 rounded-l-lg outline-0 focus:ring-2 focus:ring-brand-11">
               {selectedOption?.icon}
               <RadixSelect.Icon>
                 <Icon icon="lucide:chevron-down" />
@@ -80,7 +80,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         )}
         <div
           className={cn(
-            "text-lg py-2 px-3 flex flex-row items-center gap-2 flex-nowrap focus-within:ring-2 focus-within:ring-brand-11 grow",
+            "text-lg py-2 px-3 flex flex-row items-center gap-2 flex-nowrap focus-within:ring-2 dark:focus-within:ring-brand-11 grow",
             hasSelectOptions ? "rounded-r-lg" : "rounded-lg",
           )}
         >

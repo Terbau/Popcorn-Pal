@@ -99,7 +99,7 @@ export const FilterableMovieList = ({
     >
       <div className={cn("", className)} {...props}>
         <div className="flex flex-row gap-8">{children}</div>
-        <p className="text-brand-11 mx-auto w-fit text-sm mt-4">
+        <p className="dark:text-brand-11 text-purple-text mx-auto w-fit text-sm mt-4">
           {resultsText}
         </p>
         {totalPages > 0 && (

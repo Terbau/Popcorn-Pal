@@ -21,6 +21,12 @@
   }
 
   html {
-    @apply text-brand-12;
+    /* @apply text-brand-12; */
+    /* @apply dark:text-brand-12; */
+    @apply text-purple-text;
   }
 }
+
+/* * {
+  @apply transition-colors duration-200;
+} */

@@ -32,10 +32,10 @@ export const WatchlistItemLabelPickerPopover = ({
       <RadixPopover.Trigger asChild>{children}</RadixPopover.Trigger>
       <RadixPopover.Portal>
         <RadixPopover.Content
-          className="rounded-xl bg-brand-3 shadow-xl p-4 pr-8 border border-brand-6"
+          className="rounded-xl dark:bg-brand-3 bg-cream shadow-xl p-4 pr-8 border border-purple-lavender dark:border-brand-6"
           sideOffset={10}
         >
-          <h3 className="mb-4">Choose a label</h3>
+          <h3 className="mb-4 dark:text-brand-12">Choose a label</h3>
           <LabelPicker
             options={watchlistItemLabelsOptions}
             value={label}

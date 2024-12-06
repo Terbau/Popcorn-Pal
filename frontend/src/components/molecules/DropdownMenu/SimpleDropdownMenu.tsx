@@ -34,7 +34,7 @@ export const SimpleDropdownMenu = ({
   const getColor = (color: SimpleDropdownMenuItemColor) => {
     switch (color) {
       case "brand":
-        return "text-brand-11 data-[highlighted]:text-brand-11";
+        return "dark:text-brand-11 dark:data-[highlighted]:text-brand-11 text-purple-text data-[highlighted]:text-purple-text";
       case "red":
         return "text-red-11 data-[highlighted]:text-red-11";
     }
@@ -46,7 +46,10 @@ export const SimpleDropdownMenu = ({
       <DropdownMenuContent sideOffset={4} align="start">
         {groups.map((group, i) => (
           // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
-          <div key={`group-${i}`} className="flex flex-col">
+          <div
+            key={`group-${i}`}
+            className="flex flex-col dark:bg-brand-3 bg-cream"
+          >
             {group.map((item, j) => {
               const color = getColor(item.color ?? "brand");
               return (

@@ -58,6 +58,21 @@ export default {
         orange: createColorScale("orange"),
         teal: createColorScale("teal"),
         pink: createColorScale("pink"),
+        cream: {
+          DEFAULT: "#FFF8E7", // Primary Background
+          secondary: "#f7f5e7",
+          tertiaryTest: "#f7f0df",
+          light: "#FFEAC9", // Button Background
+        },
+        purple: {
+          DEFAULT: "#6B4C9A", // Deep Purple (Accent)
+          light: "#F4E4FF", // Light Purple (Secondary Background)
+          lavender: "#D6BFFF", // Light Accent
+          text: "#4B306A", // Text Primary
+          medium: "#8565A9", // Text Secondary
+          hover: "#EDE3FF", // Hover State
+          border: "#DDD0E6", // Border Color
+        },
       },
       fontFamily: {
         playfair: ["Playfair Display", "serif"],
@@ -79,4 +94,5 @@ export default {
     },
   },
   plugins: [tailwindcssRadixColorsPlugin, tailwindcssAnimatePlugin],
+  darkMode: "class",
 } satisfies Config;

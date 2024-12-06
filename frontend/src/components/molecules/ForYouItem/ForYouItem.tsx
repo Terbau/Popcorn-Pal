@@ -63,7 +63,7 @@ export const ForYouItemRoot = forwardRef<HTMLDivElement, ComponentProps<"div">>(
       <div
         ref={ref}
         className={cn(
-          "flex flex-row gap-4 bg-brand-3 border border-brand-6 rounded-md p-3",
+          "flex flex-row gap-4 dark:bg-brand-3 bg-cream shadow-lg border border-purple-border dark:border-brand-6 rounded-md p-3",
           !mocked ? "sm:gap-6" : "p-2",
           className,
         )}
@@ -206,7 +206,7 @@ export const ForYouItemTitle = forwardRef<
     <h3
       ref={ref}
       className={cn(
-        "font-bold",
+        "font-bold dark:text-brand-12",
         !mocked ? "text-base sm:text-lg" : "text-sm",
         className,
       )}

@@ -154,7 +154,7 @@ export default function WatchlistPage() {
                 fallback={createInitials(user?.firstName, user?.lastName)}
                 size="lg"
               />
-              <h1 className="font-bold text-3xl sm:text-5xl">
+              <h1 className="font-bold dark:text-brand-12 text-3xl sm:text-5xl">
                 {user?.firstName} {user?.lastName}'s watchlist
               </h1>
             </Link>

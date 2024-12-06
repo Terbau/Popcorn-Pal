@@ -76,9 +76,9 @@ export default function ProfilePage() {
         open={editProfileIsOpen}
         onOpenChange={setEditProfileIsOpen}
       />
-      <div className="max-w-screen-lg w-[90vw] mx-auto mt-8 md:mt-16 rounded-lg overflow-hidden">
+      <div className="max-w-screen-lg w-[90vw] mx-auto mt-8 md:mt-16 rounded-lg shadow-lg overflow-hidden">
         <div className="w-full bg-brand-2 h-32 md:h-56" />
-        <div className="bg-brand-3 relative flex flex-col px-6 md:px-12 pb-6 md:pb-12">
+        <div className="bg-cream dark:bg-brand-3 relative flex flex-col px-6 md:px-12 pb-6 md:pb-12">
           <div className="absolute top-3 right-3 sm:top-5 sm:right-5 flex flex-row gap-3 z-10">
             {isCurrentUser && (
               <Button
@@ -168,7 +168,7 @@ export default function ProfilePage() {
                 </>
               )}
             </div>
-            <h1 className="text-2xl md:text-3xl font-semibold flex flex-row gap-1 md:gap-3 items-center">
+            <h1 className="text-2xl md:text-3xl font-semibold flex dark:text-brand-11 flex-row gap-1 md:gap-3 items-center">
               {user?.firstName} {user?.lastName}{" "}
               <span>
                 <Icon
@@ -177,7 +177,7 @@ export default function ProfilePage() {
                 />
               </span>
             </h1>
-            <p className="mt-1">
+            <p className="mt-1 dark:text-brand-12 text-purple-medium">
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
               Exercitationem deserunt officiis, dolores ab vitae aut quo omnis
               minima quam reprehenderit mollitia nostrum dignissimos dolorem!
