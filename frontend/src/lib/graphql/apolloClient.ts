@@ -86,6 +86,15 @@ export const apolloClient = new ApolloClient({
               };
             },
           },
+          getForYouItems: {
+            keyArgs: ["seed"],
+            merge(existing, incoming) {
+              return {
+                ...incoming,
+                results: [...(existing?.results ?? []), ...incoming.results],
+              };
+            },
+          },
           getRecursiveComments: {
             keyArgs: ["movieId", "parentId"],
             merge(_, incoming) {

@@ -11,6 +11,26 @@ type User {
   updatedAt: DateTime!
 }
 
+type ForYouItem {
+  type: String!
+  userId: ID
+  userFirstName: String
+  userLastName: String
+  userAvatarUrl: String
+  targetUserId: ID
+  targetUserFirstName: String
+  targetUserLastName: String
+  targetUserAvatarUrl: String
+  movieId: ID
+  movieTitle: String
+  moviePosterUrl: String
+  commentId: ID
+  commentContent: String
+  commentIsReply: Boolean
+  watchlistItemLabel: String
+  timestamp: DateTime
+}
+
 type Comment {
   id: ID!
   userId: ID
@@ -114,6 +134,11 @@ type FollowerInfo {
   userId: ID!
 }
 
+type GetForYouItemsResult {
+  results: [ForYouItem!]!
+  maybeHasMore: Boolean!
+}
+
 type PaginatedSearchResult {
   results: [SearchMovie!]!
   totalResults: Int!
@@ -186,6 +211,7 @@ type Query {
   ): PaginatedWatchlistItemsResult!
   getWatchlistItem(userId: ID!, movieId: ID!): WatchlistItem
   getFollowerInfo(userId: ID!): FollowerInfo!
+  getForYouItems(seed: Float!, page: Int): GetForYouItemsResult!
 }
 
 input SignUpInput {

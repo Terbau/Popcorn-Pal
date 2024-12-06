@@ -14,6 +14,7 @@ export const createFollow: MutationResolvers["createFollow"] = async (
     throw new Error("Cannot follow yourself");
   }
 
+  // Follower is yourself and following is the target
   const existingFollow = await db
     .selectFrom("userFollow")
     .where("followerId", "=", user.id)

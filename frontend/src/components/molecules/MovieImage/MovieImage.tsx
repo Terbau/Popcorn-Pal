@@ -2,12 +2,12 @@ import type { ImgHTMLAttributes } from "react";
 import { cn, transformAndResizeImageUrl } from "../../../lib/utils";
 import { Badge, type BadgeProps } from "../../atoms/Badge/Badge";
 
-interface MovieImageProps extends ImgHTMLAttributes<HTMLImageElement> {
+export interface MovieImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   alt: string;
   badgeProps?: BadgeProps;
   hasHoverEffect?: boolean;
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
 }
 
 export const MovieImage = ({
@@ -25,6 +25,7 @@ export const MovieImage = ({
   const transformedSrc = transformAndResizeImageUrl(src, 264);
 
   const sizeClass = {
+    xs: "h-16 xs:h-20 md:h-24",
     sm: "h-28 xs:h-[9rem] md:h-52",
     md: "h-32 xs:h-[10.5rem] md:h-60",
     lg: "h-40 xs:h-48 md:h-72",
