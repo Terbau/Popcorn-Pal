@@ -105,7 +105,13 @@ export const EditComment = ({
           {!loading && <ButtonLeftIcon icon="fluent:edit-20-regular" />}
           Edit
         </LoadingButton>
-        <Button type="button" size="sm" variant="tertiary" onClick={onClose}>
+        <Button
+          type="button"
+          size="sm"
+          variant="tertiary"
+          onClick={onClose}
+          aria-label="Close edit comment"
+        >
           Close
         </Button>
         <span

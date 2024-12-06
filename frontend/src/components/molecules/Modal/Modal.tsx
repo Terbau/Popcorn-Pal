@@ -69,31 +69,12 @@ export const Modal = ({
                 </VisuallyHidden.Root>
               )}
 
-              {hasCloseButton && (
-                <RadixDialog.Close asChild>
-                  <button
-                    type="button"
-                    className="absolute top-3 right-3 text-brand-10"
-                  >
-                    <Icon
-                      icon="iconamoon:close"
-                      className="h-8 w-8 text-brand-11 hover:text-brand-12"
-                    />
-                  </button>
-                </RadixDialog.Close>
+              {description && (
+                <RadixDialog.Description className="text-sm text-purple-text dark:text-brand-12 mt-2">
+                  {description}
+                </RadixDialog.Description>
               )}
-              <div>
-                {title && (
-                  <RadixDialog.Title className="text-xl font-semibold text-brand-11">
-                    {title}
-                  </RadixDialog.Title>
-                )}
-                {description && (
-                  <RadixDialog.Description className="text-sm text-purple-text dark:text-brand-12 mt-2">
-                    {description}
-                  </RadixDialog.Description>
-                )}
-              </div>
+
               {children}
             </RadixDialog.Content>
           </RadixDialog.Overlay>

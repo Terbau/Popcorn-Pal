@@ -102,6 +102,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
                 type="button"
                 onClick={() => onQueryChange?.("")}
                 className="flex justify-center items-center"
+                aria-label="Clear search"
               >
                 <Icon icon="ic:twotone-close" />
               </button>

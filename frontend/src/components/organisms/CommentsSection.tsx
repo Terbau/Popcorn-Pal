@@ -187,6 +187,7 @@ export const CommentsSection = ({
             className="w-fit"
             size="sm"
             onClick={() => setCommentInputOpen(true)}
+            aria-label="Add comment"
           >
             Add a comment
           </Button>

@@ -85,6 +85,7 @@ export default function ProfilePage() {
                 size="sm"
                 variant="secondary"
                 onClick={() => setEditProfileIsOpen(true)}
+                aria-label="Edit profile"
               >
                 Edit profile
               </Button>
@@ -190,7 +191,11 @@ export default function ProfilePage() {
             className="my-6"
           />
           <div className="flex flex-row gap-4">
-            <Button asChild variant="secondary">
+            <Button
+              asChild
+              variant="secondary"
+              aria-label="Check out watchlist"
+            >
               <Link to={`/watchlist/${user?.id}`}>Check out Watchlist</Link>
             </Button>
           </div>

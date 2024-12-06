@@ -60,7 +60,7 @@ export const SlideShow = ({ movies }: SlideShowProps) => {
                   />
                   <p className="text-xl pt-2">{slide.year}</p>
                 </div>
-                <Button className="pl-10 pr-10 flex items-center w-fit" asChild>
+                <Button className="pl-10 pr-10 flex items-center w-fit" asChild aria-label={`Read more about ${slide.text}`}>
                   <Link to={`/movie/${slide.id}`}>Read more</Link>
                 </Button>
               </div>

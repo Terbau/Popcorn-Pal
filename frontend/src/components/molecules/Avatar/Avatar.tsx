@@ -80,7 +80,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
         )}
         <RadixAvatar.Fallback
           className={cn(
-            "w-full h-full flex items-center justify-center bg-brand-11 text-brand-8 font-medium",
+            "w-full h-full flex items-center justify-center bg-brand-11 text-brand-5 font-medium",
             fallbackTextSize,
           )}
         >

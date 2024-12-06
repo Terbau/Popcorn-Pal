@@ -95,7 +95,7 @@ export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>(
         </RadixSelect.Content>
       </RadixSelect.Portal>
     );
-  }
+  },
 );
 
 const SelectItem = forwardRef<HTMLDivElement, RadixSelect.SelectItemProps>(
@@ -115,7 +115,7 @@ const SelectItem = forwardRef<HTMLDivElement, RadixSelect.SelectItemProps>(
         <Icon icon="ic:round-check" />
       </RadixSelect.ItemIndicator>
     </RadixSelect.Item>
-  )
+  ),
 );
 
 type ScrollButtonProps = (
@@ -146,6 +146,5 @@ const ScrollButton = forwardRef<HTMLDivElement, ScrollButtonProps>(
         <Icon icon={`lucide:chevron-${direction}`} className="text-brand-11" />
       </Comp>
     );
-  }
+  },
 );
-

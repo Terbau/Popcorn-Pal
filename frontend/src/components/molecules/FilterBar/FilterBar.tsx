@@ -37,6 +37,7 @@ export const FilterBar = ({
                 "outline dark:outline-brand-9 outline-purple-border",
             )}
             data-cy={`filter-${item.value}`} // Dynamically add data-cy based on value
+            aria-label={`${item.label}`}
           >
             {item.label}
           </button>

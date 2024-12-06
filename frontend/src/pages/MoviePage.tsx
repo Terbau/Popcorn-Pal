@@ -22,7 +22,6 @@ export default function MoviePage() {
   const { movieId } = useParams();
   const { currentUser } = useAuth();
 
-  const [liked, setLiked] = useState(false);
   const [isViewingFullBanner, setIsViewingFullBanner] = useState(false);
   const [rootParentId, setRootParentId] = useQueryState("commentId");
   const setDiscoverGenres = useSessionStorageState("discoverGenres", {
@@ -133,6 +132,7 @@ export default function MoviePage() {
         )}
         onClick={() => setIsViewingFullBanner((prev) => !prev)}
         data-cy="toggle-banner-button"
+        aria-label={`${movie.title} button`}
       >
         {landscapePosterUrl && (
           <img
@@ -173,21 +173,13 @@ export default function MoviePage() {
               </Badge>
             </Link>
             <div className="ml-auto flex flex-wrap gap-x-3 gap-y-1 text-sm sm:text-base items-center">
-              <button
-                type="button"
-                onClick={() => setLiked((prev) => !prev)}
-                data-cy="like-button"
-              >
-                <Badge size={size} variant="secondary" color="red">
-                  {liked ? "Liked" : "Like"}
-                </Badge>
-              </button>
               {currentUser &&
                 (watchlistItem ? (
                   <button
                     type="button"
                     onClick={handleWatchlistButtonClick}
                     data-cy="remove-watchlist-button"
+                    aria-label="Remove from watchlist"
                   >
                     <Badge size={size} variant="secondary">
                       Remove from watchlist
@@ -199,7 +191,11 @@ export default function MoviePage() {
                     onLabelChange={onLabelChange}
                   >
                     <button type="button" data-cy="add-watchlist-button">
-                      <Badge size={size} variant="primary">
+                      <Badge
+                        size={size}
+                        variant="primary"
+                        aria-label="Add to watchlist"
+                      >
                         Add to watchlist
                       </Badge>
                     </button>

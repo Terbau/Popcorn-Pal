@@ -125,7 +125,7 @@ export const AddComment = ({
           {!loading && <ButtonLeftIcon icon="material-symbols:send-outline" />}
           {commentPrefix}
         </LoadingButton>
-        <Button type="button" size="sm" variant="tertiary" onClick={onClose}>
+        <Button type="button" size="sm" variant="tertiary" onClick={onClose} aria-label="Close add comment">
           Close
         </Button>
         <span

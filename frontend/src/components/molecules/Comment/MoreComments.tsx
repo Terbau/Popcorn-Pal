@@ -24,6 +24,7 @@ export const MoreComments = ({
           className="text-sm text-blue-11 ml-1 flex flex-row items-center gap-1 hover:text-blue-10 disabled:hover:text-blue-11"
           disabled={isLoading}
           onClick={onClick}
+          aria-label="View more comments"
         >
           {isLoading && <Spinner />}
           {isLoading ? "Loading..." : "Load more..."}

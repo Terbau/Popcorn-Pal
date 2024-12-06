@@ -233,6 +233,7 @@ export const SearchDropdown = ({
             type="button"
             className="shrink-0"
             onClick={onMobileOverlayClose}
+            aria-label="Close search bar mobile"
           >
             <Icon icon="ion:chevron-back-sharp" className="h-6 w-6" />
           </button>

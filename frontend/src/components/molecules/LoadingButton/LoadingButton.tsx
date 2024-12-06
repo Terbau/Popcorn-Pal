@@ -26,6 +26,7 @@ export const LoadingButton = forwardRef<HTMLButtonElement, LoadingButtonProps>(
         {...props}
         ref={ref}
         disabled={disabled || (shouldDisableWhenLoading && isLoading)}
+        aria-label="Loading icon"
       >
         {isLoading && (
           <ButtonLeftIcon icon="prime:spinner" className="animate-spin" />

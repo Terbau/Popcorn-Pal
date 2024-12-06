@@ -8,6 +8,7 @@ export interface SheetProps
     VariantProps<typeof sheetStyles> {
   title?: string;
   description?: string;
+  ariaDescription?: string;
   hasCloseButton?: boolean;
   className?: string;
 }
@@ -16,6 +17,7 @@ export const Sheet = ({
   side = "left",
   title,
   description,
+  ariaDescription,
   hasCloseButton = true,
   className,
   children,
@@ -48,7 +50,7 @@ export const Sheet = ({
               <button
                 type="button"
                 className="absolute top-4 right-4 text-brand-10"
-                aria-label="Close"
+                aria-label={`close ${ariaDescription}`}
               >
                 <Icon
                   icon="iconamoon:close"

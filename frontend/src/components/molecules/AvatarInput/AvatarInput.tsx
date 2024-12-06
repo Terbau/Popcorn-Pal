@@ -127,6 +127,7 @@ export const AvatarInput = forwardRef<HTMLInputElement, AvatarInputProps>(
                 type="button"
                 className="absolute top-0 right-0 rounded-full z-10"
                 onClick={handleRemoveClick}
+                aria-label="Edit avatar"
               >
                 <Icon
                   icon="mdi:trash-can-outline"
