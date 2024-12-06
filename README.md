@@ -159,7 +159,7 @@ Our backend is made using `Apollo Server` and `express.js` as the foundation. We
 
 **Cypress**
 
-Cypress is used for end-to-end testing to validate key features like search, filtering, and navigation. It simulates user interactions to ensure the application performs as expected across various scenarios, helping to identify issues and ensure a reliable user experience
+Cypress is used for end-to-end testing to validate key features like search, navigation, filtering, and dark/light mode toggling. It simulates user interactions, helping to identify issues and ensure a reliable user experience.
 
 **Unit tests**
 
@@ -169,7 +169,7 @@ We employ unit testing to verify the functionality of individual components in o
 
 This project is split into two separate subprojects, `frontend` and `backend`. These are individual packages that must be run from their respective folders. Follow their README's for more instructions on how to install and run each of them.
 
-**NOTE**  
+**NOTE**
 The actual environment variables needed to run the application can be found in our VM at `/home/bragebau/.env`. If you want to copy these to be used locally, please put the `.env` file in the `/backend` folder for everything to work.
 
 - [Frontend Instructions](./frontend/README.md)
@@ -178,6 +178,19 @@ The actual environment variables needed to run the application can be found in o
 ## How To Test
 
 ### End to end tests
+Open a new terminal
+
+navigate to the frontend directory
+
+```
+cd frontend
+```
+
+run cypress:
+
+```
+npm run cy:run
+```
 
 ### Components tests
 To run all tests for components, make sure you are currently in the frontend folder, and run:
