@@ -72,15 +72,12 @@ export const Modal = ({
                 </VisuallyHidden.Root>
               )}
 
-<<<<<<< Updated upstream
               {description && (
                 <RadixDialog.Description className="text-sm text-purple-text dark:text-brand-12 mt-2">
                   {description}
                 </RadixDialog.Description>
               )}
 
-=======
->>>>>>> Stashed changes
               {children}
             </RadixDialog.Content>
           </RadixDialog.Overlay>
