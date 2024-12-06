@@ -42,7 +42,7 @@ export default function HomePage() {
           <InformationView
             title="View a personalized feed"
             text="Get recommendations, view updates from your friends, and more."
-            buttonLink="/discover"
+            buttonLink="/foryou"
             reverse={true}
             className="overflow-hidden"
           >

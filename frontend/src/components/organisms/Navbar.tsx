@@ -144,6 +144,7 @@ export const Navbar = ({ darkMode, toggleDarkMode }: NavBarProps) => {
             type="button"
             onClick={toggleDarkMode}
             className="dark:text-brand-12 hover:bg-black hover:bg-opacity-10 dark:hover:bg-opacity-70 rounded-full p-1 transition duration-200"
+            aria-label="Toggle dark mode"
           >
             {darkMode ? (
               <Icon icon="tdesign:mode-dark" width="24" height="24" />
