@@ -1,5 +1,4 @@
 import type { GetForYouItemsQuery } from "@/lib/graphql/generated/graphql";
-import { cn, formatRelativeTime, type ArrayElement } from "@/lib/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import {
   forwardRef,
@@ -20,6 +19,9 @@ import type { LinkProps } from "react-router-dom";
 import { StyledLink } from "@/components/atoms/StyledLink/StyledLink";
 import { Avatar, type AvatarProps } from "../Avatar/Avatar";
 import { OptionalLink } from "@/components/atoms/OptionalLink";
+import type { ArrayElement } from "@/lib/utils/typeUtils";
+import { cn } from "@/lib/utils/classUtils";
+import { formatRelativeTime } from "@/lib/utils/dateUtils";
 
 const ForYouItemMockContext = createContext<boolean>(false);
 
@@ -169,7 +171,7 @@ export const ForYouItemTypeCircle = forwardRef<
     <div
       ref={ref}
       className={cn(
-        "absolute rounded-full h-8 w-8 flex items-center justify-center border-4 border-brand-3",
+        "absolute rounded-full h-8 w-8 flex items-center justify-center border-[3px] border-cream dark:border-brand-3",
         bgColor,
         !mocked
           ? "-top-5 -right-3 sm:-top-6 sm:-right-4  sm:w-12 sm:h-12"
@@ -238,7 +240,7 @@ export const ForYouItemDescription = forwardRef<
     <p
       ref={ref}
       className={cn(
-        "line-clamp-2 flex flex-row gap-1 items-center",
+        "line-clamp-2 flex flex-row gap-1 items-center dark:text-brand-11",
         !mocked ? "text-sm sm:text-base" : "text-xs",
         className,
       )}
@@ -261,7 +263,7 @@ export const ForYouItemFooter = forwardRef<
     <p
       ref={ref}
       className={cn(
-        " text-brand-11 italic",
+        "dark:text-brand-11 italic",
         !mocked ? "text-xs sm:text-sm" : "text-xss",
         className,
       )}

@@ -11,6 +11,7 @@ export const signOut: MutationResolvers["signOut"] = async (
     await invalidateSession(session.id);
   }
 
+  // Set the deleted session token cookie
   deleteSessionTokenCookie(res);
   return true;
 };

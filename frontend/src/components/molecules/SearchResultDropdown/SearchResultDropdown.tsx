@@ -1,8 +1,7 @@
-
 import { Icon } from "@iconify/react/dist/iconify.js";
 import * as RadixPopover from "@radix-ui/react-popover";
 import { ScrollArea } from "../ScrollArea/ScrollArea";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import { LoadingButton } from "../LoadingButton/LoadingButton";
 
 interface SearchResultDropdownProps extends RadixPopover.PopoverContentProps {
@@ -33,6 +32,8 @@ export const SearchResultDropdown = ({
 }: SearchResultDropdownProps) => {
   return (
     <RadixPopover.Content
+      // Prevent autofocus on open and close as we don't want the default
+      // Radix Primitive behavior.
       onOpenAutoFocus={(e) => e.preventDefault()}
       onCloseAutoFocus={(e) => e.preventDefault()}
       className={cn(

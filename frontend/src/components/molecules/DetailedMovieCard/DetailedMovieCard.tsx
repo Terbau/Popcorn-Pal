@@ -1,6 +1,5 @@
 import { forwardRef, useCallback, useMemo, type HTMLAttributes } from "react";
 import { MovieImage } from "../MovieImage/MovieImage";
-import { cn } from "../../../lib/utils";
 import { Badge } from "../../atoms/Badge/Badge";
 import type {
   GetMovieQuery,
@@ -10,6 +9,8 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { EditableWatchlistItemLabelBadge } from "@/components/organisms/WatchlistItemLabel/EditableWatchlistItemLabelBadge";
 import { useResponsive } from "ahooks";
 import { OptionalLink } from "@/components/atoms/OptionalLink";
+import { cn } from "@/lib/utils/classUtils";
+import { Link } from "react-router-dom";
 
 export interface DetailedMovieCardProps extends HTMLAttributes<HTMLDivElement> {
   movie: GetMovieQuery["getMovie"];
@@ -43,6 +44,7 @@ export const DetailedMovieCard = forwardRef<
   ) => {
     const { sm } = useResponsive();
     const badgeSize = sm ? "sm" : "xs";
+    const movieLink = `/movie/${movie?.id}`;
 
     const genres = useMemo(() => {
       return movie?.genres?.map((genreData) => genreData.name).join(", ");
@@ -90,25 +92,29 @@ export const DetailedMovieCard = forwardRef<
         {...props}
       >
         <div className="relative">
-          <MovieImage
-            src={movie?.posterUrl ?? ""}
-            alt={`${movie?.title} poster`}
-            hasHoverEffect={false}
-            size={overrideMovieImageSize ?? "sm"}
-            className="rounded-none [&>div]:rounded-none"
-          />
+          <Link to={movieLink}>
+            <MovieImage
+              src={movie?.posterUrl ?? ""}
+              alt={`${movie?.title} poster`}
+              hasHoverEffect={false}
+              size={overrideMovieImageSize ?? "sm"}
+              className="rounded-none [&>div]:rounded-none"
+            />
+          </Link>
           {hasImdbRating &&
             getImdbBadge("absolute top-2 right-2 shadow-2xl sm:hidden", false)}
         </div>
         <div className="px-2 py-2 md:px-4 md:pt-4 md:pb-3 overflow-hidden flex flex-col">
           <div className="flex flex-col grow">
-            <div className="flex flex-row items-center gap-1 ">
-              <h3
-                title={movie?.title}
-                className="xs:text-lg sm:text-xl dark:text-brand-12 font-semibold truncate min-w-0 "
-              >
-                {movie?.title}
-              </h3>
+            <div className="flex flex-row items-center gap-1">
+              <Link to={movieLink}>
+                <h3
+                  title={movie?.title}
+                  className="xs:text-lg sm:text-xl dark:text-brand-12 font-semibold truncate min-w-0 "
+                >
+                  {movie?.title}
+                </h3>
+              </Link>
               {movie?.yearReleased && (
                 <span className="text-xs sm:text-sm text-brand-11 flex-shrink-0">
                   ({movie.yearReleased})

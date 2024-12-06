@@ -12,6 +12,7 @@ export const updateUser: MutationResolvers["updateUser"] = async (
     throw new Error("Not authenticated");
   }
 
+  // Use schema validation to ensure that the arguments are correct
   const { firstName, lastName, email, avatarFile } =
     UserUpdateInputSchema.parse(input);
 

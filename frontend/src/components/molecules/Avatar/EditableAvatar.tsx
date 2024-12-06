@@ -1,7 +1,7 @@
 import { type ButtonHTMLAttributes, forwardRef } from "react";
 import { Avatar, type AvatarProps } from "./Avatar";
 import { Slot, Slottable } from "@radix-ui/react-slot";
-import { cn } from "../../../lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 
 type EditableAvatarProps = {
   isEditable?: boolean;

@@ -1,7 +1,7 @@
 import { type ComponentProps, useMemo } from "react";
 import type { DetailedMovieCardProps } from "./DetailedMovieCard";
 import { watchlistItemLabelsOptions } from "@/components/organisms/WatchlistItemLabel/WatchlistItemLabelPickerPopover";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import { Badge } from "@/components/atoms/Badge/Badge";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { MovieImage } from "../MovieImage/MovieImage";

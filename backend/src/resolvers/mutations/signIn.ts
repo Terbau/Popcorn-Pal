@@ -29,6 +29,7 @@ export const signIn: MutationResolvers["signIn"] = async (
   const token = generateSessionToken();
   const session = await createSession(token, user.id);
 
+  // Set the cookie with the session token
   setSessionTokenCookie(res, token, session.expiresAt);
 
   return {

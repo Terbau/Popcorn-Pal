@@ -1,5 +1,5 @@
+import { cn } from "@/lib/utils/classUtils";
 import * as RadixSeparator from "@radix-ui/react-separator";
-import { cn } from "../../../lib/utils";
 
 interface SeparatorProps extends RadixSeparator.SeparatorProps {
   includeFullStretch?: boolean;

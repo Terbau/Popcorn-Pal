@@ -10,9 +10,9 @@ export const signUp: MutationResolvers["signUp"] = async (
   { input },
   { res },
 ): Promise<User> => {
-  UserSignUpInputSchema.parse(input);
-
-  const { email, password, firstName, lastName } = input;
+  // Use schema validation to ensure that the arguments are correct
+  const { email, password, firstName, lastName } =
+    UserSignUpInputSchema.parse(input);
 
   if (!verifyPasswordStrength(password)) {
     throw new Error("Password is too weak");
@@ -27,16 +27,18 @@ export const signUp: MutationResolvers["signUp"] = async (
     throw new Error("User with that email already exists");
   }
 
-  const hashedPassowrd = await hashPassword(password);
+  const hashedPassword = await hashPassword(password);
 
   const user = await db
     .insertInto("user")
     .values({
       email: email.toLowerCase(),
-      password: hashedPassowrd,
+      password: hashedPassword,
       firstName,
       lastName,
     })
+    // We dont want to return the password hash, therefore we have
+    // to specify all the other fields.
     .returning([
       "id",
       "email",
@@ -51,6 +53,7 @@ export const signUp: MutationResolvers["signUp"] = async (
   const token = generateSessionToken();
   const session = await createSession(token, user.id);
 
+  // The the cookie with the session token
   setSessionTokenCookie(res, token, session.expiresAt);
 
   return {

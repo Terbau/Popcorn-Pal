@@ -19,7 +19,7 @@ import { WatchlistItemLabelSidebarFilter } from "@/components/organisms/Watchlis
 import { useUser } from "@/lib/hooks/useUser";
 import { useAuth } from "@/lib/context/authContext";
 import { Avatar } from "@/components/molecules/Avatar/Avatar";
-import { createInitials } from "@/lib/utils";
+import { createInitials } from "@/lib/utils/textUtils";
 import { ConfirmModal } from "@/components/molecules/ConfirmModal/ConfirmModal";
 import { useDeleteWatchlistItem } from "@/lib/hooks/useDeleteWatchlistItem";
 import { toast } from "react-toastify";
@@ -48,6 +48,7 @@ export default function WatchlistPage() {
   const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
   const [pageSize] = useQueryState("pageSize", parseAsInteger.withDefault(20));
 
+  // Store genres in session storage as they take up too much space in the URL
   const [possiblyUndefinedGenres, setGenres] = useSessionStorageState(
     "watchlistGenres",
     {
@@ -55,21 +56,26 @@ export default function WatchlistPage() {
       listenStorageChange: true,
     },
   );
+  // Ensure that genres is never undefined
   const genres = useMemo(
     () => possiblyUndefinedGenres ?? [],
     [possiblyUndefinedGenres],
   );
 
+  // Store watchlist item labels in session storage as they take up too much space in the URL
   const [possiblyUndefinedWatchlistItemLabels, setWatchlistItemLabels] =
     useSessionStorageState("watchlistItemLabels", {
       defaultValue: originalWatchlistItemLabels.slice(),
       listenStorageChange: true,
     });
+  // Ensure that watchlist item labels is never undefined
   const watchlistItemLabels = useMemo(
     () => possiblyUndefinedWatchlistItemLabels ?? [],
     [possiblyUndefinedWatchlistItemLabels],
   );
 
+  // Only fetch the user if the user is not the current user, because why
+  // refetch a user we already have the data for?
   const { user: apiUser } = useUser({
     variables: {
       id: userId ?? "",
@@ -105,6 +111,7 @@ export default function WatchlistPage() {
     },
   );
 
+  // Handle confirm modal delete confirm button click
   const handleConfirmModalConfirm = () => {
     if (!watchlistMovieIdToDelete) return;
 

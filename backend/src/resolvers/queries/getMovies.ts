@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { fetchMovies } from "../../functions.js";
 import type { QueryResolvers } from "../../types.js";
 import {
   MoviesOrderByOptionsSchema,
   MoviesOrderDirectionOptionsSchema,
 } from "../../types/movie.js";
+import { fetchMovies } from "../../functions/movies.js";
 
 const GetMoviesSchema = z.object({
   page: z.number().int().min(0).optional().default(0),
@@ -15,9 +15,11 @@ const GetMoviesSchema = z.object({
 });
 
 export const getMovies: QueryResolvers["getMovies"] = async (_, args) => {
+  // Use schema validation to ensure that the arguments are correct
   const { page, pageSize, orderBy, orderDirection, genres } =
     GetMoviesSchema.parse(args);
 
+  // Convert the page and pageSize to limit and offset
   const limit = pageSize;
   const offset = page * pageSize;
 

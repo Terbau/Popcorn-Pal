@@ -25,6 +25,7 @@ export const getForYouItems: QueryResolvers["getForYouItems"] = async (
     throw new Error("Unauthorized");
   }
 
+  // Use schema validation to ensure that the arguments are correct
   const { seed, page } = GetForYouItemsSchema.parse(args);
 
   // Fetch 2 movie suggestions
@@ -36,6 +37,7 @@ export const getForYouItems: QueryResolvers["getForYouItems"] = async (
   const followingUpdatedWatchlistItemPageSize = 1;
   const followingCommentedOnMoviePageSize = 1;
 
+  // Fetch all the suggestions in parallel
   const responses = await Promise.all([
     fetchForYouMovieSuggestions(movieSuggestionsPageSize),
     fetchForYouUserSuggestions(
@@ -71,6 +73,8 @@ export const getForYouItems: QueryResolvers["getForYouItems"] = async (
       page * followingCommentedOnMoviePageSize,
     ),
   ]);
+
+  // Parse the responses into ForYouItem objects
   const items: ForYouItem[] = responses
     .flat()
     .map((item) => ForYouItemSchema.parse(item));

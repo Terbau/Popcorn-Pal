@@ -5,9 +5,9 @@ import {
   useContext,
 } from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { cn } from "../../../lib/utils";
 import { cva, type VariantProps } from "cva";
 import { Icon, type IconProps } from "@iconify/react/dist/iconify.js";
+import { cn } from "@/lib/utils/classUtils";
 
 export type ButtonColor =
   | "brand"
@@ -160,9 +160,9 @@ const getColorStyles = (
   if (disabled) {
     switch (variant) {
       case "primary":
-        return `bg-gray-7 text-gray-9 cursor-not-allowed focus-within:ring-0 ${overriddenTextColor}`;
+        return `bg-gray-10 dark:bg-gray-7 text-gray-11 dark:text-gray-9 cursor-not-allowed focus-within:ring-0 ${overriddenTextColor}`;
       case "secondary":
-        return "text-gray-8 bg-gray-5 border border-gray-7 cursor-not-allowed focus-within:ring-0";
+        return "text-gray-10 dark:text-gray-8 bg-gray-11 dark:bg-gray-5 border border-gray-7 cursor-not-allowed focus-within:ring-0";
       case "tertiary":
         return "text-gray-8 cursor-not-allowed focus-within:ring-0";
       default:

@@ -5,7 +5,7 @@ import type {
 } from "../graphql/generated/graphql";
 import { GET_RECURSIVE_COMMENTS } from "../graphql/queries/comment";
 import { useMemo } from "react";
-import type { ArrayElement } from "../utils";
+import type { ArrayElement } from "../utils/typeUtils";
 
 export const DEFAULT_RECURSIVE_COMMENTS_LIMIT_AT_DEPTH = 3;
 export const DEFAULT_RECURSIVE_COMMENTS_MAX_DEPTH = 2;
@@ -29,7 +29,8 @@ export interface RecursiveCommentNode
   comments: RecursiveCommentNode[];
 }
 
-// Function that takes the result of the query and returns a sort of tree structure where each comment has a list of comments based on the parentId
+// Function that takes the result of the query and returns a sort of tree
+// structure where each comment has a list of comments based on the parentId
 const createCommentTree = (
   comments: GetRecursiveCommentsQuery["getRecursiveComments"]["results"],
   rootParentId: string | null,
@@ -87,6 +88,9 @@ export const useRecursiveComments = (
       ...options?.variables,
     },
   });
+
+  // Create the tree structure from the comments. Memoize this so that it doesn't
+  // get recreated every time the component re-renders.
   const tree = useMemo(
     () =>
       createCommentTree(

@@ -1,4 +1,4 @@
-import { createInitials } from "@/lib/utils";
+import { createInitials } from "@/lib/utils/textUtils";
 import {
   ForYouAvatar,
   ForYouItemFooter,

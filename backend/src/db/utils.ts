@@ -6,6 +6,7 @@ interface DefaultOptions {
   updatedAt?: boolean;
 }
 
+// Utility function to create a table with default columns
 export const createTableWithDefaults = (
   tableName: string,
   options: DefaultOptions,

@@ -5,8 +5,7 @@ import type {
   GetRecursiveCommentsQuery,
 } from "../graphql/generated/graphql";
 import { CREATE_COMMENT } from "../graphql/mutations/comment";
-import { apolloClient } from "../graphql/apolloClient";
-import type { ArrayElement } from "../utils";
+import type { ArrayElement } from "../utils/typeUtils";
 
 type RecursiveComment = ArrayElement<
   GetRecursiveCommentsQuery["getRecursiveComments"]["results"]
@@ -26,18 +25,18 @@ export const useCreateComment = (
 ) => {
   const [createComment, other] = useMutation(CREATE_COMMENT, {
     ...options,
-    onCompleted: (args) => {
-      try {
-        apolloClient.cache.modify({
-          id: apolloClient.cache.identify({
-            __typename: "PaginatedRecursiveCommentsResult",
-            movieId: args.createComment.movieId,
-            parentId: rootParentId, // Important to use the parentId from the hook params
-          }),
-          fields: {
-            results(existing, { toReference }) {
+    update: (cache, { data }) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: "PaginatedRecursiveCommentsResult",
+          movieId: data?.createComment.movieId,
+          parentId: rootParentId, // Important to use the parentId from the hook params
+        }),
+        fields: {
+          results(existing, { toReference }) {
+            if (data?.createComment) {
               const newComment: RecursiveComment = {
-                ...args.createComment,
+                ...data?.createComment,
                 user: currentUser,
                 hasUpvoted: false,
                 hasDownvoted: false,
@@ -49,26 +48,25 @@ export const useCreateComment = (
               };
 
               return [toReference(newComment, true), ...(existing ?? [])];
+            }
+            return existing;
+          },
+        },
+      });
+
+      // If the comment is a reply, we need to update the totalComments of the parent comment
+      if (data?.createComment.parentId) {
+        cache.modify({
+          id: cache.identify({
+            __typename: "RecursiveComment",
+            id: data?.createComment.parentId,
+          }),
+          fields: {
+            totalComments(existingTotalComments) {
+              return existingTotalComments + 1;
             },
           },
         });
-
-        // If the comment is a reply, we need to update the totalComments of the parent comment
-        if (args.createComment.parentId) {
-          apolloClient.cache.modify({
-            id: apolloClient.cache.identify({
-              __typename: "RecursiveComment",
-              id: args.createComment.parentId,
-            }),
-            fields: {
-              totalComments(existingTotalComments) {
-                return existingTotalComments + 1;
-              },
-            },
-          });
-        }
-      } finally {
-        options?.onCompleted?.(args);
       }
     },
   });

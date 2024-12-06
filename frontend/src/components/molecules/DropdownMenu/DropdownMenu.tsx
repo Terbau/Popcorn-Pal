@@ -4,8 +4,8 @@ import {
   type ElementRef,
   forwardRef,
 } from "react";
-import { cn } from "../../../lib/utils";
 import { Icon, type IconProps } from "@iconify/react/dist/iconify.js";
+import { cn } from "@/lib/utils/classUtils";
 
 export const DropdownMenuRoot = RadixDropdownMenu.Root;
 
@@ -38,7 +38,7 @@ export const DropdownMenuItem = forwardRef<
       className={cn(
         "text-sm dark:text-brand-12 text-purple-text rounded-sm pl-3 pr-4 py-2.5 relative cursor-pointer select-none outline-none flex flex-row items-center gap-2",
         'data-[disabled="true"]:text-slate-11 data-[disabled="true"]:pointer-events-none',
-        "data-[highlighted]:text-purple-medium data-[highlighted]:bg-cream-secondary dark:data-[highlighted]:text-brand-11 dark:data-[highlighted]:bg-brand-4",
+        "data-[highlighted]:text-purple-medium data-[highlighted]:bg-brand-12 dark:data-[highlighted]:text-brand-11 dark:data-[highlighted]:bg-brand-4",
         className,
       )}
       ref={ref}

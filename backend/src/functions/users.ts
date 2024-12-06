@@ -2,6 +2,13 @@ import { sql } from "kysely";
 import { db } from "../db/index.js";
 import type { PaginatedUsersResponse } from "../types/user.js";
 
+/**
+ * Fetches the users search results
+ * @param searchQuery - The search query
+ * @param offset - The offset to start fetching users from
+ * @param limit - The maximum number of users to fetch
+ * @returns The search results
+ */
 export const fetchUsersSearchResults = async (
   searchQuery: string,
   offset: number,

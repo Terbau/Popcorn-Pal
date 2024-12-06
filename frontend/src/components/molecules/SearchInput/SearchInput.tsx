@@ -7,9 +7,9 @@ import {
   type ReactNode,
 } from "react";
 import { Spinner } from "../../atoms/Spinner/Spinner";
-import { cn } from "../../../lib/utils";
 import * as RadixSelect from "@radix-ui/react-select";
 import { SelectContent } from "../Select/Select";
+import { cn } from "@/lib/utils/classUtils";
 
 export interface SearchInputSelectOption {
   label: string;
@@ -60,7 +60,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     return (
       <div
         className={cn(
-          "dark:bg-brand-4 bg-cream-secondary border border-purple-border dark:border-0 rounded-lg font-roboto flex flex-row text-brand-11",
+          "dark:bg-brand-4 bg-cream-secondary border border-brand-11 dark:border-0 rounded-lg font-roboto flex flex-row text-brand-10 dark:text-brand-11",
           className,
         )}
       >
@@ -69,7 +69,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             value={selectedOption?.value}
             onValueChange={onSelectValueChange}
           >
-            <RadixSelect.Trigger className="flex flex-row items-center gap-0.5 border-r dark:border-brand-5 border-purple-border pr-2 pl-3 py-1 rounded-l-lg outline-0 focus:ring-2 focus:ring-brand-11">
+            <RadixSelect.Trigger className="flex flex-row items-center gap-0.5 border-r dark:border-brand-5 border-brand-11 pr-2 pl-3 py-1 rounded-l-lg outline-0 focus:ring-2 focus:ring-brand-11">
               {selectedOption?.icon}
               <RadixSelect.Icon>
                 <Icon icon="lucide:chevron-down" />
@@ -86,7 +86,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         >
           <input
             ref={ref}
-            className="grow outline-none bg-transparent placeholder-brand-11"
+            className="grow outline-none bg-transparent placeholder-brand-10 dark:placeholder-brand-11"
             type="text"
             value={query}
             onChange={handleInputChange}

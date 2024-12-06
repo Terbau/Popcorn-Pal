@@ -11,12 +11,23 @@ export const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp"];
 export const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp"];
 export const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
 
+/**
+ * Uploads an avatar to the avatar bucket
+ * @param file - The file to upload
+ * @returns The upload information
+ */
 export const uploadAvatar = async (
   file: Promise<FileUpload>,
 ): Promise<UploadInfo> => {
   return await uploadFile(AVATAR_BUCKET, file);
 };
 
+/**
+ * Uploads a file to the specified bucket
+ * @param bucket - The bucket to upload the file to
+ * @param file - The file to upload
+ * @returns The upload information
+ */
 export const uploadFile = async (
   bucket: string,
   file: Promise<FileUpload>,

@@ -1,7 +1,7 @@
 import { type ComponentProps, useContext, useEffect } from "react";
 import { TextAreaInput } from "../TextAreaInput/TextAreaInput";
 import { Button, ButtonLeftIcon } from "@/components/atoms/Button/Button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import { LoadingButton } from "../LoadingButton/LoadingButton";
 import { useCreateComment } from "@/lib/hooks/useCreateComment";
 import { z } from "zod";

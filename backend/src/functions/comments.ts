@@ -8,6 +8,13 @@ import type {
 import { jsonBuildObject } from "kysely/helpers/postgres";
 import type { User } from "../types/user.js";
 
+/**
+ * Fetches the root comments for the given movie ID
+ * @param movieId - The movie ID
+ * @param limit - The maximum number of comments to fetch
+ * @param offset - The offset to start fetching comments from
+ * @returns The root comments
+ */
 export const fetchRootComments = async (
   movieId: string,
   limit = 30,
@@ -53,6 +60,13 @@ export const fetchRootComments = async (
   };
 };
 
+/**
+ * Fetches the replies for the given parent ID
+ * @param parentId - The parent ID
+ * @param limit - The maximum number of replies to fetch
+ * @param offset - The offset to start fetching replies from
+ * @returns The replies
+ */
 export const fetchReplies = async (
   parentId: string,
   limit = 30,
@@ -96,6 +110,12 @@ export const fetchReplies = async (
   };
 };
 
+/**
+ * Fetches a comment by its ID
+ * @param id - The comment ID
+ * @param currentUserId - The current user ID
+ * @returns The comment
+ */
 export const fetchComment = async (
   id: string,
   currentUserId?: string,
@@ -196,6 +216,18 @@ export const fetchComment = async (
   return comment ?? null;
 };
 
+/**
+ * Fetches comments recursively
+ * @param movieId - The movie ID
+ * @param parentId - The parent ID
+ * @param maxDepth - The maximum depth to fetch comments
+ * @param limit - The maximum number of comments to fetch
+ * @param offset - The offset to start fetching comments from
+ * @param limitAtDepth - The maximum number of comments to fetch at each depth
+ * @param orderDirection - The order direction
+ * @param currentUserId - The current user ID
+ * @returns The comments in a flatmap
+ */
 export const fetchCommentsRecursively = async (
   movieId: string,
   parentId: string | null,

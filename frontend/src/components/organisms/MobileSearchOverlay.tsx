@@ -1,4 +1,4 @@
-import { cn } from "../../lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import { SearchDropdown } from "./SearchDropdown";
 import * as RadixDialog from "@radix-ui/react-dialog";
 

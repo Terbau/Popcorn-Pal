@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils/classUtils";
 import * as RadixScrollArea from "@radix-ui/react-scroll-area";
 import {
   forwardRef,
@@ -5,7 +6,6 @@ import {
   type ReactNode,
   type RefAttributes,
 } from "react";
-import { cn } from "../../../lib/utils";
 
 type ScrollAreaProps = RadixScrollArea.ScrollAreaProps &
   RefAttributes<HTMLDivElement> & {

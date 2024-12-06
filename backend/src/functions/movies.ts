@@ -1,8 +1,8 @@
 import { sql } from "kysely";
-import { db } from "./db/index.js";
-import { getItemsByIds } from "./imdb/index.js";
-import type { Creator, Genre, Movie, Star } from "./types/movie.js";
-import type { SearchMovie } from "./generated/types.js";
+import { db } from "../db/index.js";
+import { getItemsByIds } from "../imdb/index.js";
+import type { Creator, Genre, Movie, Star } from "../types/movie.js";
+import type { SearchMovie } from "../generated/types.js";
 
 export const moviesOrderOptions = [
   "title",
@@ -12,6 +12,14 @@ export const moviesOrderOptions = [
 ] as const;
 type MoviesOrderOptions = (typeof moviesOrderOptions)[number];
 
+/**
+ * Fetches the search results for the given query
+ * @param query - The search query
+ * @param limit - The maximum number of results to fetch
+ * @param offset - The offset to start fetching results from
+ * @param minSimilarity - The minimum similarity to consider
+ * @returns The search results
+ */
 export const fetchSearchResults = async (
   query: string,
   limit: number,
@@ -34,6 +42,12 @@ export const fetchSearchResults = async (
     .execute();
 };
 
+/**
+ * Fetches the total number of search results for the given query
+ * @param query - The search query
+ * @param minSimilarity - The minimum similarity to consider
+ * @returns The total number of search results
+ */
 export const fetchTotalSearchResults = async (
   query: string,
   minSimilarity = 0.25,
@@ -52,6 +66,17 @@ export const fetchTotalSearchResults = async (
   return totalResults?.total ?? 0;
 };
 
+/**
+ * Fetches movies from the database
+ * @param ids - The IDs of the movies to fetch. If not provided, fetches all movies
+ * @param limit - The maximum number of movies to fetch
+ * @param offset - The offset to start fetching movies from
+ * @param orderBy - The field to order the movies by
+ * @param orderDirection - The direction to order the movies in
+ * @param genres - The genres to filter the movies by
+ * @param getTotalResults - Whether to fetch the total number of results
+ * @returns The movies and the total number of results
+ */
 export const fetchMovies = async (
   ids?: string[],
   limit?: number,
@@ -122,6 +147,11 @@ export const fetchMovies = async (
   };
 };
 
+/**
+ * Upserts movies by their IDs. Fetches the IMDb data for the given IDs and upserts the movies
+ * @param movieIds - The IDs of the movies to upsert
+ * @returns The upserted movies
+ */
 export const upsertMoviesByMovieIds = async (
   movieIds: string[],
 ): Promise<void> => {

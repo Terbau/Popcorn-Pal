@@ -31,6 +31,8 @@ export default function ForYouPage() {
   const results = data?.getForYouItems.results ?? [];
   const maybeHasMore = data?.getForYouItems.maybeHasMore ?? false;
 
+  // This function is responsible for fetching more items. The setIsLoadingMore
+  // is used because when you use fetchMore, apollo doesnt update loading state
   const fetchMoreItems = useCallback(
     async (page: number) => {
       setIsLoadingMore(true);
@@ -47,6 +49,7 @@ export default function ForYouPage() {
     [fetchMore],
   );
 
+  // React to changes in the page and currentUser
   useEffect(() => {
     if (page === 0 && currentUser) {
       fetchInitialItems();

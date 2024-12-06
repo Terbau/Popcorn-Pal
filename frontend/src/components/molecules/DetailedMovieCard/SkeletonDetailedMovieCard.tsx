@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import type { ComponentProps } from "react";
 import { SkeletonMovieImage } from "../MovieImage/SkeletonMovieImage";
 import { Skeleton } from "@/components/atoms/Skeleton/Skeleton";
@@ -8,10 +8,10 @@ export const SkeletonDetailedMovieCard = ({
   ...props
 }: ComponentProps<"div">) => (
   <div
-    className={cn("flex flex-row w-full rounded-lg bg-brand-3", className)}
+    className={cn("flex flex-row w-full rounded-lg bg-slate-12 dark:bg-brand-3", className)}
     {...props}
   >
-    <SkeletonMovieImage className="bg-brand-5 rounded-b-none rounded-r-none" />
+    <SkeletonMovieImage className="bg-slate-11 dark:bg-brand-5 rounded-b-none rounded-r-none" />
     <div className="p-2 sm:p-4 grow w-full">
       <div className="flex flex-row gap-2">
         <Skeleton className="w-4/6" />

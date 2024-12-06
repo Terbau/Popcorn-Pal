@@ -31,7 +31,15 @@ export default {
     {
       pattern:
         /(text|bg|border|ring)-(slate|blue|red|green|indigo|brand|gray|yellow|orange)-([2-9]|1[0-2]?)/,
-      variants: ["focus", "hover", "active"],
+      variants: [
+        "focus",
+        "hover",
+        "active",
+        "dark",
+        "dark:focus",
+        "dark:hover",
+        "dark:active",
+      ],
     },
   ],
   theme: {
@@ -41,7 +49,7 @@ export default {
         xs: "425px",
       },
       fontSize: {
-        "xss": "0.625rem",
+        xss: "0.625rem",
       },
       colors: {
         primary: "#030d26",
@@ -90,7 +98,7 @@ export default {
       },
       animation: {
         "scroll-y": "scroll-y 20s linear infinite",
-      }
+      },
     },
   },
   plugins: [tailwindcssRadixColorsPlugin, tailwindcssAnimatePlugin],

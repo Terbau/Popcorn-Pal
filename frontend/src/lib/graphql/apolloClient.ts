@@ -21,11 +21,13 @@ const middleware = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
+      // Add operation name to headers so that it doesnt scream at us
       "x-apollo-operation-name": operationName,
     },
   }));
   return forward(operation).map((response) => {
     const cookies = document.cookie.split("; ");
+    console.log("cookies", cookies);
     const sessionCookie = cookies.find((cookie) =>
       cookie.startsWith("session="),
     );

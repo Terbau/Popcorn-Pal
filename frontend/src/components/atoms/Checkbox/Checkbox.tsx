@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import * as RadixCheckbox from "@radix-ui/react-checkbox";
 import { forwardRef } from "react";

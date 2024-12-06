@@ -9,6 +9,18 @@ import type {
 import type { WatchlistItem, WatchlistItemLabel } from "../types/watchlist.js";
 import { jsonBuildObject } from "kysely/helpers/postgres";
 
+/**
+ * Fetches the watchlist movies for the given user ID
+ * @param userId - The user ID
+ * @param limit - The maximum number of movies to fetch
+ * @param offset - The offset to start fetching movies from
+ * @param orderBy - The field to order the movies by
+ * @param orderDirection - The direction to order the movies in
+ * @param genres - The genres to filter the movies by
+ * @param labels - The labels to filter the movies by
+ * @param getTotalResults - Whether to fetch the total number of results
+ * @returns The watchlist movies
+ */
 export const fetchWatchlistMoviesForUserId = async (
   userId: string,
   limit?: number,

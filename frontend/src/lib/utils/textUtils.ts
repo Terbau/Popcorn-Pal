@@ -1,8 +1,18 @@
-export const boldMatchingText = (text: string, query: string) => {
-  const queryRegex = new RegExp(query, "ig");
-  return text.replace(queryRegex, (match) => `<b>${match}</b>`);
+// This function is used to create initials from a first name and a last name.
+export const createInitials = (
+  firstName?: string | null,
+  lastName?: string | null,
+): string => {
+  const firstInitial = firstName?.charAt(0) ?? "";
+  const lastInitial = lastName?.charAt(0) ?? "";
+  return `${firstInitial}${lastInitial}`.toUpperCase();
 };
 
+
+// This function is used to highlight text that matches a query. It returns an array
+// of tuples where the first element is the text and the second element is a boolean
+// indicating whether the text is a match. 
+// We use this function to highlight user search results in the search bar.
 export const highlightText = (
   text: string,
   query: string,

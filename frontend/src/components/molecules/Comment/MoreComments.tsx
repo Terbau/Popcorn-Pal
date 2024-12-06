@@ -1,5 +1,5 @@
 import { Spinner } from "@/components/atoms/Spinner/Spinner";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import type { ComponentProps } from "react";
 
 interface MoreCommentsProps extends ComponentProps<"div"> {

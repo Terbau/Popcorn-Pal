@@ -1,7 +1,7 @@
 import { useAuth } from "@/lib/context/authContext";
 import { apolloClient } from "@/lib/graphql/apolloClient";
 import { useRecursiveComments } from "@/lib/hooks/useRecursiveComments";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/classUtils";
 import type { Options } from "nuqs";
 import {
   type ComponentProps,
@@ -58,6 +58,7 @@ export const CommentsSection = ({
 
   const responsive = useResponsive();
 
+  // Use the responsive hook to determine the max comment depth based on the screen size
   useEffect(() => {
     const { sm, md } = responsive;
 
@@ -70,10 +71,6 @@ export const CommentsSection = ({
     }
   }, [responsive]);
 
-  // useEffect(() => {
-
-  // }, [rootParentId, sectionRef.current]);
-
   const { rootComment, comments, totalResults, fetchMore, loading } =
     useRecursiveComments({
       movieId,
@@ -82,6 +79,8 @@ export const CommentsSection = ({
       pageSize: ROOT_COMMENTS_PAGE_SIZE,
     });
 
+  // This function is responsible for fetching more comments. It can be called
+  // by all the different show more buttons in the comments section.
   const handleMoreCommentsClick = useCallback(
     async (
       parentId: string | null,
