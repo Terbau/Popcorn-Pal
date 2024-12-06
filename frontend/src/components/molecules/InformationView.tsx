@@ -27,20 +27,15 @@ export const InformationView = ({
       data-cy="information-view"
     >
       <div
-        className={`gap-8 items-center md:items-center flex flex-col w-fit max-w-screen-lg w-[90vw] ${
+        className={`gap-8 items-center md:items-center flex flex-col max-w-screen-lg w-[90vw] ${
           reverse ? "lg:flex-row-reverse" : "lg:flex-row "
         } mx-auto`}
       >
-<<<<<<< Updated upstream
-        <div className="flex flex-col justify-start items-center text-center mb-4 md:mb-0">
+        <div className="flex flex-col justify-start items-center text-center mb-4 md:mb-0 w-[90%]">
           <h2
             className="text-2xl dark:text-white font-bold mb-4 mt-0"
             data-cy="information-view-title"
           >
-=======
-        <div className="flex flex-col justify-start items-center text-center mb-4 md:mb-0 w-[90%]">
-          <h2 className="text-2xl dark:text-white font-bold mb-4 mt-0">
->>>>>>> Stashed changes
             {title}
           </h2>
           <p className="text-lg dark:text-white text-purple-medium mb-4">

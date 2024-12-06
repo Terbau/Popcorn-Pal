@@ -25,15 +25,15 @@ export const ProfileDropdown = ({
   const [editProfileIsOpen, setEditProfileIsOpen] = useState(false);
   const [logout] = useMutation(SIGN_OUT);
 
-  // Should never happen as the navbar user content will then be hidden
-  if (!currentUser) {
-    return null;
-  }
-
   const handleLogout = useCallback(async () => {
     await logout();
     window.location.reload();
   }, [logout]);
+
+  // Should never happen as the navbar user content will then be hidden
+  if (!currentUser) {
+    return null;
+  }
 
   const initials = createInitials(currentUser.firstName, currentUser.lastName);
 

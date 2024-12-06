@@ -79,13 +79,12 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
               { "pt-8": !!label },
             )}
           >
-<<<<<<< Updated upstream
             {isLoading ? (
               <>
-                <div data-cy="loading-indicator"></div>
+                <div data-cy="loading-indicator" />
                 {Array.from({ length: 10 }).map((_, index) => (
                   // biome-ignore lint/suspicious/noArrayIndexKey: <needed>
-                  <li key={index} className="shrink-0 p-4" role="listitem">
+                  <li key={index} className="shrink-0 p-4">
                     <SkeletonMovieImage />
                   </li>
                 ))}
@@ -96,19 +95,6 @@ export const MovieCarousel: FC<MovieCarouselProps> = ({
                   key={movie.id}
                   className="shrink-0 p-4 relative snap-center h-full"
                   data-cy="movie-carousel-item"
-=======
-            {isLoading
-              ? Array.from({ length: 10 }).map((_, index) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                <li key={index} className="shrink-0 p-4">
-                  <SkeletonMovieImage aria-label="Loading movie image" />
-                </li>
-              ))
-              : movieList?.map((movie, index) => (
-                <li
-                  key={movie.id}
-                  className="shrink-0 p-4 relative snap-center h-full"
->>>>>>> Stashed changes
                 >
                   <span
                     className="text-7xl xs:text-8xl sm:text-9xl font-extrabold text-white drop-shadow-md absolute -top-6 sm:-top-8 left-0 z-10"
