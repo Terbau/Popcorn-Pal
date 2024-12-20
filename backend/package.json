@@ -10,7 +10,9 @@
     "generate": "graphql-codegen --config codegen.yml",
     "migrate": "dotenv -e .env -- node --loader ts-node/esm --experimental-specifier-resolution=node ./tools/migrator/index.ts",
     "migrate-down": "dotenv -e .env -- node --loader ts-node/esm --experimental-specifier-resolution=node ./tools/migrator/index.ts -- down",
-    "migrate-down-all": "dotenv -e .env -- node --loader ts-node/esm --experimental-specifier-resolution=node ./tools/migrator/index.ts -- down-all"
+    "migrate-down-all": "dotenv -e .env -- node --loader ts-node/esm --experimental-specifier-resolution=node ./tools/migrator/index.ts -- down-all",
+    "populate-comments": "dotenv -e .env -- npx tsx ./tools/populator/index.ts -- comments",
+    "populate-users": "dotenv -e .env -- npx tsx ./tools/populator/index.ts -- users"
   },
   "keywords": [],
   "author": "",
