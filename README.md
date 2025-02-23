@@ -1,3 +1,5 @@
+**This is a clone of the original repository found here https://git.ntnu.no/IT2810-H24/T21-Project-2**
+
 # Popcorn Pal 🍿
 
 Link to our website http://it2810-21.idi.ntnu.no/project2/
